@@ -1,6 +1,6 @@
 James Tennant
 jtennant
-Fall 2020
+Spring 2021
 Assignment 1: Left, Right and Center
 
 -----------
