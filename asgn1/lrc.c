@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "philos.h"
 
 // Returns the position of the player to the left
 int left(int pos, int players) {
@@ -16,11 +17,6 @@ int main() {
   // Define die faces
   typedef enum faciem {LEFT, RIGHT, CENTER, PASS} faces;
   faces die[] = {LEFT, RIGHT, CENTER, PASS, PASS, PASS};
-
-  // Assign names for up to 10 players
-  const char *names[] = {"Happy", "Sleepy", "Sneezy",
-    "Dopey", "Bashful", "Grumpy", "Doc", "Mirror Mirror",
-    "Snow White", "Wicked Queen"};
   
   // Get random seed from user
   int seed;
@@ -67,7 +63,7 @@ int main() {
         
     // If zero rolls, skip
     if (rolls != 0) { // Otherwise roll 1-3 times
-      printf("%s rolls...", names[pos]);
+      printf("%s rolls...", philosophers[pos]);
       for (int r = 0; r < rolls; r++) {
         int face = die[rand() % 6]; // Get random outcome
         if (face == PASS) { // If PASS, skip
@@ -89,7 +85,7 @@ int main() {
             }
             // Add a dollar to left's bank
             banks[leftpos]++;
-            printf(" gives $1 to %s", names[leftpos]);
+            printf(" gives $1 to %s", philosophers[leftpos]);
           } else if (face == RIGHT) {
             int rightpos = right(pos, players);
             // If right has 0 dollars...
@@ -99,7 +95,7 @@ int main() {
             }
             // Add a dollar to right's bank
             banks[rightpos]++;
-            printf(" gives $1 to %s", names[rightpos]);
+            printf(" gives $1 to %s", philosophers[rightpos]);
           } else if (face == CENTER) {
             pot++; // Add a dollar to the pot
             printf(" puts $1 in the pot");
@@ -112,7 +108,7 @@ int main() {
   for (int i = 0; i < players; i++) {
     if (banks[i] != 0) {
       printf("%s wins the $%d pot with $%d left in the bank!\n",
-             names[i], pot, banks[i]);
+             philosophers[i], pot, banks[i]);
     }
   }
   return 0;
