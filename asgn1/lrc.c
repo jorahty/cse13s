@@ -26,13 +26,23 @@ int main() {
     // Get random seed from user
     int seed;
     printf("Random seed: ");
-    scanf("%d", &seed);
+    if (scanf("%d", &seed) == 0) {
+        printf("Erroneous user input\n");
+        return 0;
+    }
     srand(seed);
 
     // Get number of players from user
     int players;
     printf("How many players? ");
-    scanf("%d", &players);
+    if (scanf("%d", &players) == 0) {
+        printf("Erroneous user input\n");
+        return 0;
+    }
+    if (players > 14 || players < 2) {
+        printf("Erroneous user input\n");
+        return 0;
+    }
 
     // Create player banks
     int banks[players];
