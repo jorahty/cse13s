@@ -27,7 +27,11 @@ int main() {
     int seed;
     printf("Random seed: ");
     if (scanf("%d", &seed) == 0) {
-        printf("Erroneous user input\n");
+        printf("Invalid seed!\n");
+        return 0;
+    }
+    if (seed < 1) {
+        printf("Seed must be nonnegative!\n");
         return 0;
     }
     srand(seed);
@@ -36,11 +40,11 @@ int main() {
     int players;
     printf("How many players? ");
     if (scanf("%d", &players) == 0) {
-        printf("Erroneous user input\n");
+        printf("Invalid number of players!\n");
         return 0;
     }
     if (players > 14 || players < 2) {
-        printf("Erroneous user input\n");
+        printf("There must be 2-14 players!\n");
         return 0;
     }
 
