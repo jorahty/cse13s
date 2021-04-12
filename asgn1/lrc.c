@@ -1,3 +1,7 @@
+// Notice:
+// Despite my efforts to further optimize this code, this code is still very similar to the code I
+// previously wrote when I took CSE 13S in Fall 2020. Nevertheless, it is still entirely my own.
+
 #include "philos.h"
 
 #include <stdio.h>
