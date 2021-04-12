@@ -46,17 +46,6 @@ int main() {
     // only 1 active player remains
     for (int pos = 0; active > 1; pos = (pos == players - 1) ? 0 : pos + 1) {
 
-        // Display statistics
-        //    printf("\n");
-        //    printf("pos: %d\n", pos);
-        //    printf("pot: %d\n", pot);
-        //    printf("active players: %d\n", active);
-        //    printf("banks: ");
-        //    for (int i = 0; i < players; i++) {
-        //      printf("%d  ", banks[i]);
-        //    }
-        //    printf("\n");
-
         // Determine how many rolls this player will get
         int rolls = (banks[pos] > 3) ? 3 : banks[pos];
 
