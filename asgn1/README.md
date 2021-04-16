@@ -1,6 +1,6 @@
 James Tennant
 jtennant
-Fall 2020
+Spring 2021
 Assignment 1: Left, Right and Center
 
 -----------
@@ -8,8 +8,8 @@ DESCRIPTION
 
 In this assignment I created a program that simulates a game.
 The user provides a two inputs -- a random seed and
-the number of players -- and the program outputs
-the outcomes throughout the game.
+the number of players -- and the program prints out
+the outcome of the game.
 
 -----------
 FILES
@@ -17,7 +17,8 @@ FILES
 -
 DESIGN.pdf
 
-This file provides an explanation of the game and pseudocode.
+This file describes the overall design of my program with psuedocode,
+and it enables a programmer of my skill level to create the program.
 
 -
 lrc.c
