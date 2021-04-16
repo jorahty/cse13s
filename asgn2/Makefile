@@ -1,16 +1,16 @@
 CC = clang
 CFLAGS = -Wall -Wextra -Werror -Wpedantic
 
-all: math
+all: mathlib-test
 
-math: math.o
-	$(CC) -o math math.o -lm
+math: mathlib-test.o
+	$(CC) -o mathlib-test mathlib-test.o -lm
 
-math.o: math.c
-	$(CC) $(CFLAGS) -c math.c
+math.o: mathlib-test.c
+	$(CC) $(CFLAGS) -c mathlib-test.c
 
 clean:
-	rm -rf math math.o infer-out
+	rm -rf mathlib-test mathlib-test.o infer-out
 
 infer:
 	make clean; infer-capture -- make; infer-analyze -- make
