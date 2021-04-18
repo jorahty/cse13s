@@ -21,19 +21,25 @@ int printLib(char name[], double start, double end) {
     printf("  x            %s           Library        Difference\n", name);
     printf("  -            ------           -------        ----------\n");
     
-    // Print rows
+    // Compute and print rows
     for (double x = start; x < end; x = x + 0.1) {
-        // Print row
-        printf(" %7.4lf % 16.8lf % 16.8lf % 16.10lf\n", x, x, x, x);
-    }
+        // Compute approximation
+        double approx = 0.0;
+        if (strcmp(name, "arcSin") == 0) { approx = arcSin(x); }
+        else if (strcmp(name, "arcCos") == 0) { approx = arcCos(x); }
+        else if (strcmp(name, "arcTan") == 0) { approx = arcTan(x); }
+        else if (strcmp(name, "Log   ") == 0) { approx = Log(x); } 
+        
+        // Compute library value
+        double lib = 0.0;
+        if (strcmp(name, "arcSin") == 0) { lib = asin(x); }
+        else if (strcmp(name, "arcCos") == 0) { lib = acos(x); }
+        else if (strcmp(name, "arcTan") == 0) { lib = atan(x); }
+        else if (strcmp(name, "Log   ") == 0) { lib = log(x); }        
 
-    printf("start = %f\nend = %f\n", start, end);
-    double x = 1.0;
-    if (strcmp(name, "arcSin") == 0) { x = arcSin(end); }
-    else if (strcmp(name, "arcCos") == 0) { x = arcCos(end); }
-    else if (strcmp(name, "arcTan") == 0) { x = arcTan(end); }
-    else if (strcmp(name, "Log   ") == 0) { x = Log(end); }
-    printf("Did it work? %f\n", x);
+        // Print row
+        printf(" %7.4lf % 16.8lf % 16.8lf % 16.10lf\n", x, approx, lib, approx - lib);
+    }
 
     return 0;
 }
