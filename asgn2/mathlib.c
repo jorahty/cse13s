@@ -1,15 +1,18 @@
-#include <stdio.h>
-#include <assert.h>
-
 #include "mathlib.h"
 
+#include <assert.h>
+#include <stdio.h>
+
 #define EPSILON 0.00000000001
-#define PI 3.14159265359
+#define PI      3.14159265359
 
 // Taken from Piazza
 double Abs(double x) {
-    if (x < 0) { return -x; }
-    else { return x; }
+    if (x < 0) {
+        return -x;
+    } else {
+        return x;
+    }
 }
 
 // Taken from Piazza
@@ -21,7 +24,6 @@ double Sqrt(double x) {
     }
     return y;
 }
-
 
 double arcSin(double x) {
     // This code is dissapointingly redundant. I wanted to
@@ -69,7 +71,7 @@ double arcCos(double x) {
 
 double arcTan(double x) {
     // Make use of `arcCos(x)` with an identity
-    return (arcCos( 1 / (Sqrt(x * x + 1))));
+    return (arcCos(1 / (Sqrt(x * x + 1))));
 }
 
 double Log(double x) {
