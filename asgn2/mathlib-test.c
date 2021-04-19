@@ -14,6 +14,7 @@ int printGuide() {
     printf("  -t   Runs arctan tests\n");
     printf("  -l   Runs log tests\n");
     return 0;
+    // (I used the same guide as the program in the resources repo)
 }
 
 int printLib(char name[], double start, double end) {
