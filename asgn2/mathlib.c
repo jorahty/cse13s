@@ -50,11 +50,11 @@ double arcSin(double x) {
 }
 
 double arcCos(double x) {
-    return (x * 42);
+    return (PI / 2 - arcSin(x));
 }
 
 double arcTan(double x) {
-    return (x * 42);
+    return (arcCos( 1 / (Sqrt(x * x + 1))));
 }
 
 double Log(double x) {
