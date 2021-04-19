@@ -58,5 +58,5 @@ double arcTan(double x) {
 }
 
 double Log(double x) {
-    return (x * 42);
+    return (x * 0 + 42.0);
 }
