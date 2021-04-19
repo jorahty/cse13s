@@ -68,7 +68,7 @@ double arcCos(double x) {
 }
 
 double arcTan(double x) {
-    // Make use of `arcSin(x)` with an identity
+    // Make use of `arcCos(x)` with an identity
     return (arcCos( 1 / (Sqrt(x * x + 1))));
 }
 

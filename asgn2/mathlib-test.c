@@ -18,7 +18,7 @@ int printGuide() {
 }
 
 int printLib(char name[], double start, double end) {
-    // Print header
+    // Print library header
     printf("  x            %s           Library        Difference\n", name);
     printf("  -            ------           -------        ----------\n");
     
