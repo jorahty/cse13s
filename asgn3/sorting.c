@@ -1,6 +1,6 @@
+#include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <getopt.h>
 
 void printGuideAndExit() {
     // Print user guide
@@ -40,31 +40,31 @@ int main(int argc, char **argv) {
     int opt = 0;
 
     // Parse command-line options
-    while ((opt = getopt(argc, argv, "habsqQnpro")) != -1) {
+    while ((opt = getopt(argc, argv, "habsqQn:p:r:o")) != -1) {
         switch (opt) {
-            // If 'h' then print user guide and exit
-            case 'h': printGuideAndExit(); break;
-            // If 'absqQ' then record it was given
-            case 'a': agiven = 1; break;
-            case 'b': bgiven = 1; break;
-            case 's': sgiven = 1; break;
-            case 'q': qgiven = 1; break;
-            case 'Q': Qgiven = 1; break;
-            // If 'npro' then update variable
-            case 'n': n = atoi(optarg); break;
-            case 'p': p = atoi(optarg); break;
-            case 'r': r = atoi(optarg); break;
-            case 'o': useOrdered = 1; break;
-            // If invalid option then print user guide and exit
-            default: printGuideAndExit();
+        // If 'h' then print user guide and exit
+        case 'h': printGuideAndExit(); break;
+        // If 'absqQ' then record it was given
+        case 'a': agiven = 1; break;
+        case 'b': bgiven = 1; break;
+        case 's': sgiven = 1; break;
+        case 'q': qgiven = 1; break;
+        case 'Q': Qgiven = 1; break;
+        // If 'npro' then update variable
+        case 'n': n = atoi(optarg); break;
+        case 'p': p = atoi(optarg); break;
+        case 'r': r = atoi(optarg); break;
+        case 'o': ordered = 1; break;
+        // If invalid option then print user guide and exit
+        default: printGuideAndExit();
         }
     }
 
     // If no sorts enabled ...
     if (!(agiven || bgiven || sgiven || qgiven || Qgiven)) {
         // Print user guide and exit
-        printGuideExit();
+        printGuideAndExit();
     }
-    
+
     return 0;
 }
