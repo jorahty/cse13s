@@ -20,7 +20,9 @@ void printGuideAndExit() {
     printf("   -p elements     Specify number of elements to print.\n");
     printf("   -r seed         Specify random seed.\n");
     printf("   -o              Use sorted arrays.\n");
-    // This guide was taken from the example programi
+    // (This guide was taken from the example program)
+
+    // Exit
     exit(1);
 }
 
@@ -40,24 +42,27 @@ int main(int argc, char **argv) {
     // Parse command-line options
     while ((opt = getopt(argc, argv, "habsqQnpro")) != -1) {
         switch (opt) {
-            // If 'h' then print guide and exit
+            // If 'h' then print user guide and exit
             case 'h': printGuideAndExit(); break;
-            // If 'absqQ' then record it
-            case 'a': isEnabled[0] = 1; break;
-            case 'b': isEnabled[1] = 1; break;
-            case 's': isEnabled[2] = 1; break;
-            case 'q': isEnabled[3] = 1; break;
-            case 'Q': isEnabled[4] = 1; break;
+            // If 'absqQ' then record it was given
+            case 'a': agiven = 1; break;
+            case 'b': bgiven = 1; break;
+            case 's': sgiven = 1; break;
+            case 'q': qgiven = 1; break;
+            case 'Q': Qgiven = 1; break;
+            // If 'npro' then update variable
             case 'n': n = atoi(optarg); break;
             case 'p': p = atoi(optarg); break;
             case 'r': r = atoi(optarg); break;
             case 'o': useOrdered = 1; break;
+            // If invalid option then print user guide and exit
+            default: printGuideAndExit();
         }
     }
 
     // If no sorts enabled ...
-    if (!(isEnabled[0] || isEnabled[1] || isEnabled[2] || isEnabled[3] || isEnabled[4] )) {
-        // Print guide and exit
+    if (!(agiven || bgiven || sgiven || qgiven || Qgiven)) {
+        // Print user guide and exit
         printGuideExit();
     }
     
