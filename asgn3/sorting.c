@@ -26,12 +26,19 @@ void printGuideAndExit() {
     exit(1);
 }
 
-void sort(char type, int n, int p, int seed, int ordered) {
-    printf("\nSort type: %c\n", type);
-    printf("Number of elements: %d\n", n);
-    printf("Number of elements to print: %d\n", p); 
-    printf("Random seed: %d\n", seed);
-    printf("Use ordered arrays: %d\n\n", ordered);
+void sortAndDisplay(int* arr, int size, char type, int p) {
+    // Sort array with sorting algorithm of type `type`
+    // Print name of sorting algorithm
+    // Print the first `p` elements of array
+    // Print size, moves, comparisons
+    // If applicable, print max stack/queue size
+
+    printf("Use '%c' sorting algorithm to sort the following array:\n", type);
+    printf("{%d}\n", arr[0]);
+    printf("Print name of '%c' sorting algorithm\n", type);
+    printf("Print the first %d elements of the sorted array\n", p);
+    printf("Print size (%d), moves, comparisons\n", size);
+    printf("If applicable, print max stack/queue size\n");
 }
 
 int main(int argc, char **argv) {
@@ -41,9 +48,9 @@ int main(int argc, char **argv) {
     int sgiven = 0;
     int qgiven = 0;
     int Qgiven = 0;
-    int n = 0;
-    int p = 0;
-    int seed = 0;
+    int size = 100;
+    int p = 100;
+    int seed = 13371453;
     int ordered = 0;
     int opt = 0;
 
@@ -59,7 +66,7 @@ int main(int argc, char **argv) {
         case 'q': qgiven = 1; break;
         case 'Q': Qgiven = 1; break;
         // If 'npro' then update variable
-        case 'n': n = atoi(optarg); break;
+        case 'n': size = atoi(optarg); break;
         case 'p': p = atoi(optarg); break;
         case 'r': seed = atoi(optarg); break;
         case 'o': ordered = 1; break;
@@ -73,12 +80,22 @@ int main(int argc, char **argv) {
         // Print user guide and exit
         printGuideAndExit();
     }
+
+    // If number of elements to print is greater than array size ...
+    if (p > size) {
+        // Set number of elements to print equal to array size
+        p = size;
+    }
+
+    // Generate array of size `size` with random seed `seed`
+    // Array should be ordered if specified
+    int arr[] = {1, 2, 3};
     
     // Run the appropriate sorting algorithms in order
-    if (agiven || bgiven) { sort('b', n, p, seed, ordered); }    
-    if (agiven || sgiven) { sort('s', n, p, seed, ordered); }    
-    if (agiven || qgiven) { sort('q', n, p, seed, ordered); }    
-    if (agiven || Qgiven) { sort('Q', n, p, seed, ordered); }    
+    if (agiven || bgiven) { sortAndDisplay(arr, size, 'b', p); }    
+    if (agiven || sgiven) { sortAndDisplay(arr, size, 's', p); }    
+    if (agiven || qgiven) { sortAndDisplay(arr, size, 'q', p); }    
+    if (agiven || Qgiven) { sortAndDisplay(arr, size, 'Q', p); }    
 
     return 0;
 }
