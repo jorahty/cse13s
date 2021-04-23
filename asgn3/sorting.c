@@ -26,6 +26,14 @@ void printGuideAndExit() {
     exit(1);
 }
 
+void sort(char type, int n, int p, int seed, int ordered) {
+    printf("\nSort type: %c\n", type);
+    printf("Number of elements: %d\n", n);
+    printf("Number of elements to print: %d\n", p); 
+    printf("Random seed: %d\n", seed);
+    printf("Use ordered arrays: %d\n\n", ordered);
+}
+
 int main(int argc, char **argv) {
     // Initialize
     int agiven = 0;
@@ -35,7 +43,7 @@ int main(int argc, char **argv) {
     int Qgiven = 0;
     int n = 0;
     int p = 0;
-    int r = 0;
+    int seed = 0;
     int ordered = 0;
     int opt = 0;
 
@@ -53,7 +61,7 @@ int main(int argc, char **argv) {
         // If 'npro' then update variable
         case 'n': n = atoi(optarg); break;
         case 'p': p = atoi(optarg); break;
-        case 'r': r = atoi(optarg); break;
+        case 'r': seed = atoi(optarg); break;
         case 'o': ordered = 1; break;
         // If invalid option then print user guide and exit
         default: printGuideAndExit();
@@ -65,11 +73,12 @@ int main(int argc, char **argv) {
         // Print user guide and exit
         printGuideAndExit();
     }
-
-    if (agiven || bgiven) { printf("BUBBLE\n"); }    
-    if (agiven || sgiven) { printf("SHELL\n"); }    
-    if (agiven || qgiven) { printf("QUICK STACK\n"); }    
-    if (agiven || Qgiven) { printf("QUICK QUEUE\n"); }    
+    
+    // Run the appropriate sorting algorithms in order
+    if (agiven || bgiven) { sort('b', n, p, seed, ordered); }    
+    if (agiven || sgiven) { sort('s', n, p, seed, ordered); }    
+    if (agiven || qgiven) { sort('q', n, p, seed, ordered); }    
+    if (agiven || Qgiven) { sort('Q', n, p, seed, ordered); }    
 
     return 0;
 }
