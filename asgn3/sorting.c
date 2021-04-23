@@ -66,5 +66,10 @@ int main(int argc, char **argv) {
         printGuideAndExit();
     }
 
+    if (agiven || bgiven) { printf("BUBBLE\n"); }    
+    if (agiven || sgiven) { printf("SHELL\n"); }    
+    if (agiven || qgiven) { printf("QUICK STACK\n"); }    
+    if (agiven || Qgiven) { printf("QUICK QUEUE\n"); }    
+
     return 0;
 }
