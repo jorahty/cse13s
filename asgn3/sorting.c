@@ -27,18 +27,15 @@ void printGuideAndExit() {
 }
 
 void sortAndDisplay(int* arr, int size, char type, int p) {
-    // Sort array with sorting algorithm of type `type`
-    // Print name of sorting algorithm
-    // Print the first `p` elements of array
-    // Print size, moves, comparisons
-    // If applicable, print max stack/queue size
-
-    printf("Use '%c' sorting algorithm to sort the following array:\n", type);
-    printf("{%d}\n", arr[0]);
-    printf("Print name of '%c' sorting algorithm\n", type);
-    printf("Print the first %d elements of the sorted array\n", p);
-    printf("Print size (%d), moves, comparisons\n", size);
-    printf("If applicable, print max stack/queue size\n");
+    printf("\narray address: %p\n", (void*) arr);
+    printf("array:\n");
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+    printf("array size: %d\n", size);
+    printf("sort type: %c\n", type);
+    printf("number of elements to print: %d\n\n", p);
 }
 
 int main(int argc, char **argv) {
@@ -88,10 +85,13 @@ int main(int argc, char **argv) {
     }
 
     // Generate array of size `size` with random seed `seed`
-    // Array should be ordered if specified
-    int arr[] = {1, 2, 3};
+    srandom(seed);
+    int arr[size];
+    for (int i = 0; i < size; i++) {
+        arr[i] = random();
+    }
     
-    // Run the appropriate sorting algorithms in order
+    // Use enabled sorting alogorithms and display stats
     if (agiven || bgiven) { sortAndDisplay(arr, size, 'b', p); }    
     if (agiven || sgiven) { sortAndDisplay(arr, size, 's', p); }    
     if (agiven || qgiven) { sortAndDisplay(arr, size, 'q', p); }    
