@@ -3,6 +3,12 @@
 #include <stdlib.h>
 
 #include "set.h"
+#include "bubble.h"
+#include "shell.h"
+#include "quick.h"
+#include "gaps.h"
+#include "stack.h"
+#include "queue.h"
 
 void printGuideAndExit() {
     // Print user guide
