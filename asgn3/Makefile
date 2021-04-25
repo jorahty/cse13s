@@ -32,3 +32,6 @@ clean:
 
 infer:
 	make clean; infer-capture -- make; infer-analyze -- make
+
+format:
+	clang-format -i -style=file sorting.c
