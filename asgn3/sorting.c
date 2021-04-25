@@ -1,6 +1,8 @@
 #include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
+#include <inttypes.h>
 
 #include "set.h"
 #include "bubble.h"
@@ -34,16 +36,28 @@ void printGuideAndExit() {
     exit(1);
 }
 
-void sortAndDisplay(int* arr, int size, char type, int p) {
-    printf("\narray address: %p\n", (void*) arr);
-    printf("array:\n");
+void sortAndDisplay(uint32_t* arr, int size, char type, int p) {
+    // Make a copy of the original array
+    uint32_t arrcopy[size];
     for (int i = 0; i < size; i++) {
-        printf("%d ", arr[i]);
+        arrcopy[i] = arr[i];
     }
-    printf("\n");
-    printf("array size: %d\n", size);
-    printf("sort type: %c\n", type);
-    printf("number of elements to print: %d\n\n", p);
+    // Sort the copied array using the correct sorting algorithm
+    switch (type) {
+    case 'b': bubble_sort(arrcopy, size); printf("Bubble Sort\n"); break;
+    case 's': shell_sort(arrcopy, size); printf("Shell Sort\n"); break;
+    case 'q': quick_sort_stack(arrcopy, size); printf("Quick Sort (Stack)\n"); break;
+    case 'Q': quick_sort_queue(arrcopy, size); printf("Quick Sort (Queue)\n"); break;
+    }
+    // Print the first p elements of the sorted array
+    int i, j;
+    for (i = 0, j = 0; i < p; i++, j++) {
+        printf("%13" PRIu32, arrcopy[i]);
+        if (j == 4) {
+            printf("\n");
+        }
+    }
+    printf("\n"); 
 }
 
 int main(int argc, char **argv) {
@@ -94,7 +108,7 @@ int main(int argc, char **argv) {
 
     // Generate array of size `size` with random seed `seed`
     srandom(seed);
-    int arr[size];
+    uint32_t arr[size];
     for (int i = 0; i < size; i++) {
         arr[i] = random();
     }
