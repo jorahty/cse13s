@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <inttypes.h>
 
+#include "helper.h"
 #include "set.h"
 #include "bubble.h"
 #include "shell.h"
@@ -52,10 +53,12 @@ void sortAndDisplay(uint32_t* arr, int size, char type, int p) {
     // Print the first p elements of the sorted array
     int i, j;
     for (i = 0, j = 0; i < p; i++, j++) {
-        printf("%13" PRIu32, arrcopy[i]);
-        if (j == 4) {
+        if (j == 5) {
             printf("\n");
+            j = 0;
         }
+        printf("%13" PRIu32, arrcopy[i]);
+
     }
     printf("\n"); 
 }
