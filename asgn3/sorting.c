@@ -1,18 +1,18 @@
+#include "bubble.h"
+#include "more.h"
+#include "queue.h"
+#include "quick.h"
+#include "set.h"
+#include "shell.h"
+#include "stack.h"
+
 #include <getopt.h>
+#include <inttypes.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
-#include <inttypes.h>
 
-#include "more.h"
-#include "set.h"
-#include "bubble.h"
-#include "shell.h"
-#include "quick.h"
-#include "stack.h"
-#include "queue.h"
-
-void sortAndDisplay(uint32_t* arr, int size, char type, int p) {
+void sortAndDisplay(uint32_t *arr, int size, char type, int p) {
     // Make a copy of the original array
     uint32_t arrcopy[size];
     for (int i = 0; i < size; i++) {
@@ -23,16 +23,28 @@ void sortAndDisplay(uint32_t* arr, int size, char type, int p) {
     comparisons = 0;
     // Sort the copied array using the correct sorting algorithm
     switch (type) {
-    case 'b': bubble_sort(arrcopy, size); printf("Bubble Sort\n"); break;
-    case 's': shell_sort(arrcopy, size); printf("Shell Sort\n"); break;
-    case 'q': quick_sort_stack(arrcopy, size); printf("Quick Sort (Stack)\n"); break;
-    case 'Q': quick_sort_queue(arrcopy, size); printf("Quick Sort (Queue)\n"); break;
+    case 'b':
+        bubble_sort(arrcopy, size);
+        printf("Bubble Sort\n");
+        break;
+    case 's':
+        shell_sort(arrcopy, size);
+        printf("Shell Sort\n");
+        break;
+    case 'q':
+        quick_sort_stack(arrcopy, size);
+        printf("Quick Sort (Stack)\n");
+        break;
+    case 'Q':
+        quick_sort_queue(arrcopy, size);
+        printf("Quick Sort (Queue)\n");
+        break;
     }
     // Print statistics
     printf("%d elements, %d moves, %d compares\n", size, moves, comparisons);
     switch (type) {
-    case 'q': printf("Max stack size: %d\n", max_stack_size); break;
-    case 'Q': printf("Max queue size: %d\n", max_queue_size); break;
+    case 'q': printf("Max stack size: %d\n", maxstack); break;
+    case 'Q': printf("Max queue size: %d\n", maxqueue); break;
     }
     // Print the first p elements of the sorted array
     int i, j;
@@ -42,10 +54,9 @@ void sortAndDisplay(uint32_t* arr, int size, char type, int p) {
             j = 0;
         }
         printf("%13" PRIu32, arrcopy[i]);
-
     }
     if (p > 0) {
-        printf("\n"); 
+        printf("\n");
     }
 }
 
@@ -101,12 +112,20 @@ int main(int argc, char **argv) {
     for (int i = 0; i < size; i++) {
         arr[i] = random();
     }
-    
+
     // Use enabled sorting alogorithms and display stats
-    if (agiven || bgiven) { sortAndDisplay(arr, size, 'b', p); }    
-    if (agiven || sgiven) { sortAndDisplay(arr, size, 's', p); }    
-    if (agiven || qgiven) { sortAndDisplay(arr, size, 'q', p); }    
-    if (agiven || Qgiven) { sortAndDisplay(arr, size, 'Q', p); }    
+    if (agiven || bgiven) {
+        sortAndDisplay(arr, size, 'b', p);
+    }
+    if (agiven || sgiven) {
+        sortAndDisplay(arr, size, 's', p);
+    }
+    if (agiven || qgiven) {
+        sortAndDisplay(arr, size, 'q', p);
+    }
+    if (agiven || Qgiven) {
+        sortAndDisplay(arr, size, 'Q', p);
+    }
 
     return 0;
 }

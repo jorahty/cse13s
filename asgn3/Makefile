@@ -37,4 +37,4 @@ infer:
 	make clean; infer-capture -- make; infer-analyze -- make
 
 format:
-	clang-format -i -style=file sorting.c
+	clang-format -i -style=file *.c *.h

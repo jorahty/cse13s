@@ -1,7 +1,7 @@
+#include <inttypes.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
-#include <inttypes.h>
 
 void printGuideAndExit() {
     // Print user guide

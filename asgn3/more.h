@@ -1,8 +1,8 @@
 #ifndef __MORE_H__
 #define __MORE_H__
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 void printGuideAndExit();
 

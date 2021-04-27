@@ -1,6 +1,6 @@
-#include <stdint.h>
-
 #include "more.h"
+
+#include <stdint.h>
 
 void bubble_sort(uint32_t *A, uint32_t n) {
     // For every round of swapping ...

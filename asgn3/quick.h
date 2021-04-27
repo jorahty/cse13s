@@ -3,8 +3,8 @@
 
 #include <stdint.h>
 
-extern uint32_t max_stack_size;
-extern uint32_t max_queue_size;
+extern uint32_t maxstack;
+extern uint32_t maxqueue;
 
 void quick_sort_stack(uint32_t *A, uint32_t n);
 

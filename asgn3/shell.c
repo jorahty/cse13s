@@ -1,10 +1,11 @@
-#include "gaps.h"
-#include "more.h"
 #include "shell.h"
 
-#include <stdio.h>
-#include <stdbool.h>
+#include "gaps.h"
+#include "more.h"
+
 #include <inttypes.h>
+#include <stdbool.h>
+#include <stdio.h>
 
 void shell_sort(uint32_t *A, uint32_t n) {
     // Start with last element of gaps, the smallest gap possible
@@ -16,7 +17,7 @@ void shell_sort(uint32_t *A, uint32_t n) {
     // Loop until end of gaps is reached (until gap index is greater than 101)
     while (i <= 101) {
         // Fetch the current gap
-        uint32_t thisgap = gaps[i]; 
+        uint32_t thisgap = gaps[i];
         for (uint32_t k = thisgap; k < n; k++) {
             moves += 1; // Record move
             uint32_t g = k;

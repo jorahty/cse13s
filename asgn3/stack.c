@@ -1,8 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
 #include <inttypes.h>
 #include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 // Very little of this code is my own.
 // Almost all of this code came from the following sources:
@@ -13,15 +13,15 @@
 typedef uint32_t item;
 
 typedef struct Stack {
-    uint32_t top; 
+    uint32_t top;
     uint32_t capacity;
-    int64_t *items; 
+    int64_t *items;
 } Stack;
 
 Stack *stack_create(uint32_t capacity) {
     Stack *s = (Stack *) malloc(sizeof(Stack));
     if (s) {
-        s->top = 0; 
+        s->top = 0;
         s->capacity = capacity;
         s->items = (int64_t *) calloc(capacity, sizeof(int64_t));
         if (!s->items) {

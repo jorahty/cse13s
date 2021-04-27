@@ -1,8 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
 #include <inttypes.h>
 #include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 // Very little of this code is my own.
 // Almost all of this code came from the following sources:
