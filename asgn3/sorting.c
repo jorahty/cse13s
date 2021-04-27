@@ -4,38 +4,13 @@
 #include <stdint.h>
 #include <inttypes.h>
 
-#include "helper.h"
+#include "more.h"
 #include "set.h"
 #include "bubble.h"
 #include "shell.h"
 #include "quick.h"
-#include "gaps.h"
 #include "stack.h"
 #include "queue.h"
-
-void printGuideAndExit() {
-    // Print user guide
-    printf("Select at least one sort to perform.\n");
-    printf("SYNOPSIS\n");
-    printf("   A collection of comparison-based sorting algorithms.\n\n");
-    printf("USAGE\n");
-    printf("   ./sorting [-habsqQo] [-n length] [-p elements] [-r seed]\n\n");
-    printf("OPTIONS\n");
-    printf("   -h              Display program help and usage.\n");
-    printf("   -a              Enable all sorts.\n");
-    printf("   -b              Enable Bubble Sort.\n");
-    printf("   -s              Enable Shell Sort.\n");
-    printf("   -q              Enable Quick Sort (Stack).\n");
-    printf("   -Q              Enable Quick Sort (Queue).\n");
-    printf("   -n length       Specify number of array elements.\n");
-    printf("   -p elements     Specify number of elements to print.\n");
-    printf("   -r seed         Specify random seed.\n");
-    printf("   -o              Use sorted arrays.\n");
-    // (This guide was taken from the example program)
-
-    // Exit
-    exit(1);
-}
 
 void sortAndDisplay(uint32_t* arr, int size, char type, int p) {
     // Make a copy of the original array
@@ -43,12 +18,21 @@ void sortAndDisplay(uint32_t* arr, int size, char type, int p) {
     for (int i = 0; i < size; i++) {
         arrcopy[i] = arr[i];
     }
+    // Reset moves and comparisons
+    moves = 0;
+    comparisons = 0;
     // Sort the copied array using the correct sorting algorithm
     switch (type) {
     case 'b': bubble_sort(arrcopy, size); printf("Bubble Sort\n"); break;
     case 's': shell_sort(arrcopy, size); printf("Shell Sort\n"); break;
     case 'q': quick_sort_stack(arrcopy, size); printf("Quick Sort (Stack)\n"); break;
     case 'Q': quick_sort_queue(arrcopy, size); printf("Quick Sort (Queue)\n"); break;
+    }
+    // Print statistics
+    printf("%d elements, %d moves, %d compares\n", size, moves, comparisons);
+    switch (type) {
+    case 'q': printf("Max stack size: %d\n", max_stack_size); break;
+    case 'Q': printf("Max queue size: %d\n", max_queue_size); break;
     }
     // Print the first p elements of the sorted array
     int i, j;
@@ -60,7 +44,9 @@ void sortAndDisplay(uint32_t* arr, int size, char type, int p) {
         printf("%13" PRIu32, arrcopy[i]);
 
     }
-    printf("\n"); 
+    if (p > 0) {
+        printf("\n"); 
+    }
 }
 
 int main(int argc, char **argv) {
