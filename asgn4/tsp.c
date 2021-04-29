@@ -1,3 +1,7 @@
+#include "graph.h"
+#include "path.h"
+#include "stack.h"
+
 #include <stdio.h>
 
 #define BLOCK 4096
