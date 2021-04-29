@@ -18,17 +18,21 @@ int main(int argc, char **argv) {
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
         case 'h': help(); break;
-        case 'v': printf("enabled verbose printing\n"); verbose = true; break;
-        case 'u': printf("graph is undirected\n"); undirected = true; break;
-        case 'i': printf("infile: %s\n", optarg); break;
-        case 'o': printf("outfile: %s\n", optarg); break;
+        case 'v': verbose = true; break;
+        case 'u': undirected = true; break;
+        case 'i': /*map = a file with path optarg;*/ break;
+        case 'o': /*route = a file with path optarg;*/ break;
         default: help(); break;
         }
     }
+
+    printf("verbose: %s\n", verbose ? "true" : "false");
+    printf("undirected: %s\n", undirected ? "true" : "false");
+    // [echo input file to output file]
     
     // char buffer[BLOCK];
     
-    // while (fgets(buffer, BLOCK, stdin)) {
+    // while ((fscanf(buffer, BLOCK, stdin) != -1)) {
     //    fputs(buffer, stdout);
     // }
     
