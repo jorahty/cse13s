@@ -6,6 +6,9 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <getopt.h>
+#include <string.h>
+
+#include <stdlib.h>
 
 #define OPTIONS "hvui:o:"
 #define BLOCK 4096
@@ -26,39 +29,34 @@ int main(int argc, char **argv) {
         default: help(); break;
         }
     }
-    
-    // Get number of vertices
+
+    // Get the number of cities (vertices) from infile
     uint32_t vertices;
-    fscanf(infile, "%d", &vertices);
-    if (vertices > 26) { // If more than 26, print error
-        printf("Error: malformed number of vertices.\n");
+    fscanf(infile, "%d\n", &vertices);
+    if (vertices > 26) { // Error if greater than 26
+        printf("Error: malformed number of vertices.");
         return 1;
     }
-
-    // Get vertex names
+    
+    // Get cities from infile
+    char *cities[vertices];
     char buffer[BLOCK];
     for (int i = 0; i < vertices; i++) {
-        printf("scan line\n");
+        fgets(buffer, BLOCK, infile);
+        // Put each city in an array
+        cities[i] = strdup(buffer);
+        // Remove the newline at the end
+        cities[i][strlen(cities[i]) - 1] = '\0';
+    }
+    
+    for (int i = 0; i < vertices; i++) {
+        fputs(cities[i], outfile);
+    }
+    
+    // Free the array of cities
+    for (int i = 0; i < vertices; i++) {
+        free(cities[i]);
     }
 
-    // Scan first line to get number of vertices
-    // char buffer[BLOCK]; // Create a buffer to hold data temporarily
-    // fgets(buffer, BLOCK, infile); // Scan the first line from the infile into the buffer
-    // uint32_t vertices = atoi(buffer); // Set number of vertices equal to value in buffer
-    // printf("vertices: %d", vertices);
-   
-    // scan first line to get vertices
-    // if vertices greater than 26, print error and exit
-    // for i in vertices
-    // scan name
-
-    // print vertices, undirected, verbose, infile, outfile
-    // print names into outfile
- 
-    // char buffer[1024];
-    // while (fscanf(infile, "%s", buffer) != EOF) {
-    //     fprintf(outfile, "%s\n", buffer);    
-    // }
-    
     return 0;
 }
