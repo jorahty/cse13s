@@ -1,6 +1,13 @@
 #include <stdio.h>
 
+#define BLOCK 4096
+
 int main() {
-    printf("Hello Denver Long!\n");
+    char buffer[BLOCK];
+    
+    while (fgets(buffer, BLOCK, stdin)) {
+        fputs(buffer, stdout);
+    }
+    
     return 0;
 }
