@@ -52,6 +52,8 @@ int main(int argc, char **argv) {
     // Create graph
     Graph *G = graph_create(vertices, undirected);
     graph_print(G);
+    graph_add_edge(G, 0, 1, 9);
+    graph_print(G);
     graph_delete(&G);
     
     // Free the array of cities
