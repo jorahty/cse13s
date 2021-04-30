@@ -49,9 +49,10 @@ int main(int argc, char **argv) {
         cities[i][strlen(cities[i]) - 1] = '\0';
     }
     
-    for (int i = 0; i < vertices; i++) {
-        fputs(cities[i], outfile);
-    }
+    // Create graph
+    Graph *G = graph_create(vertices, undirected);
+    graph_print(G);
+    graph_delete(&G);
     
     // Free the array of cities
     for (int i = 0; i < vertices; i++) {
