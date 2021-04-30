@@ -22,7 +22,7 @@ stack.o: stack.c
 	$(CC) $(CFLAGS) -c stack.c
 
 clean:
-	rm -rf *.o tsp infer-out
+	rm -rf tsp.o more.o graph.o path.o stack.o tsp infer-out
 
 format:
 	clang-format -i -style=file *.c *.h
