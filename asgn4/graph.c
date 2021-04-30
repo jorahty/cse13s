@@ -63,9 +63,10 @@ void graph_mark_unvisited(Graph *G, uint32_t v);
 
 void graph_print(Graph *G) {
     for (int i = 0; i < G->vertices; i++) {
-        // Print a row for each vertex
+        // Print each row 
         printf("[");
         for (int j = 0; j < G->vertices; j++) {
+            // Print each value in current row
             printf(" %d ", G->matrix[i][j]);
         }
         printf("]\n");
