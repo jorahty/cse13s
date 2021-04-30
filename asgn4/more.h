@@ -4,12 +4,13 @@
 #include "graph.h"
 #include "path.h"
 
+#include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
-#include <stdbool.h>
 
-void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest , char *cities[], FILE *outfile, bool verbose);
+void dfs(
+    Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE *outfile, bool verbose);
 
 void help(void);
 

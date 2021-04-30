@@ -1,7 +1,7 @@
 #include "more.h"
 
-void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest,
-         char *cities[], FILE *outfile, bool verbose) {
+void dfs(
+    Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE *outfile, bool verbose) {
     printf("Find shortest Hamiltonian path\n");
 }
 

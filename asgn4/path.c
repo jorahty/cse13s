@@ -1,6 +1,7 @@
 #include "path.h"
-#include "vertices.h"
+
 #include "stack.h"
+#include "vertices.h"
 
 #include <stdlib.h>
 

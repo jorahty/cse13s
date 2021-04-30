@@ -9,9 +9,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-                
+
 #define OPTIONS "hvui:o:"
-#define KB      1024 
+#define KB      1024
 
 int main(int argc, char **argv) {
 
@@ -68,7 +68,7 @@ int main(int argc, char **argv) {
 
     // Create path for tracking shortest path
     Path *shortest = path_create();
-   
+
     // Use depth-first search to
     // find the shortest Hamiltonian path and write it to the outfile
     dfs(G, START_VERTEX, curr, shortest, cities, outfile, verbose);
