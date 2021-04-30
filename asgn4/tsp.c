@@ -32,8 +32,8 @@ int main(int argc, char **argv) {
 
     // Get the number of cities (vertices) from infile
     uint32_t vertices;
-    fscanf(infile, "%d\n", &vertices);
-    if (vertices > 26) { // Error if greater than 26
+    int s = fscanf(infile, "%d\n", &vertices); // If successful then s = 1
+    if (s != 1 || vertices > 26) { // Check for error 
         printf("Error: malformed number of vertices.");
         return 1;
     }
@@ -51,9 +51,25 @@ int main(int argc, char **argv) {
     
     // Create graph
     Graph *G = graph_create(vertices, undirected);
+
+    // Print graph
     graph_print(G);
-    graph_add_edge(G, 0, 1, 9);
+
+    // Get edges
+    int i, j, k;
+    while ((s = fscanf(infile, "%d %d %d\n", &i, &j, &k)) != EOF) {
+        if (s != 3) {
+            printf("Error: malformed edge.");
+            return 1;
+        }
+        // Add each edge to graph
+        graph_add_edge(G, i, j, k);
+    }
+
+    // Print graph
     graph_print(G);
+
+    // Delete graph
     graph_delete(&G);
     
     // Free the array of cities
