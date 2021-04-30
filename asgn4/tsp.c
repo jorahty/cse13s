@@ -32,8 +32,8 @@ int main(int argc, char **argv) {
     // Get the number of cities (vertices) from infile
     uint32_t vertices;
     int s = fscanf(infile, "%d\n", &vertices); // If successful then s = 1
-    if (s != 1 || vertices > 26) { // Check for error
-        printf("Error: malformed number of vertices.");
+    if (s != 1 || vertices > 26 || vertices <= 0) { // Check for error
+        printf("Error: malformed number of vertices.\n");
         return 1;
     }
 
