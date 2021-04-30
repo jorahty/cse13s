@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
     int i, j, k;
     while ((s = fscanf(infile, "%d %d %d\n", &i, &j, &k)) != EOF) {
         if (s != 3) {
-            printf("Error: malformed edge.");
+            printf("Error: malformed edge.\n");
             return 1;
         }
         // Add each edge to graph
