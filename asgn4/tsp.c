@@ -51,9 +51,6 @@ int main(int argc, char **argv) {
     // Create graph
     Graph *G = graph_create(vertices, undirected);
 
-    // Print graph
-    graph_print(G);
-
     // Get edges
     int i, j, k;
     while ((s = fscanf(infile, "%d %d %d\n", &i, &j, &k)) != EOF) {
@@ -65,8 +62,10 @@ int main(int argc, char **argv) {
         graph_add_edge(G, i, j, k);
     }
 
-    // Print graph
+    // Print graph (temporary)
     graph_print(G);
+
+    // Find all Hamiltonian paths and select the shortest one
 
     // Delete graph
     graph_delete(&G);
