@@ -22,7 +22,7 @@ void help(void) {
     exit(1);
 }
 
-bool badedge(int i, int j, int k, uint32_t vertices) {
-    // Return true if edge is on diagonal, out of range, or contains negative values
-    return (i == j || i >= vertices || j >= vertices || i < 0 || j < 0 || k < 0);
+bool inbound(int i, int j, uint32_t vertices) {
+    // Return true if (i, j) is in bounds
+    return i >= 0 && j >= 0 && i < vertices && j < vertices;
 }

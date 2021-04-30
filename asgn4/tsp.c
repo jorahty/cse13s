@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
     // Get edges
     int i, j, k;
     while ((s = fscanf(infile, "%d %d %d\n", &i, &j, &k)) != EOF) { // If successful then s = 3
-        if (s != 3 || badedge(i, j, k, vertices)) { // Check for error
+        if (s != 3) { // Check for error
             printf("Error: malformed edge.\n");
             return 1;
         }

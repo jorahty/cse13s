@@ -1,5 +1,6 @@
 #include "graph.h"
 
+#include "more.h"
 #include "vertices.h"
 
 #include <stdio.h>
@@ -41,7 +42,7 @@ void graph_delete(Graph **G) {
 uint32_t graph_vertices(Graph *G);
 
 bool graph_add_edge(Graph *G, uint32_t i, uint32_t j, uint32_t k) {
-    if (i < G->vertices && j < G->vertices) {
+    if (inbound(i, j, G->vertices)) {
         G->matrix[i][j] = k;
         if (G->undirected) {
             G->matrix[j][i] = k;
