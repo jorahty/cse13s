@@ -1,9 +1,9 @@
 #include "stack.h"
 
-#include <stdlib.h>
 #include <inttypes.h>
+#include <stdlib.h>
 
-// This is the same code I used for asgn3
+// This is the same code I used for Assignment 3
 
 // Very little of this code is my own.
 // Almost all of this code came from the following sources:
@@ -88,4 +88,3 @@ void stack_print(Stack *s, FILE *outfile, char *cities[]) {
     }
     printf("]\n");
 }
-

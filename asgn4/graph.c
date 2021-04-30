@@ -1,8 +1,9 @@
 #include "graph.h"
+
 #include "vertices.h"
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 // From the assignment PDF
 typedef struct Graph {
@@ -42,7 +43,9 @@ uint32_t graph_vertices(Graph *G);
 bool graph_add_edge(Graph *G, uint32_t i, uint32_t j, uint32_t k) {
     if (i < G->vertices && j < G->vertices) {
         G->matrix[i][j] = k;
-        if (G->undirected) { G->matrix[j][i] = k; }
+        if (G->undirected) {
+            G->matrix[j][i] = k;
+        }
         return true;
     }
     return false;

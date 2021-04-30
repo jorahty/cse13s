@@ -22,10 +22,10 @@ stack.o: stack.c
 	$(CC) $(CFLAGS) -c stack.c
 
 clean:
-	rm -rf *.o tsp
+	rm -rf *.o tsp infer-out
 
 format:
-	clang-format -i -style=file *.c *.h infer-out
+	clang-format -i -style=file *.c *.h
 
 infer:
 	make clean; infer-capture -- make; infer-analyze -- make

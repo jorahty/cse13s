@@ -1,20 +1,19 @@
-#include "more.h"
 #include "graph.h"
+#include "more.h"
 #include "path.h"
 #include "stack.h"
 
-#include <stdio.h>
-#include <stdint.h>
 #include <getopt.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-#include <stdlib.h>
-
 #define OPTIONS "hvui:o:"
-#define BLOCK 4096
+#define BLOCK   4096
 
 int main(int argc, char **argv) {
-    
+
     // Parse command-line options
     bool undirected = false, verbose = false;
     FILE *infile = stdin, *outfile = stdout;
@@ -33,11 +32,11 @@ int main(int argc, char **argv) {
     // Get the number of cities (vertices) from infile
     uint32_t vertices;
     int s = fscanf(infile, "%d\n", &vertices); // If successful then s = 1
-    if (s != 1 || vertices > 26) { // Check for error 
+    if (s != 1 || vertices > 26) { // Check for error
         printf("Error: malformed number of vertices.");
         return 1;
     }
-    
+
     // Get cities from infile
     char *cities[vertices];
     char buffer[BLOCK];
@@ -48,7 +47,7 @@ int main(int argc, char **argv) {
         // Remove the newline at the end
         cities[i][strlen(cities[i]) - 1] = '\0';
     }
-    
+
     // Create graph
     Graph *G = graph_create(vertices, undirected);
 
@@ -71,7 +70,7 @@ int main(int argc, char **argv) {
 
     // Delete graph
     graph_delete(&G);
-    
+
     // Free the array of cities
     for (int i = 0; i < vertices; i++) {
         free(cities[i]);
