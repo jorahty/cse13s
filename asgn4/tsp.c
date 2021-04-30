@@ -2,15 +2,16 @@
 #include "more.h"
 #include "path.h"
 #include "stack.h"
+#include "vertices.h"
 
 #include <getopt.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+                
 #define OPTIONS "hvui:o:"
-#define BLOCK   4096
+#define KB      1024 
 
 int main(int argc, char **argv) {
 
@@ -39,9 +40,9 @@ int main(int argc, char **argv) {
 
     // Get cities from infile
     char *cities[vertices];
-    char buffer[BLOCK];
-    for (int i = 0; i < vertices; i++) {
-        fgets(buffer, BLOCK, infile);
+    char buffer[KB];
+    for (uint32_t i = 0; i < vertices; i++) {
+        fgets(buffer, KB, infile);
         // Put each city in an array
         cities[i] = strdup(buffer);
         // Remove the newline at the end
@@ -53,8 +54,8 @@ int main(int argc, char **argv) {
 
     // Get edges
     int i, j, k;
-    while ((s = fscanf(infile, "%d %d %d\n", &i, &j, &k)) != EOF) {
-        if (s != 3) {
+    while ((s = fscanf(infile, "%d %d %d\n", &i, &j, &k)) != EOF) { // If successful then s = 3
+        if (s != 3 || badedge(i, j, k, vertices)) { // Check for error
             printf("Error: malformed edge.\n");
             return 1;
         }
@@ -62,16 +63,23 @@ int main(int argc, char **argv) {
         graph_add_edge(G, i, j, k);
     }
 
-    // Print graph (temporary)
-    graph_print(G);
+    // Create path for tracking current path
+    Path *curr = path_create();
 
-    // Find all Hamiltonian paths and select the shortest one
+    // Create path for tracking shortest path
+    Path *shortest = path_create();
+   
+    // Use depth-first search to
+    // find the shortest Hamiltonian path and write it to the outfile
+    dfs(G, START_VERTEX, curr, shortest, cities, outfile, verbose);
 
-    // Delete graph
+    // Delete graph and paths
     graph_delete(&G);
+    path_delete(&curr);
+    path_delete(&shortest);
 
     // Free the array of cities
-    for (int i = 0; i < vertices; i++) {
+    for (uint32_t i = 0; i < vertices; i++) {
         free(cities[i]);
     }
 
