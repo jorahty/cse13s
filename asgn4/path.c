@@ -12,6 +12,7 @@ typedef struct Path {
 } Path;
 
 Path *path_create(void) {
+    // Allocate memory
     Path *p = (Path *) malloc(sizeof(Path));
     p->vertices = stack_create(VERTICES);
     p->length = 0;
@@ -27,14 +28,14 @@ void path_delete(Path **p) {
     return;
 }
 
-bool path_push_vertex(Path *p, uint32_t v, Graph *G);
+bool path_push_vertex(Path *p, uint32_t v, Graph *G) {return false;}
 
-bool path_pop_vertex(Path *p, uint32_t *v, Graph *G);
+bool path_pop_vertex(Path *p, uint32_t *v, Graph *G) {return false;}
 
-uint32_t path_vertices(Path *p);
+uint32_t path_vertices(Path *p) {return 0;}
 
-uint32_t path_length(Path *p);
+uint32_t path_length(Path *p) {return 0;}
 
-void path_copy(Path *dst, Path *src);
+void path_copy(Path *dst, Path *src) {;}
 
-void path_print(Path *p, FILE *outfile, char *cities[]);
+void path_print(Path *p, FILE *outfile, char *cities[]) {;}

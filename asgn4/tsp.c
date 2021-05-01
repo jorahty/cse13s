@@ -16,34 +16,37 @@
 int main(int argc, char **argv) {
 
     // Parse command-line options
-    bool undirected = false, verbose = false;
-    FILE *infile = stdin, *outfile = stdout;
-    int opt = 0;
+    bool undirected = false, verbose = false;   // Set default values
+    FILE *infile = stdin, *outfile = stdout;    // Set default values
+    int opt;
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
-        case 'h': help(); break;
-        case 'u': undirected = true; break;
-        case 'v': verbose = true; break;
-        case 'i': infile = fopen(optarg, "r"); break;
-        case 'o': outfile = fopen(optarg, "w"); break;
-        default: help(); break;
+        case 'h': help(); break;                        // Print help message
+        case 'u': undirected = true; break;             // Remember to make the graph undirected
+        case 'v': verbose = true; break;                // Enable verbose printing
+        case 'i': infile = fopen(optarg, "r"); break;   // Update infile
+        case 'o': outfile = fopen(optarg, "w"); break;  // Update outfile
+        default: help(); break;                         // Invalid option so print help message
         }
     }
 
     // Get the number of cities (vertices) from infile
     uint32_t vertices;
     int s = fscanf(infile, "%d\n", &vertices); // If successful then s = 1
-    if (s != 1 || vertices > 26 || vertices <= 0) { // Check for error
+    if (s != 1 || vertices > 26 || vertices < 0) { // Check for error
         printf("Error: malformed number of vertices.\n");
         return 1;
     }
+    if (vertices < 2) { // If vertcies is 0 or 1 ...
+        fprintf(outfile, "There's nowhere to go.\n");
+    }
 
     // Get cities from infile
-    char *cities[vertices];
-    char buffer[KB];
+    char *cities[vertices]; // Create array for storing
+    char buffer[KB]; // Create a buffer to temporarily store cities
     for (uint32_t i = 0; i < vertices; i++) {
         fgets(buffer, KB, infile);
-        // Put each city in an array
+        // Copy each city from the buffer to the array of cities
         cities[i] = strdup(buffer);
         // Remove the newline at the end
         cities[i][strlen(cities[i]) - 1] = '\0';
@@ -70,11 +73,19 @@ int main(int argc, char **argv) {
     Path *shortest = path_create();
 
     // Use depth-first search to find the shortest Hamiltonian path
-    dfs(G, START_VERTEX, curr, shortest, cities, outfile, verbose);
-
-    // Write to outfile
-    // Write shortest to outfile
-    // Write total number of recursive calls
+    // dfs(G, START_VERTEX, curr, shortest, cities, outfile, verbose);
+    graph_print(G); // Temporary
+     
+    // If the length of the shortest path is zero ...
+    if (path_length(shortest) == 0) { 
+        // No Hamiltonian path was found
+        fprintf(outfile, "No Hamiltonian path found.\n");
+    } else {
+        // Otherwise, print the shortest Hamiltonian path to outfile
+        path_print(shortest, outfile, cities);
+    }
+    // Print the total number of recusive calls to outfile
+    fprintf(outfile, "Total recusive calls: %d\n", calls);
 
     // Delete graph and paths
     graph_delete(&G);

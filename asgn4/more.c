@@ -1,36 +1,50 @@
 #include "more.h"
 
-void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE *outfile, bool verbose) {/*
+#include "graph.h"
+#include "path.h"
+#include "vertices.h"
 
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-    
-    mark v as visited
-    push v to curr stack
-    if i have found a path already current length > shortest length {
-        stop searching
-        return
+uint32_t calls = 0;
+
+void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE *outfile, bool verbose) { 
+    graph_mark_visited(G, v); // Mark v as visited
+    path_push_vertex(curr, v, G); // Push v to the current path
+    // If Hamiltonian path has been found already and current path is longer than shortest path ...
+    if (path_length(shortest) > 0 && path_length(curr) > path_length(shortest)) {
+        return; // No point in continuing search
     }
-    if you need one more vertex and you can reach the start vertex {
-        then you have completed a hamiltonian path
-        push the start vertex
-        do one more comparison
-        print shortest to outfile
-        shortest path = copy of curr path
-        pop the start vertex
-        return
-    }
-    for w to G->vertices {
-        if G has an unvisited edge at (v, w) {
-            dfs(G, w)
+    // If only one more vertex is needed and the start vertex is reachable ...
+    if (path_vertices(curr) + 1 == graph_vertices(G) && graph_has_edge(G, v, START_VERTEX)) {
+        // A Hamiltonian path has been found!
+        path_push_vertex(curr, START_VERTEX, G); // Push start vertex to current path
+        // If current path < previous Hamiltonian path or current path is first Hamiltonian path ...
+        if (path_length(curr) < path_length(shortest) || path_length(shortest) == 0) { 
+            // A new shortest Hamiltonian path has been found!
+            // If verbose printing is enabled then print the old Hamiltonian path to outfile 
+            if (verbose) { path_print(shortest, outfile, cities); }
+            path_copy(shortest, curr); // Update the shortest Hamiltonian path
+            path_pop_vertex(curr, &v, G); // Pop the start vertex from the current path to continue searching
+            return; // Go back up the call stack
         }
     }
-    mark v as unvisited
-    pop v from curr stack
-    return
-    
-
-
-*/}
+    // Otherwise ...
+    // For every vertex w that could be accecible from the current vertex v ...
+    for (uint32_t w = 0; w < graph_vertices(G); w++) {
+        // If w is unvisited and there exists a road from v to w ...
+        if (graph_visited(G, w) == false && graph_has_edge(G, v, w)) {
+            dfs(G, w, curr, shortest, cities, outfile, verbose); // Recursivley call dfs from w
+            calls++; // Increment the total number of recursive calls
+        }
+    }
+    graph_mark_unvisited(G, v); // Mark v as unvisited
+    path_pop_vertex(curr, &v, G); // Pop v from the current path
+    return; // Go back up the call stack
+}
 
 void help(void) {
     // Print help message and exit

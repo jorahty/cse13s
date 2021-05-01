@@ -63,14 +63,14 @@ bool graph_add_edge(Graph *G, uint32_t i, uint32_t j, uint32_t k) {
 }
 
 bool graph_has_edge(Graph *G, uint32_t i, uint32_t j) {
-    if (G && inbound(i, j)) { // If G exists and (i, j) is within bounds ...
+    if (G && inbound(i, j, G->vertices)) { // If G exists and (i, j) is within bounds ...
         return G->matrix[i][j] != 0; // Return whethor adjacency matrix has edge at (i, j)
     }
     return false; // Otherwise return false
 }
 
 uint32_t graph_edge_weight(Graph *G, uint32_t i, uint32_t j) {
-    if ((G) && inbound(i, j)) { // If G exists and (i, j) is within bounds ...
+    if ((G) && inbound(i, j, G->vertices)) { // If G exists and (i, j) is within bounds ...
         return G->matrix[i][j]; // Return the edge weight at (i, j)
     }
     return 0; // Otherwise return zero

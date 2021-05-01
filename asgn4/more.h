@@ -9,8 +9,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void dfs(
-    Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE *outfile, bool verbose);
+extern uint32_t calls;
+
+void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE *outfile, bool verbose);
 
 void help(void);
 
