@@ -3,31 +3,31 @@
 void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE *outfile, bool verbose) {/*
 
 
-    if current length > shortest length {
+    
+    mark v as visited
+    push v to curr stack
+    if i have found a path already current length > shortest length {
         stop searching
-        return
-    }
-    if there is nowhere to go {
         return
     }
     if you need one more vertex and you can reach the start vertex {
         then you have completed a hamiltonian path
         push the start vertex
-        update shortest path
+        do one more comparison
+        print shortest to outfile
+        shortest path = copy of curr path
         pop the start vertex
         return
     }
     for w to G->vertices {
         if G has an unvisited edge at (v, w) {
-            push w to curr stack
             dfs(G, w)
-            pop w from curr stack
-            label w as unvisited
         }
     }
-    write v + shortest path to outfile
-    write total number of recursive calls to outfile
+    mark v as unvisited
+    pop v from curr stack
     return
+    
 
 
 */}

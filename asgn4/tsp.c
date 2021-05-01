@@ -73,6 +73,10 @@ int main(int argc, char **argv) {
     // find the shortest Hamiltonian path and write it to the outfile
     dfs(G, START_VERTEX, curr, shortest, cities, outfile, verbose);
 
+    // Write to outfile
+    // Write shortest to outfile
+    // Write total number of recursive calls
+
     // Delete graph and paths
     graph_delete(&G);
     path_delete(&curr);
