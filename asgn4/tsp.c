@@ -69,8 +69,7 @@ int main(int argc, char **argv) {
     // Create path for tracking shortest path
     Path *shortest = path_create();
 
-    // Use depth-first search to
-    // find the shortest Hamiltonian path and write it to the outfile
+    // Use depth-first search to find the shortest Hamiltonian path
     dfs(G, START_VERTEX, curr, shortest, cities, outfile, verbose);
 
     // Write to outfile
