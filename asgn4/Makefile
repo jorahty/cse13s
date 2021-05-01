@@ -1,6 +1,6 @@
 CC = clang
-CFLAGS = # -Wall -Werror -Wextra -Wpedantic
-
+CFLAGS = -Wall -Werror -Wextra -Wpedantic
+ 
 all: tsp
 
 tsp: tsp.o more.o graph.o path.o stack.o

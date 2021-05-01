@@ -22,7 +22,7 @@ void help(void) {
     exit(1);
 }
 
-bool inbound(int i, int j, uint32_t vertices) {
+bool inbound(int i, int j, int vertices) {
     // Return true if (i, j) is in bounds
     return i >= 0 && j >= 0 && i < vertices && j < vertices;
 }

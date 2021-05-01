@@ -14,6 +14,6 @@ void dfs(
 
 void help(void);
 
-bool inbound(int i, int j, uint32_t vertices);
+bool inbound(int i, int j, int vertices);
 
 #endif
