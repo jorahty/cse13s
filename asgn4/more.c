@@ -26,11 +26,11 @@ void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE 
         printf("The path we are on is too long! ");
         // The path we are on is too long, so go back
         graph_mark_unvisited(G, v); // Mark v as unvisited
-        path_pop_vertex(curr, &v, G); // Pop the start vertex from the current path to continue searching
+        path_pop_vertex(curr, &v, G); // Go back to previous city to continue searching
         printf("Going back up the call stack ... \n");
         return; // Go back up the call stack
     }
-    // If only one more vertex is needed and the start vertex is reachable ...
+    // If every vertex has been visited start vertex is reachable ...
     if (path_vertices(curr) == graph_vertices(G) && graph_has_edge(G, v, START_VERTEX)) {
         printf("We can complete a Hamiltonian path from here!\n");
         // A Hamiltonian path has been found!
@@ -46,28 +46,34 @@ void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE 
             if (verbose && path_length(shortest) != 0) { path_print(shortest, outfile, cities); }
             path_copy(shortest, curr); // Update the shortest Hamiltonian path
         }
-        printf("Hamiltonian path found, still at %s\n", cities[v]);
+        path_pop_vertex(curr, &v, G); // Pop the start vertex off the current path
+        path_pop_vertex(curr, &v, G); // Pop v off the current path to go back to previous vertex
         graph_mark_unvisited(G, v); // Mark v as unvisited
-        path_pop_vertex(curr, &v, G); // Pop the start vertex from the current path to continue searching
-        printf("Hamiltonian path found, but going back to %s to search for more ...\n", cities[v]);
-        return; // Go back up the call stack
+        printf("Hamiltonian path from %s was found, but going back to previous vertex to search for more ...\n", cities[v]);
+        printf("After going back to previous vertex, path length decreased to: %d\n", path_length(curr));
+        return; // Go back up the call stack to keep searching
     }
     // Otherwise ...
     // For every vertex w that could be accecible from the current vertex v ...
     for (uint32_t w = 0; w < graph_vertices(G); w++) {
         if (v != w) {
-            printf("Now searching for road from %s to %s ...\n", cities[v], cities[w]);
+            printf("Now considering road from %s to %s ...\n", cities[v], cities[w]);
             // If w is unvisited and there exists a road from v to w ...
             if (graph_visited(G, w) == false && graph_has_edge(G, v, w)) {
-                printf("Found road from %s to %s! ", cities[v], cities[w]);
+                printf("Found road from %s to unvisited vertex %s! ", cities[v], cities[w]);
                 printf("Now going from %s to %s ...\n", cities[v], cities[w]);
                 dfs(G, w, curr, shortest, cities, outfile, verbose); // Recursivley call dfs from w
             }
         }
     }
-    graph_mark_unvisited(G, v); // Mark v as unvisited
-    path_pop_vertex(curr, &v, G); // Pop v from the current path
     printf("All outgoing edges from %s have been exausted, going back up the call stack ... \n", cities[v]);
+    graph_mark_unvisited(G, v); // Mark v as unvisited
+    printf("Path before going back:\n");
+    path_print(curr, outfile, cities);
+    path_pop_vertex(curr, &v, G); // Pop v from the current path
+    printf("Path after going back:\n");
+    path_print(curr, outfile, cities);
+    printf("After going back to previous vertex, path length decreased to: %d\n", path_length(curr));
     return; // Go back up the call stack
 }
 
