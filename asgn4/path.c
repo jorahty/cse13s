@@ -52,15 +52,15 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G) {
 bool path_pop_vertex(Path *p, uint32_t *v, Graph *G) {
     // Remove the last vertex that was pushed to the path and store it back in v
     uint32_t lastvertex;
-    bool successful = stack_pop(p->vertices, lastvertex);    
+    bool successful = stack_pop(p->vertices, &lastvertex);    
     if (successful) {
         // Subtract the distance from the last vertex on the path to *v
         p->length -= graph_edge_weight(G, lastvertex, *v);
-        *v = thisvertex // Put last vertex back in v
+        *v = lastvertex; // Put last vertex back in v
     } // Else ...
     // Pop was unsuccessful or path was empty, both of which should never happen, so simply
     // Return success status of pop
-    return successful
+    return successful;
 }
 
 uint32_t path_vertices(Path *p) {
