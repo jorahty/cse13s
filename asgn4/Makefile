@@ -1,5 +1,5 @@
 CC = clang
-CFLAGS = # -Wall -Werror -Wextra -Wpedantic
+CFLAGS = -Wall -Werror -Wextra -Wpedantic
  
 all: tsp
 
