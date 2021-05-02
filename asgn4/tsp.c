@@ -73,9 +73,6 @@ int main(int argc, char **argv) {
     // Create path for tracking shortest path
     Path *shortest = path_create();
 
-    // Print graph as adjacency matrix (temporary)
-    graph_print(G);
-
     // Use depth-first search to find the shortest Hamiltonian path
     dfs(G, START_VERTEX, curr, shortest, cities, outfile, verbose);
      
@@ -85,11 +82,10 @@ int main(int argc, char **argv) {
         fprintf(outfile, "No Hamiltonian path found.\n");
     } else {
         // Otherwise, print the shortest Hamiltonian path to outfile
-        fprintf(outfile, "Path: ");
         path_print(shortest, outfile, cities);
     }
     // Print the total number of recusive calls to outfile
-    fprintf(outfile, "Total recusive calls: %d\n", calls);
+    fprintf(outfile, "Total recursive calls: %d\n", calls);
 
     // Delete graph and paths
     graph_delete(&G);

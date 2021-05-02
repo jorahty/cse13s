@@ -50,7 +50,6 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G) {
 }
 
 bool path_pop_vertex(Path *p, uint32_t *v, Graph *G) {
-    printf("\tTime to pop from path ...\n");
     // Remove vertex from the path and store it in thisvertex
     uint32_t thisvertex;
     bool s1 = stack_pop(p->vertices, &thisvertex);
@@ -58,16 +57,14 @@ bool path_pop_vertex(Path *p, uint32_t *v, Graph *G) {
     uint32_t lastvertex;
     bool s2 = stack_peek(p->vertices, &lastvertex);
     if (s1 && s2) {
-        printf("\tYour current vertex %d has been removed from the path\n", thisvertex);
-        printf("\tThe last place you were at was %d\n", lastvertex);
-        printf("\tYour current path length is %d\n", p->length);
-        uint32_t lastedge = graph_edge_weight(G, lastvertex, thisvertex);
-        printf("\tDecreasing your path length by the distance from %d to %d which is %d\n", lastvertex, thisvertex, lastedge);
-        p->length -= lastedge;
-        printf("\tYour new path length is %d\n", p->length);
-        *v = thisvertex;
+        // Now thisvertex has been removed from the path
+        // The previous vertex on the path is lastvertex
+        // Decrease the path length by the distance from lastvertex to thisvertex
+        p->length -= graph_edge_weight(G, lastvertex, thisvertex);
+        // Pass the popped vertex back through the pointer v
+        *v = thisvertex; // Set the value that v points to as the value of thisvertex
     }
-    return s1 && s2;
+    return s1 && s2; // Return whether pop was successful
 }
 
 uint32_t path_vertices(Path *p) {
@@ -89,5 +86,6 @@ void path_copy(Path *dst, Path *src) {
 
 void path_print(Path *p, FILE *outfile, char *cities[]) {
     fprintf(outfile, "Path length: %d\n", p->length); // Print path length to outfile
+    fprintf(outfile, "Path: ");
     stack_print(p->vertices, outfile, cities); // Print vertices along the path to outfile
 }
