@@ -3,6 +3,8 @@
 #include "stack.h"
 #include "vertices.h"
 
+#include <stdbool.h>
+#include <stdint.h>
 #include <stdlib.h>
 
 // Taken from the assignment PDF
@@ -20,17 +22,36 @@ Path *path_create(void) {
 }
 
 void path_delete(Path **p) {
-    // Free the memory
-    // stack_delete(&(p->vertices)) Do I need this?
-    free(*p);
-    // And set to NULL
-    *p = NULL;
+    if (p && *p) { // If p and *p exist ...
+        // Free the memory
+        free(*p);
+        // And set to NULL
+        *p = NULL;
+    }
     return;
 }
 
-bool path_push_vertex(Path *p, uint32_t v, Graph *G) {return false;}
+bool path_push_vertex(Path *p, uint32_t v, Graph *G) {
+    // Get the last vertex on the path
+    uint32_t lastvertex;
+    bool empty = !(stack_peek(p->vertices, &lastvertex)); // If stack is empty then empty = true
 
-bool path_pop_vertex(Path *p, uint32_t *v, Graph *G) {return false;}
+    // If no vertices on the path yet ...
+    if (empty) {
+        // Path length is now distance from origin to new vertex v 
+        p->length = graph_edge_weight(G, 0, v);
+    } else {
+        // Add distance from last vertex on the path to new vertex v 
+        p->length += graph_edge_weight(G, lastvertex, v); 
+    }
+
+    // Push v to path's vertices and return true if successful 
+    return stack_push(p->vertices, v);
+}
+
+bool path_pop_vertex(Path *p, uint32_t *v, Graph *G) {
+
+}
 
 uint32_t path_vertices(Path *p) {return 0;}
 
