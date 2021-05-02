@@ -1,8 +1,8 @@
 #include "stack.h"
 
 #include <inttypes.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct Stack {
     uint32_t top;
@@ -89,7 +89,7 @@ void stack_copy(Stack *dst, Stack *src) {
 
 void stack_print(Stack *s, FILE *outfile, char *cities[]) {
     for (uint32_t i = 0; i < s->top; i++) {
-        fprintf(outfile , "%s", cities[s->items[i]]);
+        fprintf(outfile, "%s", cities[s->items[i]]);
         if (i + 1 != s->top) {
             fprintf(outfile, " -> ");
         }

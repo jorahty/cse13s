@@ -16,17 +16,17 @@
 int main(int argc, char **argv) {
 
     // Parse command-line options
-    bool undirected = false, verbose = false;   // Set default values
-    FILE *infile = stdin, *outfile = stdout;    // Set default values
+    bool undirected = false, verbose = false; // Set default values
+    FILE *infile = stdin, *outfile = stdout; // Set default values
     int opt;
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
-        case 'h': help(); break;                        // Print help message
-        case 'u': undirected = true; break;             // Remember to make the graph undirected
-        case 'v': verbose = true; break;                // Enable verbose printing
-        case 'i': infile = fopen(optarg, "r"); break;   // Update infile
-        case 'o': outfile = fopen(optarg, "w"); break;  // Update outfile
-        default: help(); break;                         // Invalid option so print help message
+        case 'h': help(); break; // Print help message
+        case 'u': undirected = true; break; // Remember to make the graph undirected
+        case 'v': verbose = true; break; // Enable verbose printing
+        case 'i': infile = fopen(optarg, "r"); break; // Update infile
+        case 'o': outfile = fopen(optarg, "w"); break; // Update outfile
+        default: help(); break; // Invalid option so print help message
         }
     }
 
@@ -75,9 +75,9 @@ int main(int argc, char **argv) {
 
     // Use depth-first search to find the shortest Hamiltonian path
     dfs(G, START_VERTEX, curr, shortest, cities, outfile, verbose);
-     
+
     // If the length of the shortest path is zero ...
-    if (path_length(shortest) == 0) { 
+    if (path_length(shortest) == 0) {
         // No Hamiltonian path was found
         fprintf(outfile, "No Hamiltonian path found.\n");
     } else {

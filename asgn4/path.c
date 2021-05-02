@@ -38,14 +38,14 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G) {
 
     // If no vertices on the path yet ...
     if (empty) {
-        // Path length is now distance from origin to new vertex v 
+        // Path length is now distance from origin to new vertex v
         p->length = graph_edge_weight(G, 0, v);
     } else {
-        // Add distance from last vertex on the path to new vertex v 
-        p->length += graph_edge_weight(G, lastvertex, v); 
+        // Add distance from last vertex on the path to new vertex v
+        p->length += graph_edge_weight(G, lastvertex, v);
     }
 
-    // Push v to path's vertices and return true if successful 
+    // Push v to path's vertices and return true if successful
     return stack_push(p->vertices, v);
 }
 

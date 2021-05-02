@@ -11,7 +11,8 @@
 
 uint32_t calls = 0;
 
-void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE *outfile, bool verbose) { 
+void dfs(
+    Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE *outfile, bool verbose) {
     calls++; // Increment the total number of recursive calls
     graph_mark_visited(G, v); // Mark v as visited
     path_push_vertex(curr, v, G); // Push v to the current path
@@ -31,11 +32,11 @@ void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE 
         // The current path is now a Hamiltonian path
         // If the current Hamiltonian path is shorter than the previous Hamiltonian path ...
         // Or if the current Hamiltonian is the first ever Hamiltonian path ...
-        if (path_length(curr) < path_length(shortest) || path_length(shortest) == 0) { 
+        if (path_length(curr) < path_length(shortest) || path_length(shortest) == 0) {
             // A new shortest Hamiltonian path has been found!
             // If verbose printing is enabled and there was a previous Hamiltonian path ...
             if (verbose && path_length(shortest) != 0) {
-                // Print the old Hamiltonian path to the outfile 
+                // Print the old Hamiltonian path to the outfile
                 path_print(shortest, outfile, cities);
             }
             path_copy(shortest, curr); // Now update the shortest Hamiltonian path
