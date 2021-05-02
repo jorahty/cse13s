@@ -35,6 +35,7 @@ void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE 
         printf("We can complete a Hamiltonian path from here!\n");
         // A Hamiltonian path has been found!
         path_push_vertex(curr, START_VERTEX, G); // Push start vertex to current path
+        v = START_VERTEX; // Set current vertex v to origin vertex
         printf("Newly found Hamiltonian path:\n");
         path_print(curr, outfile, cities);
         // If current path < previous Hamiltonian path or current path is first Hamiltonian path ...
@@ -45,11 +46,15 @@ void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE 
             // If verbose printing is enabled then print the old Hamiltonian path to outfile 
             if (verbose && path_length(shortest) != 0) { path_print(shortest, outfile, cities); }
             path_copy(shortest, curr); // Update the shortest Hamiltonian path
+            printf("Shortest Hamiltonian path has been updated! ");
         }
+        printf("Now, its time to go back TWO vertices!\n");
+        printf("First, take start vertex %s off the path:\n", cities[v]);
         path_pop_vertex(curr, &v, G); // Pop the start vertex off the current path
+        printf("Hamiltonian path from %s was found, but going back to previous vertex to search for more ...\n", cities[v]);
+        printf("Now, take second to last vertex %s off the path:\n", cities[v]);
         path_pop_vertex(curr, &v, G); // Pop v off the current path to go back to previous vertex
         graph_mark_unvisited(G, v); // Mark v as unvisited
-        printf("Hamiltonian path from %s was found, but going back to previous vertex to search for more ...\n", cities[v]);
         printf("After going back to previous vertex, path length decreased to: %d\n", path_length(curr));
         return; // Go back up the call stack to keep searching
     }
@@ -68,12 +73,9 @@ void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE 
     }
     printf("All outgoing edges from %s have been exausted, going back up the call stack ... \n", cities[v]);
     graph_mark_unvisited(G, v); // Mark v as unvisited
-    printf("Path before going back:\n");
     path_print(curr, outfile, cities);
     path_pop_vertex(curr, &v, G); // Pop v from the current path
-    printf("Path after going back:\n");
     path_print(curr, outfile, cities);
-    printf("After going back to previous vertex, path length decreased to: %d\n", path_length(curr));
     return; // Go back up the call stack
 }
 

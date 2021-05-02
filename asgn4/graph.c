@@ -52,7 +52,7 @@ uint32_t graph_vertices(Graph *G) {
 }
 
 bool graph_add_edge(Graph *G, uint32_t i, uint32_t j, uint32_t k) {
-    if (G && inbound(i, j, G->vertices)) { // If G exists and (i, j) is within bounds ...
+    if (G && inbound(i, j, G->vertices) && i != j) { // If G exists and (i, j) is within bounds ...
         G->matrix[i][j] = k; // Add edge to adjacency matrix
         if (G->undirected) { // If undirected was enabled
             G->matrix[j][i] = k; // Reflect the edge across the diagonal

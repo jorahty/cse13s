@@ -39,6 +39,7 @@ int main(int argc, char **argv) {
     }
     if (vertices < 2) { // If vertcies is 0 or 1 ...
         fprintf(outfile, "There's nowhere to go.\n");
+        return 1;
     }
 
     // Get cities from infile
@@ -84,6 +85,7 @@ int main(int argc, char **argv) {
         fprintf(outfile, "No Hamiltonian path found.\n");
     } else {
         // Otherwise, print the shortest Hamiltonian path to outfile
+        fprintf(outfile, "Path: ");
         path_print(shortest, outfile, cities);
     }
     // Print the total number of recusive calls to outfile

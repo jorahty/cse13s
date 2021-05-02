@@ -50,17 +50,24 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G) {
 }
 
 bool path_pop_vertex(Path *p, uint32_t *v, Graph *G) {
-    // Remove the last vertex that was pushed to the path and store it back in v
+    printf("\tTime to pop from path ...\n");
+    // Remove vertex from the path and store it in thisvertex
+    uint32_t thisvertex;
+    bool s1 = stack_pop(p->vertices, &thisvertex);
+    // Get the previous vertex on the path and store it in lastvertex
     uint32_t lastvertex;
-    bool successful = stack_pop(p->vertices, &lastvertex);    
-    if (successful) {
-        // Subtract the distance from the last vertex on the path to *v
-        p->length -= graph_edge_weight(G, lastvertex, *v);
-        *v = lastvertex; // Put last vertex back in v
-    } // Else ...
-    // Pop was unsuccessful or path was empty, both of which should never happen, so simply
-    // Return success status of pop
-    return successful;
+    bool s2 = stack_peek(p->vertices, &lastvertex);
+    if (s1 && s2) {
+        printf("\tYour current vertex %d has been removed from the path\n", thisvertex);
+        printf("\tThe last place you were at was %d\n", lastvertex);
+        printf("\tYour current path length is %d\n", p->length);
+        uint32_t lastedge = graph_edge_weight(G, lastvertex, thisvertex);
+        printf("\tDecreasing your path length by the distance from %d to %d which is %d\n", lastvertex, thisvertex, lastedge);
+        p->length -= lastedge;
+        printf("\tYour new path length is %d\n", p->length);
+        *v = thisvertex;
+    }
+    return s1 && s2;
 }
 
 uint32_t path_vertices(Path *p) {
