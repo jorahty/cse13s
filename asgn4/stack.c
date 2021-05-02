@@ -69,7 +69,13 @@ bool stack_pop(Stack *s, uint32_t *x) {
     return true;
 }
 
-bool stack_peek(Stack *s, uint32_t *x);
+bool stack_peek(Stack *s, uint32_t *x) {
+    if (s->top) { // If top is non-zero stack is not empty
+        *x = s->items[s->top - 1];
+        return true;
+    }
+    return false;
+}
 
 void stack_copy(Stack *dst, Stack *src) {
     if (dst && src) {
