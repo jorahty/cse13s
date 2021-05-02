@@ -25,8 +25,8 @@ Graph *graph_create(uint32_t vertices, bool undirected) {
     G->vertices = vertices;
     G->undirected = undirected;
     // Initially, no cities have been visited, and no edges exist
-    for (int i = 0; i < vertices; i++) {
-        for (int j = 0; j < vertices; j++) {
+    for (uint32_t i = 0; i < vertices; i++) {
+        for (uint32_t j = 0; j < vertices; j++) {
             G->visited[i] = false;
             G->matrix[i][j] = 0;
         }
@@ -98,10 +98,10 @@ void graph_mark_unvisited(Graph *G, uint32_t v) {
 }
 
 void graph_print(Graph *G) {
-    for (int i = 0; i < G->vertices; i++) {
+    for (uint32_t i = 0; i < G->vertices; i++) {
         // Print each row
         printf("[");
-        for (int j = 0; j < G->vertices; j++) {
+        for (uint32_t j = 0; j < G->vertices; j++) {
             // Print each value in current row
             printf("%2d ", G->matrix[i][j]);
         }
