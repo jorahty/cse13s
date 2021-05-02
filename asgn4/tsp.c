@@ -72,9 +72,11 @@ int main(int argc, char **argv) {
     // Create path for tracking shortest path
     Path *shortest = path_create();
 
+    // Print graph as adjacency matrix (temporary)
+    graph_print(G);
+
     // Use depth-first search to find the shortest Hamiltonian path
-    // dfs(G, START_VERTEX, curr, shortest, cities, outfile, verbose);
-    graph_print(G); // Temporary
+    dfs(G, START_VERTEX, curr, shortest, cities, outfile, verbose);
      
     // If the length of the shortest path is zero ...
     if (path_length(shortest) == 0) { 
