@@ -21,26 +21,27 @@ int main(int argc, char **argv) {
     int opt;
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
-        case 'h': help(); break; // Print help message
+        case 'h': help(infile, outfile); break; // Print help message
         case 'u': undirected = true; break; // Remember to make the graph undirected
         case 'v': verbose = true; break; // Enable verbose printing
         case 'i': infile = fopen(optarg, "r"); break; // Update infile
         case 'o': outfile = fopen(optarg, "w"); break; // Update outfile
-        default: help(); break; // Invalid option so print help message
+        default: help(infile, outfile); break; // Invalid option so print help message
         }
     }
 
     // Get the number of cities (vertices) from infile
-    uint32_t vertices;
-    int s = fscanf(infile, "%d\n", &vertices); // If successful then s = 1
-    if (s != 1 || vertices > 26 || vertices < 0) { // Check for error
+    int firstline;
+    int s = fscanf(infile, "%d\n", &firstline); // If successful then s = 1
+    if (s != 1 || firstline > 26 || firstline < 0) { // Check for error
         printf("Error: malformed number of vertices.\n");
         return 1;
     }
-    if (vertices < 2) { // If vertcies is 0 or 1 ...
+    if (firstline < 2) { // If vertcies is 0 or 1 ...
         fprintf(outfile, "There's nowhere to go.\n");
         return 1;
     }
+    uint32_t vertices = (uint32_t) firstline;
 
     // Get cities from infile
     char *cities[vertices]; // Create array for storing
@@ -91,7 +92,11 @@ int main(int argc, char **argv) {
     graph_delete(&G);
     path_delete(&curr);
     path_delete(&shortest);
-
+    
+    // Close the files
+    fclose(infile);
+    fclose(outfile);
+    
     // Free the array of cities
     for (uint32_t i = 0; i < vertices; i++) {
         free(cities[i]);
