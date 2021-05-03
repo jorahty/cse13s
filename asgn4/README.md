@@ -1,25 +1,27 @@
 James Tennant
 jtennant
 Spring 2021
-Assignment 3: Sorting
+Assignment 4: The Circumnavigations of Denver Long
 
 -----------
 DESCRIPTION
 
-This program makes use of 4 sorting algorithms:
-- Bubble Sort
-- Shell Sort
-- Quick Sort (Stack)
-- Quick Sort (Queue)
+This program will use data from an infile to construct an adjacency graph,
+find all Hamiltonian paths using depth-first search,
+identify the shortest hamiltonian path,
+and write the path and number of recursive calls to to an outfile.
 
-The user specifies which of the four sorts to use,
-how many elements of the array,
-the random seed,
-and how many events to print
+-----------
+DISCLAIMER
+
+I helped my friends Bono (bwmirand) and Teresa (tqwu) with some parts
+of this assignment, which should explain any unusual similarity in our code.
+I made sure to stick to the rules
+and do nothing that would be against class policy.
 
 -----------
 INSTRUCTIONS
 
 To run the program:
 1. Enter "make" into the command line. An executable file should appear.
-2. Enter "./sorting -h" for a user guide
+2. Enter "./tsp -h" for the help message 
