@@ -24,4 +24,9 @@ INSTRUCTIONS
 
 To run the program:
 1. Enter "make" into the command line. An executable file should appear.
-2. Enter "./tsp -h" for the help message 
+2. Enter "./tsp -h" for the help message and options:
+  -u             Use undirected graph.
+  -v             Enable verbose printing.
+  -h             Program usage and help.
+  -i infile      Input containing graph (default: stdin)
+  -o outfile     Output of computed path (default: stdout)
