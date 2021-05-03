@@ -82,11 +82,13 @@ void help(FILE *infile, FILE *outfile) {
     printf("  -h             Program usage and help.\n");
     printf("  -i infile      Input containing graph (default: stdin)\n");
     printf("  -o outfile     Output of computed path (default: stdout)\n");
+    // (This help message was taken from the resource program)
 
     // Exit the program
     exit(1);
 }
 
+// Somewhat inspired by pseudocode from Eric
 bool inbound(int i, int j, int vertices) {
     // Return true if (i, j) is in bounds
     return i >= 0 && j >= 0 && i < vertices && j < vertices;

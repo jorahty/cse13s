@@ -4,6 +4,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Much of the following code is informed by:
+// - Assignment PDFs
+// - Lecture slides
+// - Sections
+// - TA/tutor office hours
+
 typedef struct Stack {
     uint32_t top;
     uint32_t capacity;

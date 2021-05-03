@@ -13,6 +13,7 @@
 #define OPTIONS "hvui:o:"
 #define KB      1024
 
+// Some of the techniques used in my `main` function came from Eugene's section
 int main(int argc, char **argv) {
 
     // Parse command-line options

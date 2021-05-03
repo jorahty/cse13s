@@ -13,6 +13,8 @@ typedef struct Path {
     uint32_t length; // The total length of the path
 } Path;
 
+// Many of my path ADT functions are somewhat inspired by psuedocode from Eric's office hours
+
 Path *path_create(void) {
     // Allocate memory
     Path *p = (Path *) malloc(sizeof(Path));

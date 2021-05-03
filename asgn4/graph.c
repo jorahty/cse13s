@@ -14,7 +14,8 @@ typedef struct Graph {
     uint32_t matrix[VERTICES][VERTICES];
 } Graph;
 
-// Somewhat inspired by psuedocode from Eric's office hours
+// Many of my graph ADT functions are somewhat inspired by psuedocode from Eric's office hours
+
 Graph *graph_create(uint32_t vertices, bool undirected) {
     // Allocate memory
     Graph *G = (Graph *) malloc(sizeof(Graph)); // If malloc failes then G = NULL
