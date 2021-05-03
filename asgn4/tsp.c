@@ -84,7 +84,13 @@ int main(int argc, char **argv) {
     } else {
         // Otherwise, print the shortest Hamiltonian path to outfile
         path_print(shortest, outfile, cities);
+        if (verbose) { // If verbose printing is enabled ...
+            // Print shortest Hamiltonian path a second time
+            // (Because that's what the resource program does)
+            path_print(shortest, outfile, cities);
+        }
     }
+
     // Print the total number of recusive calls to outfile
     fprintf(outfile, "Total recursive calls: %d\n", calls);
 
