@@ -12,12 +12,14 @@ identify the shortest hamiltonian path,
 and write the path and number of recursive calls to to an outfile.
 
 -----------
-DISCLAIMER
+DISCLAIMERS
 
 I helped my friends Bono (bwmirand) and Teresa (tqwu) with some parts
 of this assignment, which should explain any unusual similarity in our code.
 I made sure to stick to the rules
 and do nothing that would be against class policy.
+
+scan-build gives strange error about a print statement. this is clearly a non-issue
 
 -----------
 INSTRUCTIONS
