@@ -14,7 +14,7 @@ extern uint32_t calls;
 void dfs(
     Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE *outfile, bool verbose);
 
-void help(void);
+void help(FILE *infile, FILE *outfile);
 
 bool inbound(int i, int j, int vertices);
 
