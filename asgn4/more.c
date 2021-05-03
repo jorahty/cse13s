@@ -17,13 +17,6 @@ void dfs(
     graph_mark_visited(G, v); // Mark v as visited
     path_push_vertex(curr, v, G); // Push v to the current path
     // We are now at v and searching from v
-    // If a Hamiltonian path has already been found and the current path is longer than it is ...
-    if (path_length(shortest) != 0 && path_length(curr) > path_length(shortest)) {
-        // The path we are on is too long
-        graph_mark_unvisited(G, v); // Mark v as unvisited
-        path_pop_vertex(curr, &v, G); // Go back to previous vertex to continue searching from there
-        return; // Go back up the call stack
-    }
     // If every vertex has been visited once and the origin vertex is reachable ...
     if (path_vertices(curr) == graph_vertices(G) && graph_has_edge(G, v, START_VERTEX)) {
         // A Hamiltonian can be completed from here
@@ -52,8 +45,13 @@ void dfs(
     for (uint32_t w = 0; w < graph_vertices(G); w++) {
         // As long as w is unvisited, w is not the same as v, and there is an edge from v to w ...
         if (graph_visited(G, w) == false && w != v && graph_has_edge(G, v, w)) {
-            // Go search from vertex w
-            dfs(G, w, curr, shortest, cities, outfile, verbose); // Recursivley call dfs from w
+            // Only continue to w if path will still be shorter than shortest Hamiltonian path
+            if (path_length(curr) + graph_edge_weight(G, v, w) < path_length(shortest)
+                // Or if a Hamiltonian path has not been found
+                || path_length(shortest) == 0) {
+                // Go search from vertex w
+                dfs(G, w, curr, shortest, cities, outfile, verbose); // Recursivley call dfs from w
+            }
         }
     }
     // Since all outgoing edges from w have been exausted ...
@@ -62,8 +60,16 @@ void dfs(
     return; // Go back up the call stack
 }
 
-void help(void) {
-    // Print help message and exit
+void help(FILE *infile, FILE *outfile) {
+    // Close any open files
+    if (infile != stdin) {
+        fclose(infile);
+    }
+    if (outfile != stdout) {
+        fclose(outfile);
+    }
+
+    // Print help message 
     printf("SYNOPSIS\n");
     printf("  Traveling Salesman Problem using DFS.\n");
     printf("\n");
@@ -76,6 +82,8 @@ void help(void) {
     printf("  -h             Program usage and help.\n");
     printf("  -i infile      Input containing graph (default: stdin)\n");
     printf("  -o outfile     Output of computed path (default: stdout)\n");
+
+    // Exit the program
     exit(1);
 }
 
