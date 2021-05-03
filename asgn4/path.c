@@ -23,6 +23,8 @@ Path *path_create(void) {
 
 void path_delete(Path **p) {
     if (p && *p) { // If p and *p exist ...
+        // Delete vertices stack
+        stack_delete(&((*p)->vertices)); // Pass the address vertices stack
         // Free the memory
         free(*p);
         // And set to NULL
