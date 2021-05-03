@@ -69,7 +69,7 @@ void help(FILE *infile, FILE *outfile) {
         fclose(outfile);
     }
 
-    // Print help message 
+    // Print help message
     printf("SYNOPSIS\n");
     printf("  Traveling Salesman Problem using DFS.\n");
     printf("\n");

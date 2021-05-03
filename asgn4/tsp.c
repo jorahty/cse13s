@@ -92,11 +92,11 @@ int main(int argc, char **argv) {
     graph_delete(&G);
     path_delete(&curr);
     path_delete(&shortest);
-    
+
     // Close the files
     fclose(infile);
     fclose(outfile);
-    
+
     // Free the array of cities
     for (uint32_t i = 0; i < vertices; i++) {
         free(cities[i]);
