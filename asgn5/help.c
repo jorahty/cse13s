@@ -6,7 +6,4 @@ void help(void) {
     // Print help message
     printf("Help!\n");
     // (This help message was taken from the resource program)
-
-    // Exit
-    exit(1)
 }
