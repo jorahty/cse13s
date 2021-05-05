@@ -8,9 +8,28 @@ typedef struct BitMatrix {
     BitVector *vector;
 } BitMatrix;
 
-BitMatrix *bm_create(uint32_t rows, uint32_t cols);
+BitMatrix *bm_create(uint32_t rows, uint32_t cols) {
+    BitMatrix *bm = (BitMatrix *) malloc(sizeof(BitMatrix));
+    if (bm != NULL) {
+        bm->rows = rows;
+        bm->cols = cols;
+        bm->vector = bv_create(rows * cols);
+        if (bm->vector == NULL) {
+            free(bm);
+            bm = NULL;
+        }
+    }
+    return bm;
+}
 
-void bm_delete(BitMatrix **m);
+void bm_delete(BitMatrix **m) {
+    if (m && *m) {
+        bv_delete(&((*bm)->vector));
+        free(*bm);
+        *bm = NULL;
+    }
+    return;
+}
 
 uint32_t bm_rows(BitMatrix *m);
 
