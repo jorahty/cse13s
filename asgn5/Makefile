@@ -1,19 +1,28 @@
 CC = clang
 CFLAGS = -Wall -Werror -Wextra -Wpedantic
  
-all: encode
+all: encode decode error
 
-encode: encode.o help.o
-	$(CC) -o encode encode.o help.o
+encode: encode.o
+	$(CC) -o encode encode.o
+
+decode: decode.o
+	$(CC) -o decode decode.o
+
+error: error.o
+	$(CC) -o error error.o
 
 encode.o: encode.c
 	$(CC) $(CFLAGS) -c encode.c
 
-help.o: help.c
-	$(CC) $(CFLAGS) -c help.c
+encode.o: decode.c
+	$(CC) $(CFLAGS) -c decode.c
+
+error.o: error.c
+	$(CC) $(CFLAGS) -c error.c
 
 clean:
-	rm -rf encode encode.o help.o infer-out
+	rm -rf encode encode.o infer-out
 
 format:
 	clang-format -i -style=file *.c *.h
