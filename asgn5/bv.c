@@ -14,7 +14,7 @@ BitVector *bv_create(uint32_t length) {
         bv->length = length; // Set the length of the bit vector
         // Use calloc to allocate the appropriate amount of memory for the vector
         // and initialize each bit of the vector to zero 
-        bv->vector = (uint32_t *) calloc(length, sizeof(uint8_t));
+        bv->vector = (uint8_t *) calloc(length, sizeof(uint8_t));
         if (bv->vector == NULL) { // If calloc was unsuccessful
             free(bv); // Free the memory
             bv == NULL; // Set pointer to NULL
