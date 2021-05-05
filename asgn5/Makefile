@@ -15,14 +15,14 @@ error: error.o
 encode.o: encode.c
 	$(CC) $(CFLAGS) -c encode.c
 
-encode.o: decode.c
+decode.o: decode.c
 	$(CC) $(CFLAGS) -c decode.c
 
 error.o: error.c
 	$(CC) $(CFLAGS) -c error.c
 
 clean:
-	rm -rf encode encode.o infer-out
+	rm -rf encode decode error *.o infer-out
 
 format:
 	clang-format -i -style=file *.c *.h
