@@ -54,6 +54,18 @@ int main(int argc, char **argv) {
 
     // Create the generator matrix
     BitMatrix *G = bm_create(4, 8);
+    int *Gitems = { // Define bits in G
+        1, 0, 0, 0, 0, 1, 1, 1,
+        0, 1, 0, 0, 1, 0, 1, 1,
+        0, 0, 1, 0, 1, 1, 0, 1,
+        0, 0, 0, 1, 1, 1, 1, 0
+    }
+    // Use definition to update the bits in G
+    for (int i = 0; i < 32; i++) {
+        if (Gitems[i] == 1) {
+            bm_set_bit(G, i / 8, i % 8);
+        }
+    } 
 
     // Read every character from the infile as a byte
     int8_t byte; // (This must be a signed int because -1 indicates EOF)
