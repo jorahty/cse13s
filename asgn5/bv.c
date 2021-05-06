@@ -1,6 +1,7 @@
 #include "bv.h"
 
 #include <stdint.h>
+#include <stdlib.h>
 
 typedef struct BitVector {
     uint32_t length; // Length in bits
@@ -9,25 +10,25 @@ typedef struct BitVector {
 
 BitVector *bv_create(uint32_t length) {
     // Allocate memory
-    BitVector *bv = (BitVector *) malloc(sizeof(BitVector));
-    if (bv != NULL) { // If malloc was successful ...
-        bv->length = length; // Set the length of the bit vector
+    BitVector *v = (BitVector *) malloc(sizeof(BitVector));
+    if (v != NULL) { // If malloc was successful ...
+        v->length = length; // Set the length of the bit vector
         // Use calloc to allocate the appropriate amount of memory for the vector
-        // and initialize each bit of the vector to zero 
-        bv->vector = (uint8_t *) calloc(length, sizeof(uint8_t));
-        if (bv->vector == NULL) { // If calloc was unsuccessful
-            free(bv); // Free the memory
-            bv == NULL; // Set pointer to NULL
+        // and initialize each bit of the vector to zero
+        v->vector = (uint8_t *) calloc(length, sizeof(uint8_t));
+        if (v->vector == NULL) { // If calloc was unsuccessful
+            free(v); // Free the memory
+            v = NULL; // Set pointer to NULL
         }
     }
-    return bv;
+    return v;
 }
 
-void bv_delete(BitVector **bv) {
-    if (*bv && (*bv)->vector) { // If the bit vector and its values both exist ...
-        free((*bv)->vector); // Free the memory allocated for the values
-        free(*bv); // Free all its memory
-        *bv = NULL; // Set pointer to NULL
+void bv_delete(BitVector **v) {
+    if (*v && (*v)->vector) { // If the bit vector and its values both exist ...
+        free((*v)->vector); // Free the memory allocated for the values
+        free(*v); // Free all its memory
+        *v = NULL; // Set pointer to NULL
     }
     return;
 }

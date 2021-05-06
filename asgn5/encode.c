@@ -1,3 +1,4 @@
+#include "bm.h" // This contains the encode function that we will use for encoding bytes
 #include "hamming.h" // This contains the encode function that we will use for encoding bytes
 
 #include <getopt.h> // We need this for parsing command-line options
@@ -20,7 +21,7 @@ static void help(char *exec) {
         "  -h             Program usage and help.\n"
         "  -i infile      Input data to encode.\n"
         "  -o outfile     Output of encoded data.\n",
-        exec); // `exec` is the name of the execution command
+        exec); // `exec` is the execution command
 }
 
 int main(int argc, char **argv) {
@@ -50,25 +51,28 @@ int main(int argc, char **argv) {
             return 1; // Return 1 becuase the invalid option has caused an error
         }
     }
-    
-    // Create the generator matrix used for generating Hamming(8, 4) codes
-    // BitMatrix *G = bm_create(4, 8);
 
-    // Encode every character of the infile and write each Hamming(8, 4) code to the outfile 
-    int c; 
-    while ((c = fgetc(infile)) != EOF) { // For every character in the infile ...
-        uint8_t b = (uint8_t) c;
-        uint8_t lower = b & 0x0f;
-        uint8_t upper = (b & 0xf0) >> 4;
-        printf("character code: %d, lower nibble: %d, upper nibble: %d\n", b, lower, upper);
-        // fputc(ham_encode(G, lower), outfile);
-        // fputc(ham_encode(G, upper), outfile);
+    // Create the generator matrix
+    BitMatrix *G = bm_create(4, 8);
+
+    // Read every character from the infile as a byte
+    int8_t byte; // (This must be a signed int because -1 indicates EOF)
+    while ((byte = fgetc(infile)) != -1) { // For every byte in the infile ...
+        // Seperate the upper and lower nibbles
+        uint8_t lower = (byte & 0x0f);
+        uint8_t upper = ((byte & 0xf0) >> 4);
+        // Generate Hamming codes for both the upper and lower nibble
+        uint8_t ham_lower = ham_encode(G, lower);
+        uint8_t ham_upper = ham_encode(G, upper);
+        // Write Hamming codes to outfile
+        fputc(ham_lower, outfile); // First write lower nibble
+        fputc(ham_upper, outfile); // Then write upper nibble
     }
 
     // Free the memory allocated for G
-    // bm_delete(&G);
+    bm_delete(&G);
 
-    // Close any opened files
+    // Close files
     fclose(infile);
     fclose(outfile);
 

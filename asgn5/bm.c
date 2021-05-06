@@ -1,6 +1,9 @@
 #include "bm.h"
 
+#include "bv.h"
+
 #include <stdint.h>
+#include <stdlib.h>
 
 typedef struct BitMatrix {
     uint32_t rows;
@@ -9,24 +12,24 @@ typedef struct BitMatrix {
 } BitMatrix;
 
 BitMatrix *bm_create(uint32_t rows, uint32_t cols) {
-    BitMatrix *bm = (BitMatrix *) malloc(sizeof(BitMatrix));
-    if (bm != NULL) {
-        bm->rows = rows;
-        bm->cols = cols;
-        bm->vector = bv_create(rows * cols);
-        if (bm->vector == NULL) {
-            free(bm);
-            bm = NULL;
+    BitMatrix *m = (BitMatrix *) malloc(sizeof(BitMatrix));
+    if (m != NULL) {
+        m->rows = rows;
+        m->cols = cols;
+        m->vector = bv_create(rows * cols);
+        if (m->vector == NULL) {
+            free(m);
+            m = NULL;
         }
     }
-    return bm;
+    return m;
 }
 
 void bm_delete(BitMatrix **m) {
     if (m && *m) {
-        bv_delete(&((*bm)->vector));
-        free(*bm);
-        *bm = NULL;
+        bv_delete(&((*m)->vector));
+        free(*m);
+        *m = NULL;
     }
     return;
 }
