@@ -65,7 +65,7 @@ int main(int argc, char **argv) {
         if (Gitems[i] == 1) {
             bm_set_bit(G, i / 8, i % 8);
         }
-    } 
+    }
 
     // Read every character from the infile as a byte
     int8_t byte; // (This must be a signed int because -1 indicates EOF)
