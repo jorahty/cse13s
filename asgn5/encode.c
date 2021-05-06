@@ -54,7 +54,7 @@ int main(int argc, char **argv) {
 
     // Create the generator matrix
     BitMatrix *G = bm_create(4, 8);
-    int *Gitems = { // Define bits in G
+    int Gitems[] = { // Define bits in G
         1, 0, 0, 0, 0, 1, 1, 1,
         0, 1, 0, 0, 1, 0, 1, 1,
         0, 0, 1, 0, 1, 1, 0, 1,
