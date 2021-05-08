@@ -1,19 +1,25 @@
 CC = clang
-CFLAGS =# -Wall -Werror -Wextra -Wpedantic
+CFLAGS = -Wall -Werror -Wextra -Wpedantic
  
 all: encode decode error
 
 encode: encode.o hamming.o bm.o bv.o
 	$(CC) -o encode encode.o hamming.o bm.o bv.o
 
-decode: decode.o
-	$(CC) -o decode decode.o
+decode: decode.o hamming.o bm.o bv.o
+	$(CC) -o decode decode.o hamming.o bm.o bv.o
 
 error: error.o
 	$(CC) -o error error.o
 
 encode.o: encode.c
 	$(CC) $(CFLAGS) -c encode.c
+
+decode.o: decode.c
+	$(CC) $(CFLAGS) -c decode.c
+
+error.o: error.c
+	$(CC) $(CFLAGS) -c error.c
 
 hamming.o: hamming.c
 	$(CC) $(CFLAGS) -c hamming.c
@@ -23,12 +29,6 @@ bm.o: bm.c
 
 bv.o: bv.c
 	$(CC) $(CFLAGS) -c bv.c
-
-decode.o: decode.c
-	$(CC) $(CFLAGS) -c decode.c
-
-error.o: error.c
-	$(CC) $(CFLAGS) -c error.c
 
 clean:
 	rm -rf encode decode error *.o infer-out
