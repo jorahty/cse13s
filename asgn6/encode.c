@@ -1,5 +1,8 @@
+#include "defines.h"
+
 #include <getopt.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 
 #define OPTIONS "hvi:o:"
@@ -21,7 +24,6 @@ static void help(char *exec) {
 }
 
 int main(int argc, char **argv) {
-
     // Parse command-line arguments
     FILE *infile = stdin, *outfile = stdout;
     bool verbose = false;
@@ -44,7 +46,11 @@ int main(int argc, char **argv) {
         }
     }
 
-    
+    // Create Histogram
+    uint64_t histogram[ALPHABET] = {0}; // This will initialize all values to zero
+    // Read through infile and increment values of histogram accordinly
+    histogram[0]++;
+    histogram[255]++;
 
     fclose(infile);
     fclose(outfile);
