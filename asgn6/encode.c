@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
     }
 
     // Create Histogram
-    uint64_t histogram[ALPHABET] = {0}; // This will initialize all values to zero
+    uint64_t histogram[ALPHABET] = { 0 }; // This will initialize all values to zero
     // Read through infile and increment values of histogram accordinly
     histogram[0]++;
     histogram[255]++;
