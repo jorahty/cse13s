@@ -3,9 +3,8 @@
 #include "bm.h"
 
 #include <stdint.h>
-#include <stdlib.h>
-
 #include <stdio.h>
+#include <stdlib.h>
 
 uint8_t ham_encode(BitMatrix *G, uint8_t msg) {
     BitMatrix *msg_bm = bm_from_data(msg, 4); // Convert message to 4x1 bit matrix
@@ -24,7 +23,7 @@ HAM_STATUS ham_decode(BitMatrix *Ht, uint8_t code, uint8_t *msg) {
         HAM_ERR, 1, 0, HAM_ERR };
     // Convert code to 8x1 matrix
     BitMatrix *code_bm = bm_from_data(code, 8);
-    // Multiply code bit matrix and H to get error syndrome bit matrix
+    // Multiply code bit matrix and Ht to get error syndrome bit matrix
     BitMatrix *syn_bm = bm_multiply(code_bm, Ht);
     // Convert resulting error syndrome bit matrix to data
     uint8_t syn = bm_to_data(syn_bm);
@@ -39,7 +38,7 @@ HAM_STATUS ham_decode(BitMatrix *Ht, uint8_t code, uint8_t *msg) {
     case HAM_ERR: return HAM_ERR;
     // If any other value is fetched then correct the bit at that value and return HAM_CORRECT
     default:
-        code ^= 1 << lookup[syn]; // flipping the bit at the index given by lookup[syn]
+        code ^= 1 << lookup[syn]; // Flipping the bit at the index given by lookup[syn]
         *msg = code & 0x0F;
         return HAM_CORRECT;
     }

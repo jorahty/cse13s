@@ -23,7 +23,7 @@ static void help(char *exec) {
         "  -i infile      Input data to decode.\n"
         "  -o outfile     Output of decoded data.\n",
         exec); // exec is the execution command
-        // (This help message was taken from the example program)
+    // (This help message was taken from the example program)
 }
 
 int main(int argc, char **argv) {
@@ -57,19 +57,44 @@ int main(int argc, char **argv) {
         }
     }
 
-    // Create the transpose of the parity-checker matrix H
+    // Create the transpose of the parity-checker matrix Ht
     BitMatrix *Ht = bm_create(8, 4);
-    int Ht_bits[32] = { // Define bits in H
-        0, 1, 1, 1,
-        1, 0, 1, 1,
-        1, 1, 0, 1,
-        1, 1, 1, 0,
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1,
+    int Ht_bits[32] = {
+        // Define bits in Ht
+        0,
+        1,
+        1,
+        1,
+        1,
+        0,
+        1,
+        1,
+        1,
+        1,
+        0,
+        1,
+        1,
+        1,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
     };
-    // Update bits in H
+    // Update bits in Ht
     for (int i = 0; i < 32; i++) {
         if (Ht_bits[i] == 1) {
             bm_set_bit(Ht, i / 4, i % 4);
@@ -81,7 +106,7 @@ int main(int argc, char **argv) {
 
     // Read every character from the infile
     int c1;
-    while ((c1 = fgetc(infile)) != -1) { 
+    while ((c1 = fgetc(infile)) != -1) {
 
         // For every lower nibble code there is a corresponding upper nibble code
         int c2 = fgetc(infile);
@@ -93,7 +118,7 @@ int main(int argc, char **argv) {
         case HAM_ERR: uncorrected++; break;
         case HAM_CORRECT: corrected++; break;
         }
-        
+
         // Decide c2 to get the upper nibble
         uint8_t upper;
         switch (ham_decode(Ht, c2, &upper)) {
@@ -109,7 +134,6 @@ int main(int argc, char **argv) {
 
         // Write the OG character to outfile
         fputc(OG_char, outfile);
-
     }
 
     // If verbose printing enabled then print stats
