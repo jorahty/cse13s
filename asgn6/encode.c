@@ -1,4 +1,8 @@
 #include "defines.h"
+#include "huffman.h"
+#include "header.h"
+#include "io.h"
+#include "node.h"
 
 #include <getopt.h>
 #include <stdbool.h>
@@ -46,13 +50,46 @@ int main(int argc, char **argv) {
         }
     }
 
-    // Create Histogram
-    uint64_t histogram[ALPHABET] = { 0 }; // This will initialize all values to zero
-    // Read through infile and increment values of histogram accordinly
-    histogram[0]++;
-    histogram[255]++;
+    // Create histogram
+    uint64_t hist[ALPHABET] = { 0 }; // This will initialize all values to zero
+    uint8_t buf[BLOCK];
+    while (read_bytes(infile, *buf, BLOCK) != -1) {
+        for (int i; i < BLOCK; i++) {
+            hist[buf[i]]++;
+        }
+    }
+    hist[0]++;
+    hist[255]++;
 
+    // Print histogram (temporary)
+    for (int i = 0; i < ALPHABET; i++) {
+        printf("%d %lu\n", i, hist[i]);
+    }
+    
+    // Construct Huffman tree
+    Node *root = build_tree(hist);
+
+    // Construct code table
+    Code table[ALPHABET];
+    for (int i = 0; i < ALPHABET; i++) {
+        table[i] = code_init();
+    }
+    build_codes(root, table);
+
+    // Construct header
+    Header *h = malloc(sizeof(Header));
+    h->magic = MAGIC;
+    h->permissions = file permisions;
+    h->tree_size = tree_size;
+    h->file_size = file_size;
+
+    // Free memory
+    node_delete(&root);
+    free(h);
+
+    // Close infile and outfile 
     fclose(infile);
     fclose(outfile);
+
     return 0;
 }
