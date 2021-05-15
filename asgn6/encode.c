@@ -1,6 +1,6 @@
 #include "defines.h"
-#include "huffman.h"
 #include "header.h"
+#include "huffman.h"
 #include "io.h"
 #include "node.h"
 
@@ -65,7 +65,7 @@ int main(int argc, char **argv) {
     for (int i = 0; i < ALPHABET; i++) {
         printf("%d %lu\n", i, hist[i]);
     }
-    
+
     // Construct Huffman tree
     Node *root = build_tree(hist);
 
@@ -87,7 +87,7 @@ int main(int argc, char **argv) {
     node_delete(&root);
     free(h);
 
-    // Close infile and outfile 
+    // Close infile and outfile
     fclose(infile);
     fclose(outfile);
 
