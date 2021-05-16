@@ -16,30 +16,17 @@ Node *node_create(uint8_t symbol, uint64_t frequency) {
         n->symbol = symbol;
         n->frequency = frequency;
     }
-    return n;
+    return n; // Should return NULL if malloc was unsuccessful
 }
 
 void node_delete(Node **n) {
     if (n && *n) { // If n and *n are not NULL ...
-        // Then ...
-        // If the left child is not NUll ...
-        if (&((*n)->left)) {
-            // Free the left child
-            free(&((*n)->left));
-        }
-        // If the right child is not NUll ...
-        if (&((*n)->right)) {
-            // Free the right child
-            free(&((*n)->right));
-        }
-        // Finally, free *n and n (in that order)
+        // Free *n
         free(*n);
-        free(n);
-        // And set them to NULL
+        // And set *n to NULL
         *n = NULL;
-        n = NULL;
     }
-    return; // Should return NULL if malloc was unsuccessful
+    return;
 }
 
 Node *node_join(Node *left, Node *right) {
