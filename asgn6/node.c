@@ -57,7 +57,7 @@ void node_print(Node *n) {
             printf("Leaf node:       '%c'\n", n->symbol);
             printf("                  %lu\n", n->frequency);
             printf("Left child:       None\n");
-            printf("Right Child:      None\n");
+            printf("Right child:      None\n");
         }
     }
     return;
