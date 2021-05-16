@@ -15,9 +15,9 @@ int main(void) {
     Node *P = node_join(L, R);
     printf("Printing node P ...\n");
     node_print(P);
-	printf("Deleteing nodes L, R, and P ...\n");
-	node_delete(&L);
-	node_delete(&R);
-	node_delete(&P);
+    printf("Deleting nodes L, R, and P ...\n");
+    node_delete(&L);
+    node_delete(&R);
+    node_delete(&P);
     return 0;
 }
