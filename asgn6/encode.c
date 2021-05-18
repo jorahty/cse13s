@@ -1,23 +1,31 @@
 #include "node.h"
+#include "pq.h"
 
 #include <stdio.h>
 
 int main(void) {
-    printf("Creating node L with symbol 'a' and frequency 8 ...\n");
-    Node *L = node_create('a', 8);
-    printf("Printing node L ...\n");
-    node_print(L);
-    printf("Creating node R with symbol 'f' and frequency 4 ...\n");
-    Node *R = node_create('f', 4);
-    printf("Printing node R ...\n");
-    node_print(R);
-    printf("Joining nodes L and R into new node P ...\n");
+
+    Node *L = node_create('a', 3);
+    Node *R = node_create('f', 5);
+
     Node *P = node_join(L, R);
-    printf("Printing node P ...\n");
-    node_print(P);
-    printf("Deleting nodes L, R, and P ...\n");
+
+    Node *d = node_create('d', 4);
+    Node *e = node_create('e', 5);
+
+	PriorityQueue *Q = pq_create(10);
+	enqueue(Q, L);
+	enqueue(Q, R);
+	enqueue(Q, P);
+	enqueue(Q, d);
+	enqueue(Q, e);
+	printf("\n");
+	pq_print(Q);
+	printf("\n");
+
     node_delete(&L);
     node_delete(&R);
     node_delete(&P);
+
     return 0;
 }
