@@ -26,6 +26,9 @@ int main(void) {
     node_delete(&L);
     node_delete(&R);
     node_delete(&P);
+    node_delete(&d);
+    node_delete(&e);
+	pq_delete(&Q);
 
     return 0;
 }
