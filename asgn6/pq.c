@@ -66,40 +66,38 @@ uint32_t pq_size(PriorityQueue *q) {
 }
 
 bool enqueue(PriorityQueue *q, Node *n) {
-	if (pq_full(q)) { // First, check incase q is already full ...
-		return false; // In which case return false to indicate failure
-	}
-	if (pq_empty(q)) {
-		q->items[q->tail] = *n;
-		q->size += 1;
+    if (pq_full(q)) { // First, check incase q is already full ...
+        return false; // In which case return false to indicate failure
+    }
+    if (pq_empty(q)) {
+        q->items[q->tail] = *n;
+        q->size += 1;
         q->tail = (q->tail + 1) % q->capacity; // Shift the tail over 1
-		return true;
-	}
-	uint32_t temp = q->tail;
-	while (temp != q->head) {
-		if ((q->items[temp - 1]).frequency > n->frequency) {
-			q[temp] = q[temp - 1];
-			temp -= 1;
-		} else {
-			q->items[temp] = *n;
-			q->size += 1;
+        return true;
+    }
+    uint32_t temp = q->tail;
+    while (temp != q->head) {
+        if ((q->items[temp - 1]).frequency > n->frequency) {
+            q[temp] = q[temp - 1];
+            temp -= 1;
+        } else {
+            q->items[temp] = *n;
+            q->size += 1;
             q->tail = (q->tail + 1) % q->capacity; // Shift the tail over 1
-			break;
-		}
-	}
-	return true;
+            break;
+        }
+    }
+    return true;
 
-
-
-	// Let's add the given node n to the given priority queue q!
-	// if (pq_full(q)) { // First, check incase q is already full ...
-// 		return false; // In which case return false to indicate failure
-// 	}
-	// Otherwise set the item at the tail to the given node
-// 	q->items[q->tail] = *n;
-// 	q->size += 1; // Increment the size by 1
-// 	q->tail = (q->tail + 1) % q->capacity; // Shift the tail over 1
-// 	return true; // Return true to indicate success
+    // Let's add the given node n to the given priority queue q!
+    // if (pq_full(q)) { // First, check incase q is already full ...
+    // 		return false; // In which case return false to indicate failure
+    // 	}
+    // Otherwise set the item at the tail to the given node
+    // 	q->items[q->tail] = *n;
+    // 	q->size += 1; // Increment the size by 1
+    // 	q->tail = (q->tail + 1) % q->capacity; // Shift the tail over 1
+    // 	return true; // Return true to indicate success
 }
 
 bool dequeue(PriorityQueue *q, Node **n) {
@@ -118,37 +116,37 @@ bool dequeue(PriorityQueue *q, Node **n) {
 }
 
 static inline int ndigits(uint64_t x) {
-	int n = 0;
-	while (x != 0) {
-		x /= 10;
-		n++;
-	}
-	return n;
+    int n = 0;
+    while (x != 0) {
+        x /= 10;
+        n++;
+    }
+    return n;
 }
 
 void pq_print(PriorityQueue *q) {
     printf("Head: %d, Tail: %d, Size: %d, Capacity: %d\n", q->head, q->tail, q->size, q->capacity);
     printf("Items: | ");
-	for (uint32_t i = q->head; i != q->tail; i = (i + 1) % q->capacity) {
-		printf("'%c'", (q->items[i]).symbol);
-		if (i != q->tail - 1) {
-			for (int s = 0; s < ndigits((q->items[i]).frequency); s++) {
-				printf(" ");
-			}
-		} else {
-			for (int s = 0; s < ndigits((q->items[i]).frequency) - 2; s++) {
-				printf(" ");
-			}
-		}
-	}
-	printf(" |\n       | ");
-	for (uint32_t i = q->head; i != q->tail; i = (i + 1) % q->capacity) {
-		printf(" %lu ", (q->items[i]).frequency);
-		if (i == q->tail - 1) {
-			break;
-		}
-		printf(" ");
-	}
-	printf("|\n");
-	return;
+    for (uint32_t i = q->head; i != q->tail; i = (i + 1) % q->capacity) {
+        printf("'%c'", (q->items[i]).symbol);
+        if (i != q->tail - 1) {
+            for (int s = 0; s < ndigits((q->items[i]).frequency); s++) {
+                printf(" ");
+            }
+        } else {
+            for (int s = 0; s < ndigits((q->items[i]).frequency) - 2; s++) {
+                printf(" ");
+            }
+        }
+    }
+    printf(" |\n       | ");
+    for (uint32_t i = q->head; i != q->tail; i = (i + 1) % q->capacity) {
+        printf(" %lu ", (q->items[i]).frequency);
+        if (i == q->tail - 1) {
+            break;
+        }
+        printf(" ");
+    }
+    printf("|\n");
+    return;
 }
