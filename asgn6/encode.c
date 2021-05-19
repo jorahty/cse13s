@@ -3,6 +3,7 @@
 #include "huffman.h"
 #include "io.h"
 #include "node.h"
+#include "pq.h"
 
 #include <getopt.h>
 #include <stdbool.h>
@@ -51,6 +52,7 @@ int main(int argc, char **argv) {
             return 1;
         }
     }
+
     /*
     // Create histogram
     uint64_t hist[ALPHABET] = { 0 }; // This will initialize all values to zero
