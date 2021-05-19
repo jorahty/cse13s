@@ -66,15 +66,20 @@ uint32_t pq_size(PriorityQueue *q) {
 }
 
 bool enqueue(PriorityQueue *q, Node *n) {
-    // Let's add the given node n to the given priority queue q!
-    if (pq_full(q)) { // First, check incase q is already full ...
-    	return false; // In which case return false to indicate failure
+    if (pq_full(q)) {
+    	return false;
     }
-    // Otherwise set the item at the tail to the given node
-	q->items[q->tail] = *n;
-	q->size += 1; // Increment the size by 1
-	q->tail = (q->tail + 1) % q->capacity; // Shift the tail over 1
-   	return true; // Return true to indicate success
+	uint32_t i = q->tail;
+	while (true) {
+		if (i == q->head || q->items[(i + q->capacity - 1) % q->capacity].frequency <= n->frequency) {
+			q->items[i] = *n;
+			q->size += 1;
+			q->tail = (q->tail + 1) % q->capacity;
+   			return true;
+		}
+		q->items[i] = q->items[(i + q->capacity - 1) % q->capacity];
+		i = (i + q->capacity - 1) % q->capacity;
+	}
 }
 
 bool dequeue(PriorityQueue *q, Node **n) {

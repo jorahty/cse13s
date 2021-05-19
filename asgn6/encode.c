@@ -4,37 +4,39 @@
 #include <stdio.h>
 
 int main(void) {
+	PriorityQueue *pq = pq_create(8);
+	pq_print(pq);
 
-    // Create two nodes L and R
-    Node *L = node_create('a', 13);
-    Node *R = node_create('f', 5);
+	enqueue(pq, node_create('a', 323));
+	enqueue(pq, node_create('b', 32));
+	enqueue(pq, node_create('c', 3));
+	pq_print(pq);
 
-    // Join the two nodes into P
-    Node *P = node_join(L, R);
+	Node *trash;
+	dequeue(pq, &trash);
+	dequeue(pq, &trash);
+	dequeue(pq, &trash);
+	pq_print(pq);
 
-    // Create a Priority Queue
-    PriorityQueue *Q = pq_create(10);
-    pq_print(Q);
+	enqueue(pq, node_create('a', 323));
+	enqueue(pq, node_create('b', 32));
+	enqueue(pq, node_create('c', 3));
+	pq_print(pq);
 
-    // Try insterting L
-    enqueue(Q, L);
-    pq_print(Q);
+	enqueue(pq, node_create('d', 42));
+	pq_print(pq);
 
-    // Try insterting R
-    enqueue(Q, R);
-    pq_print(Q);
+	enqueue(pq, node_create('e', 69));
+	pq_print(pq);
 
-    // Try insterting P
-    enqueue(Q, P);
-    pq_print(Q);
+	enqueue(pq, node_create('f', 420));
+	pq_print(pq);
 
-    // Delete Nodes
-    node_delete(&L);
-    node_delete(&R);
-    node_delete(&P);
+	enqueue(pq, node_create('g', 12));
+	pq_print(pq);
 
-    // Delete Priority Queue
-    pq_delete(&Q);
+	enqueue(pq, node_create('h', 7));
+	pq_print(pq);
 
     return 0;
 }
