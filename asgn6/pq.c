@@ -44,8 +44,8 @@ void pq_delete(PriorityQueue **q) {
         }
         // Free memory allocated for all of q
         free(*q);
-    	// Set *q to NULL
-    	*q = NULL;
+        // Set *q to NULL
+        *q = NULL;
     }
     return;
 }
