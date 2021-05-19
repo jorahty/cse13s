@@ -5,10 +5,12 @@
 #include "node.h"
 #include "pq.h"
 
+#include <fcntl.h>
 #include <getopt.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #define OPTIONS "hvi:o:"
 
@@ -32,34 +34,34 @@ static void help(char *exec) {
 
 int main(int argc, char **argv) {
     // Parse command-line arguments
-    FILE *infile = stdin, *outfile = stdout;
+    int infile = STDIN_FILENO, outfile = STDOUT_FILENO;
     bool verbose = false;
     int opt;
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
-        case 'i': infile = fopen(optarg, "r"); break;
-        case 'o': outfile = fopen(optarg, "w"); break;
+        case 'i': infile = open(optarg, O_RDONLY); break;
+        case 'o': outfile = open(optarg, O_WRONLY | O_CREAT | O_TRUNC, 0600); break;
         case 'v': verbose = true; break;
         case 'h':
             help(argv[0]);
-            fclose(infile);
-            fclose(outfile);
+            close(infile);
+            close(outfile);
             return 0;
         default:
             help(argv[0]);
-            fclose(infile);
-            fclose(outfile);
+            close(infile);
+            close(outfile);
             return 1;
         }
     }
 
-    /*
     // Create histogram
     uint64_t hist[ALPHABET] = { 0 }; // This will initialize all values to zero
-    uint8_t buf[BLOCK];
-    while (read_bytes(infile, *buf, BLOCK) != -1) {
-        for (int i; i < BLOCK; i++) {
-            hist[buf[i]]++;
+    uint8_t buffer[BLOCK]; // This is where we store the data temporarily
+	int n; // This is the number of bytes that were read
+    while ((n = read(infile, buffer, BLOCK)) > 0) {
+        for (int i = 0; i < n; i++) {
+            hist[buffer[i]]++; // Count occurence
         }
     }
     hist[0]++;
@@ -69,6 +71,25 @@ int main(int argc, char **argv) {
     for (int i = 0; i < ALPHABET; i++) {
         printf("%d %lu\n", i, hist[i]);
     }
+
+    // Close infile and outfile
+    close(infile);
+    close(outfile);
+
+    return 0;
+}
+/*
+	static void tally(int file) {
+    	int length;
+    	uint8_t buffer[KBYTE] = { 0 };
+    	while ((length = read(file, buffer, KBYTE)) > 0) {
+        	number += length;
+        	for (int i = 0; i < length; i += 1) {
+            	count[buffer[i]] += 1;
+        	}
+    	}
+    	return;
+	}
 
     // Construct Huffman tree
     Node *root = build_tree(hist);
@@ -91,9 +112,3 @@ int main(int argc, char **argv) {
     node_delete(&root);
     free(h);
 */
-    // Close infile and outfile
-    fclose(infile);
-    fclose(outfile);
-
-    return 0;
-}
