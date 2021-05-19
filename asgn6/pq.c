@@ -65,21 +65,43 @@ uint32_t pq_size(PriorityQueue *q) {
     return q->size;
 }
 
+static inline uint32_t leftof(uint32_t i, uint32_t capacity) {
+    // Returns the position to the left of i
+    return (i + capacity - 1) % capacity;
+}
+
+static inline uint32_t rightof(uint32_t i, uint32_t capacity) {
+    // Returns the position to the right of i
+    return (i + 1) % capacity;
+}
+
 bool enqueue(PriorityQueue *q, Node *n) {
+    // Let's enqueue node n into priority queue q
+    // First, check if q is full
     if (pq_full(q)) {
-    	return false;
+        // If it is full, return false to indicate failure
+        return false;
     }
-	uint32_t i = q->tail;
-	while (true) {
-		if (i == q->head || q->items[(i + q->capacity - 1) % q->capacity].frequency <= n->frequency) {
-			q->items[i] = *n;
-			q->size += 1;
-			q->tail = (q->tail + 1) % q->capacity;
-   			return true;
-		}
-		q->items[i] = q->items[(i + q->capacity - 1) % q->capacity];
-		i = (i + q->capacity - 1) % q->capacity;
-	}
+    // Otherwise, search from tail to head for a spot to insert n
+    uint32_t i = q->tail;
+    while (true) {
+        // Examine the position to the left
+        uint32_t l = leftof(i, q->capacity);
+        // If we are at the head, meaning there is no node to the left,
+        // Or if the frequency of the node to the left
+        // is less than or equal to the frequency of n ...
+        if (i == q->head || q->items[l].frequency <= n->frequency) {
+            // Insert node n at position i
+            q->items[i] = *n;
+            q->size += 1;
+            q->tail = rightof(q->tail, q->capacity);
+            return true;
+        }
+        // Otherise, shift the node at l to the right
+        q->items[i] = q->items[l];
+        // And move to the left to continue searching
+        i = l;
+    }
 }
 
 bool dequeue(PriorityQueue *q, Node **n) {
@@ -92,12 +114,14 @@ bool dequeue(PriorityQueue *q, Node **n) {
     *n = &(q->items[q->head]);
     // Decrease size by 1 because there is now 1 less node
     q->size -= 1;
-    q->head = (q->head + 1) % q->capacity;
+    // Shift the head over 1 because the node at head has just been removed
+    q->head = rightof(q->head, q->capacity);
     // Finally, return true to indicate success
     return true;
 }
 
 static inline int ndigits(uint64_t x) {
+    // Count the number of digits in x
     int n = 0;
     while (x != 0) {
         x /= 10;
@@ -107,27 +131,33 @@ static inline int ndigits(uint64_t x) {
 }
 
 void pq_print(PriorityQueue *q) {
+    // Print queue properties
     printf("Head: %d, Tail: %d, Size: %d, Capacity: %d\n", q->head, q->tail, q->size, q->capacity);
+    // Print items in queue
     printf("Items: ");
-	if (pq_empty(q)) {
-		printf("⎡    ⎤\n       ⎣    ⎦\n");
-		return;
-	}
-	printf("⎡   ");
-	uint32_t i = q->head;
-	do {
-		printf("'%c' ", (q->items[i]).symbol);
+    // Check if queue is empty
+    if (pq_empty(q)) {
+        printf("⎡    ⎤\n       ⎣    ⎦\n");
+        return;
+    }
+    printf("⎡   ");
+    // Loop thru nodes and print their symbols
+    uint32_t i = q->head;
+    do {
+        printf("'%c' ", (q->items[i]).symbol);
+        // Space out the symbols
         for (int space = 0; space < ndigits((q->items[i]).frequency); space++) {
             printf(" ");
         }
-		i = (i + 1) % q->capacity;
-	} while (i != q->tail);
-	printf(" ⎤\n       ⎣    ");
-	i = q->head;
-	do {
-		printf("%lu    ", q->items[i].frequency);
-		i = (i + 1) % q->capacity;
-	} while (i != q->tail);
-	printf("⎦\n");
-	return;
+        i = rightof(i, q->capacity);
+    } while (i != q->tail);
+    printf(" ⎤\n       ⎣    ");
+    // Loop thru nodes again and print their frequencies
+    i = q->head;
+    do {
+        printf("%lu    ", q->items[i].frequency);
+        i = rightof(i, q->capacity);
+    } while (i != q->tail);
+    printf("⎦\n");
+    return;
 }
