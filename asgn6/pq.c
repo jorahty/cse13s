@@ -144,7 +144,11 @@ void pq_print(PriorityQueue *q) {
     // Loop thru nodes and print their symbols
     uint32_t i = q->head;
     do {
-        printf("'%c' ", (q->items[i]).symbol);
+		if (q->items[i].symbol < 32) {
+        	printf("' ' ");
+		} else {
+        	printf("'%c' ", (q->items[i]).symbol);
+		}
         // Space out the symbols
         for (int space = 0; space < ndigits((q->items[i]).frequency); space++) {
             printf(" ");

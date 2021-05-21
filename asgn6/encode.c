@@ -59,7 +59,7 @@ int main(int argc, char **argv) {
     uint64_t hist[ALPHABET] = { 0 }; // This will initialize all values to zero
     uint8_t buffer[BLOCK]; // This is where we store the data temporarily
 	int n; // This is the number of bytes that were read
-    while ((n = read(infile, buffer, BLOCK)) > 0) {
+    while ((n = read_bytes(infile, buffer, BLOCK)) > 0) {
         for (int i = 0; i < n; i++) {
             hist[buffer[i]]++; // Count occurence
         }
@@ -69,8 +69,15 @@ int main(int argc, char **argv) {
 
     // Print histogram (temporary)
     for (int i = 0; i < ALPHABET; i++) {
-        printf("%d %lu\n", i, hist[i]);
+		if (hist[i]) {
+        	printf("%d %lu\n", i, hist[i]);
+		}
     }
+
+	// Contruct Huffman tree
+	Node *root = build_tree(hist);
+	
+	node_print(root);
 
     // Close infile and outfile
     close(infile);
