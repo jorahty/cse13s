@@ -3,8 +3,8 @@ CFLAGS = -Wall -Werror -Wextra -Wpedantic
  
 all: encode
 
-encode: encode.o node.o pq.o io.o huffman.o
-	$(CC) -o encode encode.o node.o pq.o io.o huffman.o
+encode: encode.o node.o pq.o io.o huffman.o code.o
+	$(CC) -o encode encode.o node.o pq.o io.o huffman.o code.o
 
 encode.o: encode.c 
 	$(CC) $(CFLAGS) -c encode.c
@@ -20,6 +20,9 @@ io.o: io.c
 
 huffman.o: huffman.c
 	$(CC) $(CFLAGS) -c huffman.c
+
+code.o: code.c
+	$(CC) $(CFLAGS) -c code.c
 
 clean:
 	rm -rf encode *.o infer-out

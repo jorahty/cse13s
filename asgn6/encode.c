@@ -1,3 +1,4 @@
+#include "code.h"
 #include "defines.h"
 #include "header.h"
 #include "huffman.h"
@@ -76,8 +77,50 @@ int main(int argc, char **argv) {
 
 	// Contruct Huffman tree
 	Node *root = build_tree(hist);
-	
 	node_print(root);
+
+	// Play with code ADT
+	Code c = code_init();
+	code_print(&c);
+	
+	code_push_bit(&c, 1);
+	code_push_bit(&c, 1);
+	code_push_bit(&c, 0);
+	code_push_bit(&c, 1);
+	code_push_bit(&c, 1);
+	code_push_bit(&c, 1);
+	code_push_bit(&c, 1);
+	code_push_bit(&c, 0);
+	code_push_bit(&c, 1);
+	code_push_bit(&c, 1);
+	code_push_bit(&c, 1);
+	code_push_bit(&c, 1);
+	code_push_bit(&c, 0);
+	code_push_bit(&c, 1);
+	code_push_bit(&c, 1);
+	code_push_bit(&c, 0);
+	code_push_bit(&c, 1);
+	code_push_bit(&c, 1);
+	code_push_bit(&c, 0);
+	code_push_bit(&c, 1);
+	code_print(&c);
+
+	uint8_t popped;	
+	code_pop_bit(&c, &popped);
+	code_pop_bit(&c, &popped);
+	code_pop_bit(&c, &popped);
+	code_pop_bit(&c, &popped);
+	code_print(&c);
+
+	code_push_bit(&c, 1);
+	code_push_bit(&c, 1);
+	code_push_bit(&c, 0);
+	code_push_bit(&c, 1);
+	code_push_bit(&c, 1);
+	code_push_bit(&c, 1);
+	code_push_bit(&c, 0);
+	code_push_bit(&c, 1);
+	code_print(&c);
 
     // Close infile and outfile
     close(infile);
