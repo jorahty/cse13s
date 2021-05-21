@@ -69,58 +69,38 @@ int main(int argc, char **argv) {
     hist[255]++;
 
     // Print histogram (temporary)
+	printf("\nHistogram:\n");
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i]) {
             printf("%d %lu\n", i, hist[i]);
         }
     }
+	printf("\n");
 
     // Contruct Huffman tree
     Node *root = build_tree(hist);
+	printf("Root node:\n");
     node_print(root);
+	printf("\n");
 
-    // Play with code ADT
-    Code c = code_init();
-    code_print(&c);
-
-    code_push_bit(&c, 1);
-    code_push_bit(&c, 1);
-    code_push_bit(&c, 0);
-    code_push_bit(&c, 1);
-    code_push_bit(&c, 1);
-    code_push_bit(&c, 1);
-    code_push_bit(&c, 1);
-    code_push_bit(&c, 0);
-    code_push_bit(&c, 1);
-    code_push_bit(&c, 1);
-    code_push_bit(&c, 1);
-    code_push_bit(&c, 1);
-    code_push_bit(&c, 0);
-    code_push_bit(&c, 1);
-    code_push_bit(&c, 1);
-    code_push_bit(&c, 0);
-    code_push_bit(&c, 1);
-    code_push_bit(&c, 1);
-    code_push_bit(&c, 0);
-    code_push_bit(&c, 1);
-    code_print(&c);
-
-    uint8_t popped;
-    code_pop_bit(&c, &popped);
-    code_pop_bit(&c, &popped);
-    code_pop_bit(&c, &popped);
-    code_pop_bit(&c, &popped);
-    code_print(&c);
-
-    code_push_bit(&c, 1);
-    code_push_bit(&c, 1);
-    code_push_bit(&c, 0);
-    code_push_bit(&c, 1);
-    code_push_bit(&c, 1);
-    code_push_bit(&c, 1);
-    code_push_bit(&c, 0);
-    code_push_bit(&c, 1);
-    code_print(&c);
+	// Make the code table
+	Code table[ALPHABET];
+	for (int i = 0; i < ALPHABET; i++) {
+		table[i] = code_init();
+	}
+	build_codes(root, table);
+	printf("Code table:\n");
+	for (int i = 0; i < ALPHABET; i++) {
+		if (table[i].top) {
+			if (i < 32) {
+				printf("' ' ");
+			} else {
+				printf("'%c' ", i);
+			}
+			code_print(&(table[i]));
+		}
+	}
+	printf("\n");
 
     // Close infile and outfile
     close(infile);
@@ -129,36 +109,10 @@ int main(int argc, char **argv) {
     return 0;
 }
 /*
-	static void tally(int file) {
-    	int length;
-    	uint8_t buffer[KBYTE] = { 0 };
-    	while ((length = read(file, buffer, KBYTE)) > 0) {
-        	number += length;
-        	for (int i = 0; i < length; i += 1) {
-            	count[buffer[i]] += 1;
-        	}
-    	}
-    	return;
-	}
-
-    // Construct Huffman tree
-    Node *root = build_tree(hist);
-
-    // Construct code table
-    Code table[ALPHABET];
-    for (int i = 0; i < ALPHABET; i++) {
-        table[i] = code_init();
-    }
-    build_codes(root, table);
-
     // Construct header
     Header *h = malloc(sizeof(Header));
     h->magic = MAGIC;
     h->permissions = file permisions;
     h->tree_size = tree_size;
     h->file_size = file_size;
-
-    // Free memory
-    node_delete(&root);
-    free(h);
 */

@@ -46,7 +46,6 @@ bool code_pop_bit(Code *c, uint8_t *bit) {
 }
 
 void code_print(Code *c) {
-    printf("Size: %d, Top: %d\n", code_size(c), c->top);
     printf("[ ");
     for (uint32_t i = 0; i < c->top; i++) {
         printf("%d ", (c->bits[i / 8] >> (7 - (i % 8))) & 1);

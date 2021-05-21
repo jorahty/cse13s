@@ -3,10 +3,11 @@
 #include "node.h"
 #include "pq.h"
 
+#include <stdio.h>
+
 Node *build_tree(uint64_t hist[static ALPHABET]) {
     // Initialize a priority queue
     PriorityQueue *q = pq_create(ALPHABET);
-    pq_print(q);
 
     // Enqueue a node for every symbol in the histogram
     for (int i = 0; i < ALPHABET; i++) {
@@ -14,7 +15,11 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
             enqueue(q, node_create(i, hist[i]));
         }
     }
+	
+	// Print priority queue (temporary)
+	printf("Priority Queue:\n");
     pq_print(q);
+	printf("\n");
 
     // Rearranging the prioty into a Huffman tree
     // There are two or more nodes in the queue ...
@@ -35,7 +40,40 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
     return root;
 }
 
-void build_codes(Node *root, Code table[static ALPHABET]);
+static void traverse(Node *n, Code table[static ALPHABET], Code c) {
+	// If this node is a leaf ...
+	if (!n->left && !n->right) {
+		printf("Found a leaf: %c %lu\n", n->symbol, n->frequency);
+		// Then c is the code for this node's symbol
+		table[n->symbol] = c;
+		printf("Going back up ...\n");
+		return;
+	// Otherwise, this node is an interior node
+	} else {
+		printf("Found an interior node: %c %lu\n", n->symbol, n->frequency);
+		uint8_t trash; // We don't care about the popped bits
+		// Search to the left
+		printf("Searching to the left ...\n");
+		code_push_bit(&c, 0);
+		traverse(n->left, table, c);
+		code_pop_bit(&c, &trash);
+		// Search to the right
+		printf("Searching to the right ...\n");
+		code_push_bit(&c, 1);
+		traverse(n->right, table, c);
+		code_pop_bit(&c, &trash);
+	}
+	printf("Going back up ...\n");
+	return;
+}
+
+void build_codes(Node *root, Code table[static ALPHABET]) {
+	Code c = code_init();
+	printf("Traversal:\n");
+	traverse(root, table, c);
+	printf("\n");
+	return;	
+}
 
 Node *rebuild_tree(uint16_t nbytes, uint8_t tree[static nbytes]);
 
