@@ -69,38 +69,38 @@ int main(int argc, char **argv) {
     hist[255]++;
 
     // Print histogram (temporary)
-	printf("\nHistogram:\n");
+    printf("\nHistogram:\n");
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i]) {
             printf("%d %lu\n", i, hist[i]);
         }
     }
-	printf("\n");
+    printf("\n");
 
     // Contruct Huffman tree
     Node *root = build_tree(hist);
-	printf("Root node:\n");
+    printf("Root node:\n");
     node_print(root);
-	printf("\n");
+    printf("\n");
 
-	// Make the code table
-	Code table[ALPHABET];
-	for (int i = 0; i < ALPHABET; i++) {
-		table[i] = code_init();
-	}
-	build_codes(root, table);
-	printf("Code table:\n");
-	for (int i = 0; i < ALPHABET; i++) {
-		if (table[i].top) {
-			if (i < 32) {
-				printf("' ' ");
-			} else {
-				printf("'%c' ", i);
-			}
-			code_print(&(table[i]));
-		}
-	}
-	printf("\n");
+    // Make the code table
+    Code table[ALPHABET];
+    for (int i = 0; i < ALPHABET; i++) {
+        table[i] = code_init();
+    }
+    build_codes(root, table);
+    printf("Code table:\n");
+    for (int i = 0; i < ALPHABET; i++) {
+        if (table[i].top) {
+            if (i < 32) {
+                printf("' ' ");
+            } else {
+                printf("'%c' ", i);
+            }
+            code_print(&(table[i]));
+        }
+    }
+    printf("\n");
 
     // Close infile and outfile
     close(infile);
