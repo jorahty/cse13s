@@ -91,10 +91,10 @@ int main(int argc, char **argv) {
         table[i] = code_init();
     }
 
-	// Build codes
+    // Build codes
     build_codes(root, table);
 
-	// Print code table (temporary)
+    // Print code table (temporary)
     printf("Code table:\n");
     for (int i = 0; i < ALPHABET; i++) {
         if (table[i].top) {
@@ -108,36 +108,36 @@ int main(int argc, char **argv) {
     }
     printf("\n");
 
-	// Construct a header
-	// Use struct definition from header.h
-	// Allocate memory for new header h
+    // Construct a header
+    // Use struct definition from header.h
+    // Allocate memory for new header h
     Header *h = malloc(sizeof(Header));
-	// Set magic to given macro
+    // Set magic to given macro
     h->magic = MAGIC;
-	// Get information about infile
-	struct stat infile_info;
-	fstat(infile, &infile_info);
-	// Set header permissions
+    // Get information about infile
+    struct stat infile_info;
+    fstat(infile, &infile_info);
+    // Set header permissions
     // h->permissions = infile_info.permissions; // This is wrong!
-	// Calcualte tree size
-	int unique_symbols = 0;
-	for (int i = 0; i < ALPHABET; i++) {
-		if (hist[i]) {
-			unique_symbols++;
-		}
-	}
+    // Calcualte tree size
+    int unique_symbols = 0;
+    for (int i = 0; i < ALPHABET; i++) {
+        if (hist[i]) {
+            unique_symbols++;
+        }
+    }
     h->tree_size = (3 * unique_symbols) - 1;
-	// Set file size
+    // Set file size
     // h->file_size = infile_info.size; // This is wrong!
 
-	// Write header to outfile
+    // Write header to outfile
 
-	// Write tree to outfile
-	// write_tree(root);
+    // Write tree to outfile
+    // write_tree(root);
 
-	// Read through infile a second time and compress it using code table
+    // Read through infile a second time and compress it using code table
 
-	// Free memory? All those nodes and that priority queue? delete_tree?
+    // Free memory? All those nodes and that priority queue? delete_tree?
 
     // Close infile and outfile
     close(infile);

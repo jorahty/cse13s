@@ -29,7 +29,7 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
         dequeue(q, &r);
         // Put the joined nodes back in the queue
         enqueue(q, node_join(l, r));
-    	pq_print(q);
+        pq_print(q);
     }
     printf("\n");
 
@@ -43,17 +43,17 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
 static void traverse(Node *n, Code table[static ALPHABET], Code c) {
     // If this node is a leaf ...
     if (!n->left && !n->right) {
-		if (n->symbol < 32) {
-        	printf("Found a leaf: ' ' %lu\n", n->frequency);
-		} else {
-        	printf("Found a leaf: '%c' %lu\n", n->symbol, n->frequency);
-		}
+        if (n->symbol < 32) {
+            printf("Found a leaf: ' ' %lu\n", n->frequency);
+        } else {
+            printf("Found a leaf: '%c' %lu\n", n->symbol, n->frequency);
+        }
         // Then c is the code for this node's symbol
         table[n->symbol] = c;
         printf("Done with leaf so going back up ...\n");
         return;
 
-    // Otherwise, this node is an interior node
+        // Otherwise, this node is an interior node
     } else {
         printf("Found an interior node: '%c' %lu\n", n->symbol, n->frequency);
         uint8_t trash; // We don't care about the popped bits
