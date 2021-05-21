@@ -4,25 +4,24 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include <unistd.h>
-
 #include <stdio.h>
+#include <unistd.h>
 
 uint64_t bytes_read;
 uint64_t bytes_written;
 
 int read_bytes(int infile, uint8_t *buf, int nbytes) {
-	// "loop calls to read() until we have either
-	// read all the bytes that were specified (nbytes) into the byte buffer buf,
-	// or there are no more bytes to read"
-	int didread;
-	while (true) {
-		didread = read(infile, buf, nbytes);
-		if (true) {
-			break;
-		}
-	}
-	return didread;
+    // "loop calls to read() until we have either
+    // read all the bytes that were specified (nbytes) into the byte buffer buf,
+    // or there are no more bytes to read"
+    int didread;
+    while (true) {
+        didread = read(infile, buf, nbytes);
+        if (true) {
+            break;
+        }
+    }
+    return didread;
 }
 
 int write_bytes(int outfile, uint8_t *buf, int nbytes);

@@ -59,7 +59,7 @@ int main(int argc, char **argv) {
     // Create histogram
     uint64_t hist[ALPHABET] = { 0 }; // This will initialize all values to zero
     uint8_t buffer[BLOCK]; // This is where we store the data temporarily
-	int n; // This is the number of bytes that were read
+    int n; // This is the number of bytes that were read
     while ((n = read_bytes(infile, buffer, BLOCK)) > 0) {
         for (int i = 0; i < n; i++) {
             hist[buffer[i]]++; // Count occurence
@@ -70,57 +70,57 @@ int main(int argc, char **argv) {
 
     // Print histogram (temporary)
     for (int i = 0; i < ALPHABET; i++) {
-		if (hist[i]) {
-        	printf("%d %lu\n", i, hist[i]);
-		}
+        if (hist[i]) {
+            printf("%d %lu\n", i, hist[i]);
+        }
     }
 
-	// Contruct Huffman tree
-	Node *root = build_tree(hist);
-	node_print(root);
+    // Contruct Huffman tree
+    Node *root = build_tree(hist);
+    node_print(root);
 
-	// Play with code ADT
-	Code c = code_init();
-	code_print(&c);
-	
-	code_push_bit(&c, 1);
-	code_push_bit(&c, 1);
-	code_push_bit(&c, 0);
-	code_push_bit(&c, 1);
-	code_push_bit(&c, 1);
-	code_push_bit(&c, 1);
-	code_push_bit(&c, 1);
-	code_push_bit(&c, 0);
-	code_push_bit(&c, 1);
-	code_push_bit(&c, 1);
-	code_push_bit(&c, 1);
-	code_push_bit(&c, 1);
-	code_push_bit(&c, 0);
-	code_push_bit(&c, 1);
-	code_push_bit(&c, 1);
-	code_push_bit(&c, 0);
-	code_push_bit(&c, 1);
-	code_push_bit(&c, 1);
-	code_push_bit(&c, 0);
-	code_push_bit(&c, 1);
-	code_print(&c);
+    // Play with code ADT
+    Code c = code_init();
+    code_print(&c);
 
-	uint8_t popped;	
-	code_pop_bit(&c, &popped);
-	code_pop_bit(&c, &popped);
-	code_pop_bit(&c, &popped);
-	code_pop_bit(&c, &popped);
-	code_print(&c);
+    code_push_bit(&c, 1);
+    code_push_bit(&c, 1);
+    code_push_bit(&c, 0);
+    code_push_bit(&c, 1);
+    code_push_bit(&c, 1);
+    code_push_bit(&c, 1);
+    code_push_bit(&c, 1);
+    code_push_bit(&c, 0);
+    code_push_bit(&c, 1);
+    code_push_bit(&c, 1);
+    code_push_bit(&c, 1);
+    code_push_bit(&c, 1);
+    code_push_bit(&c, 0);
+    code_push_bit(&c, 1);
+    code_push_bit(&c, 1);
+    code_push_bit(&c, 0);
+    code_push_bit(&c, 1);
+    code_push_bit(&c, 1);
+    code_push_bit(&c, 0);
+    code_push_bit(&c, 1);
+    code_print(&c);
 
-	code_push_bit(&c, 1);
-	code_push_bit(&c, 1);
-	code_push_bit(&c, 0);
-	code_push_bit(&c, 1);
-	code_push_bit(&c, 1);
-	code_push_bit(&c, 1);
-	code_push_bit(&c, 0);
-	code_push_bit(&c, 1);
-	code_print(&c);
+    uint8_t popped;
+    code_pop_bit(&c, &popped);
+    code_pop_bit(&c, &popped);
+    code_pop_bit(&c, &popped);
+    code_pop_bit(&c, &popped);
+    code_print(&c);
+
+    code_push_bit(&c, 1);
+    code_push_bit(&c, 1);
+    code_push_bit(&c, 0);
+    code_push_bit(&c, 1);
+    code_push_bit(&c, 1);
+    code_push_bit(&c, 1);
+    code_push_bit(&c, 0);
+    code_push_bit(&c, 1);
+    code_print(&c);
 
     // Close infile and outfile
     close(infile);
