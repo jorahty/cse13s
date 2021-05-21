@@ -97,7 +97,7 @@ bool enqueue(PriorityQueue *q, Node *n) {
             q->tail = rightof(q->tail, q->capacity);
             return true;
         }
-        // Otherise, shift the node at l to the right
+        // Otherwise, shift the node at l to the right
         q->items[i] = q->items[l];
         // And move to the left to continue searching
         i = l;
