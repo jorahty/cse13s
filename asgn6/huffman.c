@@ -19,10 +19,8 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
     // Print priority queue (temporary)
     printf("Priority Queue:\n");
     pq_print(q);
-    printf("\n");
-
-    // Rearranging the prioty into a Huffman tree
-    // There are two or more nodes in the queue ...
+    // Rearranging the prioty queue into a Huffman tree
+    // While there are two or more nodes in the queue ...
     while (pq_size(q) >= 2) {
         // Dequeue two nodes
         Node *l;
@@ -31,7 +29,9 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
         dequeue(q, &r);
         // Put the joined nodes back in the queue
         enqueue(q, node_join(l, r));
+    	pq_print(q);
     }
+    printf("\n");
 
     // Now there must be only 1 node in the queue
     // This node is the root of the Huffman tree
@@ -43,14 +43,19 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
 static void traverse(Node *n, Code table[static ALPHABET], Code c) {
     // If this node is a leaf ...
     if (!n->left && !n->right) {
-        printf("Found a leaf: %c %lu\n", n->symbol, n->frequency);
+		if (n->symbol < 32) {
+        	printf("Found a leaf: ' ' %lu\n", n->frequency);
+		} else {
+        	printf("Found a leaf: '%c' %lu\n", n->symbol, n->frequency);
+		}
         // Then c is the code for this node's symbol
         table[n->symbol] = c;
-        printf("Going back up ...\n");
+        printf("Done with leaf so going back up ...\n");
         return;
-        // Otherwise, this node is an interior node
+
+    // Otherwise, this node is an interior node
     } else {
-        printf("Found an interior node: %c %lu\n", n->symbol, n->frequency);
+        printf("Found an interior node: '%c' %lu\n", n->symbol, n->frequency);
         uint8_t trash; // We don't care about the popped bits
         // Search to the left
         printf("Searching to the left ...\n");
@@ -63,7 +68,8 @@ static void traverse(Node *n, Code table[static ALPHABET], Code c) {
         traverse(n->right, table, c);
         code_pop_bit(&c, &trash);
     }
-    printf("Going back up ...\n");
+
+    printf("Left and right child searched so going back up ...\n");
     return;
 }
 

@@ -11,6 +11,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <sys/stat.h>
 #include <unistd.h>
 
 #define OPTIONS "hvi:o:"
@@ -72,7 +74,7 @@ int main(int argc, char **argv) {
     printf("\nHistogram:\n");
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i]) {
-            printf("%d %lu\n", i, hist[i]);
+            printf("%3d %lu\n", i, hist[i]);
         }
     }
     printf("\n");
@@ -83,12 +85,16 @@ int main(int argc, char **argv) {
     node_print(root);
     printf("\n");
 
-    // Make the code table
+    // Initialize code table
     Code table[ALPHABET];
     for (int i = 0; i < ALPHABET; i++) {
         table[i] = code_init();
     }
+
+	// Build codes
     build_codes(root, table);
+
+	// Print code table (temporary)
     printf("Code table:\n");
     for (int i = 0; i < ALPHABET; i++) {
         if (table[i].top) {
@@ -102,6 +108,37 @@ int main(int argc, char **argv) {
     }
     printf("\n");
 
+	// Construct a header
+	// Use struct definition from header.h
+	// Allocate memory for new header h
+    Header *h = malloc(sizeof(Header));
+	// Set magic to given macro
+    h->magic = MAGIC;
+	// Get information about infile
+	struct stat infile_info;
+	fstat(infile, &infile_info);
+	// Set header permissions
+    // h->permissions = infile_info.permissions; // This is wrong!
+	// Calcualte tree size
+	int unique_symbols = 0;
+	for (int i = 0; i < ALPHABET; i++) {
+		if (hist[i]) {
+			unique_symbols++;
+		}
+	}
+    h->tree_size = (3 * unique_symbols) - 1;
+	// Set file size
+    // h->file_size = infile_info.size; // This is wrong!
+
+	// Write header to outfile
+
+	// Write tree to outfile
+	// write_tree(root);
+
+	// Read through infile a second time and compress it using code table
+
+	// Free memory? All those nodes and that priority queue? delete_tree?
+
     // Close infile and outfile
     close(infile);
     close(outfile);
@@ -109,10 +146,19 @@ int main(int argc, char **argv) {
     return 0;
 }
 /*
-    // Construct header
-    Header *h = malloc(sizeof(Header));
-    h->magic = MAGIC;
-    h->permissions = file permisions;
-    h->tree_size = tree_size;
-    h->file_size = file_size;
+static void write_tree(Node *n) {
+    // If this node is a leaf ...
+    if (!n->left && !n->right) {
+		// Write L + n->symbol to outfile
+        return;
+    // Otherwise, this node is an interior node
+    } else {
+		// Write I to outfile
+        // Search to the left
+        write_tree(n->left, table, c);
+        // Search to the right
+        write_tree(n->right, table, c);
+    }
+    return;
+}
 */
