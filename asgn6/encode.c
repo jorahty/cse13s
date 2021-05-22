@@ -35,6 +35,26 @@ static void help(char *exec) {
         exec);
 }
 
+static void write_tree(int outfile, Node *n) {
+    // If this node is a leaf ...
+    if (!n->left && !n->right) {
+		// Write L + n->symbol to outfile
+		uint8_t buf[2] = {'L', n->symbol};
+		write_bytes(outfile, buf, 2);
+        return;
+    // Otherwise, this node is an interior node
+    } else {
+		// Write I to outfile
+		uint8_t buf[1] = {'I'};
+		write_bytes(outfile, buf, 1);
+        // Search to the left
+        write_tree(outfile, n->left);
+        // Search to the right
+        write_tree(outfile, n->right);
+    }
+    return;
+}
+
 int main(int argc, char **argv) {
     // Parse command-line arguments
     int infile = STDIN_FILENO, outfile = STDOUT_FILENO;
@@ -60,13 +80,16 @@ int main(int argc, char **argv) {
 
     // Create histogram
     uint64_t hist[ALPHABET] = { 0 }; // This will initialize all values to zero
-    uint8_t buffer[BLOCK]; // This is where we store the data temporarily
-    int n; // This is the number of bytes that were read
-    while ((n = read_bytes(infile, buffer, BLOCK)) > 0) {
-        for (int i = 0; i < n; i++) {
-            hist[buffer[i]]++; // Count occurence
+    uint8_t buffer1[BLOCK]; // This is where we store the data temporarily
+    int n1; // This is the number of bytes that were read
+	printf("Looping calls to read_bytes() until there are no more bytes to read ...\n");
+    while ((n1 = read_bytes(infile, buffer1, BLOCK)) > 0) {
+		printf("%d out of %d bytes were read using read_bytes()\n", n1, BLOCK);
+        for (int i = 0; i < n1; i++) {
+            hist[buffer1[i]]++; // Count occurence
         }
     }
+	printf("read_bytes() could not read any more bytes\n");
     hist[0]++;
     hist[255]++;
 
@@ -74,7 +97,11 @@ int main(int argc, char **argv) {
     printf("\nHistogram:\n");
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i]) {
-            printf("%3d %lu\n", i, hist[i]);
+			if (i < 32) {
+            printf("%3d ( ) %lu\n", i, hist[i]);
+			} else {
+            printf("%3d (%c) %lu\n", i, i, hist[i]);
+			}
         }
     }
     printf("\n");
@@ -118,7 +145,7 @@ int main(int argc, char **argv) {
     struct stat infile_info;
     fstat(infile, &infile_info);
     // Set header permissions
-    // h->permissions = infile_info.permissions; // This is wrong!
+    h->permissions = (uint16_t) infile_info.st_mode;
     // Calcualte tree size
     int unique_symbols = 0;
     for (int i = 0; i < ALPHABET; i++) {
@@ -128,14 +155,23 @@ int main(int argc, char **argv) {
     }
     h->tree_size = (3 * unique_symbols) - 1;
     // Set file size
-    // h->file_size = infile_info.size; // This is wrong!
+    h->file_size = (uint64_t) infile_info.st_size;
 
     // Write header to outfile
+	write_bytes(outfile, (uint8_t *) h, sizeof(Header));
 
     // Write tree to outfile
-    // write_tree(root);
+    write_tree(outfile, root);
 
     // Read through infile a second time and compress it using code table
+    uint8_t buffer2[BLOCK]; // This is where we store the data temporarily
+    int n2; // This is the number of bytes that were read
+    while ((n2 = read_bytes(infile, buffer2, BLOCK)) > 0) {
+		// For every byte read ...
+        for (int i = 0; i < n2; i++) {
+            write_code(outfile, &(table[buffer2[i]])); // Write code to outfile
+        }
+    }
 
     // Free memory? All those nodes and that priority queue? delete_tree?
 
@@ -145,20 +181,3 @@ int main(int argc, char **argv) {
 
     return 0;
 }
-/*
-static void write_tree(Node *n) {
-    // If this node is a leaf ...
-    if (!n->left && !n->right) {
-		// Write L + n->symbol to outfile
-        return;
-    // Otherwise, this node is an interior node
-    } else {
-		// Write I to outfile
-        // Search to the left
-        write_tree(n->left, table, c);
-        // Search to the right
-        write_tree(n->right, table, c);
-    }
-    return;
-}
-*/
