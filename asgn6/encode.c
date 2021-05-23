@@ -142,6 +142,7 @@ int main(int argc, char **argv) {
     // Get information about infile
     struct stat infile_info;
     fstat(infile, &infile_info);
+    fchmod(outfile, infile_info.st_mode);
     // Set header permissions
     h->permissions = (uint16_t) infile_info.st_mode;
     // Calcualte tree size
