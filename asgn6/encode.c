@@ -35,19 +35,20 @@ static void help(char *exec) {
 }
 
 static void write_tree(int outfile, Node *n) {
-    // If this node is a leaf ...
-    if (!n->left && !n->right) {
-        // Write 'L' + n->symbol to outfile
-        uint8_t buf[2] = { 'L', n->symbol };
-        write_bytes(outfile, buf, 2);
-        return;
-        // Otherwise, this node is an interior node
-    } else {
-        // Search to the left
+    if (n) { // Make sure n exists
+        // If this node is a leaf ...
+        if (n->left == NULL && n->right == NULL) {
+            // Then write 'L' + n->symbol to outfile
+            uint8_t buf[2] = { 'L', n->symbol };
+            write_bytes(outfile, buf, 2);
+            return;
+        }
+        // Else this node is an interior node
+        // So search to the left
         write_tree(outfile, n->left);
-        // Search to the right
+        // And search to the right
         write_tree(outfile, n->right);
-        // Write 'I' to outfile
+        // Then Write 'I' to outfile
         uint8_t buf[1] = { 'I' };
         write_bytes(outfile, buf, 1);
     }
@@ -78,37 +79,21 @@ int main(int argc, char **argv) {
     }
 
     // Create histogram
-    uint64_t hist[ALPHABET] = { 0 }; // This will initialize all values to zero
-    uint8_t buffer1[BLOCK]; // This is where we store the data temporarily
-    int n1; // This is the number of bytes that were read
-    // fprintf(stderr, "\nLooping calls to read_bytes() until there are no more bytes to read ...\n");
-    while ((n1 = read_bytes(infile, buffer1, BLOCK)) > 0) {
-        // fprintf(stderr, "%d out of %d bytes were read using read_bytes()\n", n1, BLOCK);
-        for (int i = 0; i < n1; i++) {
-            hist[buffer1[i]]++; // Count occurence
+    uint64_t hist[ALPHABET] = { 0 }; // This initializes all values to zero
+    uint8_t buffer[BLOCK];
+    int n;
+    while ((n = read_bytes(infile, buffer, BLOCK)) > 0) {
+        for (int i = 0; i < n; i++) {
+            // Count the occurance of every byte read
+            hist[buffer[i]]++;
         }
     }
-    // fprintf(stderr, "read_bytes() could not read any more bytes\n");
+    // Increment 0 and 255 to ensure a minimum of two elements
     hist[0]++;
     hist[255]++;
 
-    // Print histogram (temporary)
-    // fprintf(stderr, "\nHistogram:\n");
-    // for (int i = 0; i < ALPHABET; i++) {
-    //     if (hist[i]) {
-    //         if (i < 32) {
-    //             fprintf(stderr, "%3d ( ) %lu\n", i, hist[i]);
-    //         } else {
-    //             fprintf(stderr, "%3d (%c) %lu\n", i, i, hist[i]);
-    //         }
-    //     }
-    // }
-
     // Contruct Huffman tree
     Node *root = build_tree(hist);
-    // fprintf(stderr, "Root node:\n");
-    // node_print(root);
-    // fprintf(stderr, "\n");
 
     // Initialize code table
     Code table[ALPHABET];
@@ -119,90 +104,66 @@ int main(int argc, char **argv) {
     // Build codes
     build_codes(root, table);
 
-    // Print code table (temporary)
-    // fprintf(stderr, "Code table:\n");
-    // for (int i = 0; i < ALPHABET; i++) {
-    //     if (table[i].top) {
-    //         if (i < 32) {
-    //             fprintf(stderr, "' ' ");
-    //         } else {
-    //             fprintf(stderr, "'%c' ", i);
-    //         }
-    //         code_print(&(table[i]));
-    //     }
-    // }
-
-    // Construct a header
-    // fprintf(stderr, "\nConstructing a header ...\n");
-    // Use struct definition from header.h
-    // Allocate memory for new header h
+    // Construct a header using struct definition from header.h
     Header *h = (Header *) malloc(sizeof(Header));
-    // Set magic to given macro
-    h->magic = MAGIC;
     // Get information about infile
     struct stat infile_info;
     fstat(infile, &infile_info);
-    fchmod(outfile, infile_info.st_mode);
-    // Set header permissions
-    h->permissions = (uint16_t) infile_info.st_mode;
-    // Calcualte tree size
+    // Calcualte number of unique elements
     int unique_symbols = 0;
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i]) {
-            unique_symbols++;
+            unique_symbols += 1;
         }
     }
+    // Set header properties
+    h->magic = MAGIC;
+    h->permissions = (uint16_t) infile_info.st_mode;
     h->tree_size = (3 * unique_symbols) - 1;
-    // Set file size
     h->file_size = (uint64_t) infile_info.st_size;
 
     // Write header to outfile
-    // fprintf(stderr, "\nWriting header to outfile ...\n");
     write_bytes(outfile, (uint8_t *) h, sizeof(Header));
 
+    // Set permissions of outfile
+    fchmod(outfile, infile_info.st_mode);
+
     // Write tree to outfile
-    // fprintf(stderr, "\nWriting tree to outfile ...\n");
     write_tree(outfile, root);
 
     // Read through infile a second time and compress it using code table
-    // fprintf(stderr, "\nReading infile to generate encoded data ...\n");
-    // First perform a seek to read from the start of infile
-    lseek(infile, 0, SEEK_SET);
-    uint8_t buffer2[BLOCK]; // This is where we store the data temporarily
-    int n2; // This is the number of bytes that were read
-    while ((n2 = read_bytes(infile, buffer2, BLOCK)) > 0) {
+    lseek(infile, 0, SEEK_SET); // Seek back to start of infile
+    while ((n = read_bytes(infile, buffer, BLOCK)) > 0) {
         // For every byte read ...
-        for (int i = 0; i < n2; i++) {
-            // fprintf(stderr, "Writing code for %c to outfile ...\n", buffer2[i]);
-            write_code(outfile, &(table[buffer2[i]])); // Write code to outfile
+        for (int i = 0; i < n; i++) {
+            // Write corresponding code to outfile
+            write_code(outfile, &(table[buffer[i]]));
         }
     }
-    // Flush any remaining codes to outfile
-    // fprintf(stderr, "\nFlushing any remaining codes to outfile ...\n");
+    // Flush remaining codes to outfile
     flush_codes(outfile);
 
-    // Print compression statistics
-    fprintf(stderr, "Uncompressed file size: %lu bytes\n", h->file_size);
-    fprintf(stderr, "Compressed file size: %lu bytes\n", bytes_written);
-    fprintf(stderr, "Space saving: %.2f%%\n",
-        100 * (1 - ((float) bytes_written / (float) h->file_size)));
+    // Print compression statistics if verbose printing was enabled
+    if (verbose) {
+        fprintf(stderr, "Uncompressed file size: %lu bytes\n", h->file_size);
+        fprintf(stderr, "Compressed file size: %lu bytes\n", bytes_written);
+        float saving = 100 * (1 - ((float) bytes_written / (float) h->file_size));
+        fprintf(stderr, "Space saving: %.2f%%\n", saving);
+    }
 
-    // Delete tree
-    // fprintf(stderr, "\nDeleting tree ...\n");
+    // Delete the Huffman tree
     delete_tree(&root);
 
     // Free memory allocated for header
-    // fprintf(stderr, "\nFreeing memory ...\n");
     if (h) {
         free(h);
         h = NULL;
     }
 
     // Close infile and outfile
-    // fprintf(stderr, "\nClosing files ...\n");
     close(infile);
     close(outfile);
 
-    // fprintf(stderr, "\nFinished encoding!\n\n");
+    // Finished encoding! :)
     return 0;
 }

@@ -13,45 +13,34 @@ uint64_t bytes_written = 0;
 int read_bytes(int infile, uint8_t *buf, int nbytes) {
     int total = 0;
     int didread = 0;
-    // fprintf(stderr, "\tLooping calls to read() until %d bytes read or no more bytes to read ...\n", nbytes);
+    // Loop calls to read() until nbytes read or no more bytes to read
     while ((didread = read(infile, &buf[didread], nbytes)) > 0) {
-        // fprintf(stderr, "\t%d out of %d bytes were read from infile with read()\n", didread, nbytes);
+        // Add number of bytes read to total
         total += didread;
-        // fprintf(stderr, "\tTotal bytes read so far: %d\n", total);
+        // Adjust how many additional bytes need to be read
         nbytes -= didread;
-        // fprintf(stderr, "\tNow trying to read the remaining %d bytes ...\n", nbytes);
     }
-    // fprintf(stderr, "\tThere are no more bytes to read\n");
-    bytes_read += total;
+    bytes_read += total; // Record for statistics
     return total;
 }
 
 int write_bytes(int outfile, uint8_t *buf, int nbytes) {
     int total = 0;
     int didwrite = 0;
-    // fprintf(stderr, "\tLooping calls to write() until %d bytes written or no more bytes to write ...\n",
-    //     nbytes);
+    // Looping calls to write() until nbytes written or no more bytes to write
     while ((didwrite = write(outfile, &buf[didwrite], nbytes)) > 0) {
-        // fprintf(stderr, "\t%d out of %d bytes were written from infile with write()\n", didwrite, nbytes);
+        // Add number of bytes written to total
         total += didwrite;
-        // fprintf(stderr, "\tTotal bytes written so far: %d\n", total);
+        // Adjust how many additional bytes need to be written
         nbytes -= didwrite;
-        // fprintf(stderr, "\tNow trying to write the remaining %d bytes ...\n", nbytes);
     }
-    // fprintf(stderr, "\tThere are no more bytes to write\n");
-    bytes_written += total;
+    bytes_written += total; // Record for statistics
     return total;
 }
 
 static uint8_t code_buffer[BLOCK] = { 0 };
 static uint32_t code_top = 0;
 static uint32_t code_index = 0;
-// static void print_code_buffer(void) {
-//     for (uint32_t i = 0; i < code_top; i++) {
-//         fprintf(stderr, "%d", (code_buffer[i / 8] >> (7 - (i % 8))) & 1);
-//     }
-//     fprintf(stderr, "\n");
-// }
 
 bool read_bit(int infile, uint8_t *bit) {
     // If the code buffer is empty ...
@@ -81,46 +70,33 @@ bool read_bit(int infile, uint8_t *bit) {
     return true;
 }
 
+// Somewhat inspired by Eugene's section
 void write_code(int outfile, Code *c) {
-    // fprintf(stderr, "\tAdding code to code buffer ...\n");
-    // fprintf(stderr, "\t\tCode to add: ");
-    // code_print(c);
-    // fprintf(stderr, "\t\tCode buffer before adding: ");
-    // print_code_buffer();
     // For every bit in code c ...
     for (uint32_t i = 0; i < code_size(c); i++) {
         // Get the ith bit of code c ...
         uint8_t bit = (c->bits[i / 8] >> (7 - (i % 8))) & 1;
-        // fprintf(stderr, "\t\tThe ith bit of the code: %d\n", bit);
         // Add it to code_buffer
-        // fprintf(stderr, "\t\tAdding ith bit to code buffer ...\n");
         if (bit) {
             code_buffer[code_top / 8] |= (1 << 7) >> code_top % 8;
         } else {
             code_buffer[code_top / 8] &= ~((1 << 7) >> code_top % 8);
         }
         code_top += 1;
-        // fprintf(stderr, "\t\tUpdated code buffer: ");
-        // print_code_buffer();
-        // fprintf(stderr, "\t\tChecking if code buffer is full ...\n");
         // If the code_buffer is now full ...
         if (code_top == BLOCK * 8) {
             // Write the bits in code_buffer to the outfile
-            // fprintf(stderr, "\t\tCode buffer is full, so writing code buffer to outfile ");
             write_bytes(outfile, code_buffer, code_top);
             // Reset code_buffer
-            // fprintf(stderr, "and reseting the code buffer ...\n");
-            // print_code_buffer();
             code_top = 0;
             for (int i = 0; i < BLOCK; i++) {
                 code_buffer[i] = 0;
             }
-        } else {
-            // fprintf(stderr, "\t\tCode buffer is not full\n");
         }
     }
 }
 
+// Somewhat inspired by Eugene's section
 void flush_codes(int outfile) {
     // If code buffer contains bits, let's write them to the outfile
     // First, calculate how many *bytes* of the code buffer should be written
@@ -131,5 +107,4 @@ void flush_codes(int outfile) {
         // Otherwise, write an additional byte for the remainder bits
         write_bytes(outfile, code_buffer, code_top / 8 + 1);
     }
-    // print_code_buffer();
 }

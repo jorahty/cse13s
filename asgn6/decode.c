@@ -1,16 +1,12 @@
-// #include "code.h"
-// #include "defines.h"
 #include "header.h"
 #include "huffman.h"
 #include "io.h"
-// #include "node.h"
 
 #include <fcntl.h>
 #include <getopt.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
-// #include <stdlib.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
@@ -57,76 +53,59 @@ int main(int argc, char **argv) {
         }
     }
 
-    // Read in the header from the infile
-    // fprintf(stderr, "\nReading header from encoded infile ...\n");
+    // Read header from infile
     uint8_t header_bytes[sizeof(Header)];
     read_bytes(infile, header_bytes, sizeof(Header));
     Header *h = (Header *) header_bytes;
 
     // Check if magic number is correct
     if (h->magic != 0xDEADBEEF) {
-        // fprintf(stderr, "Invalid file! (Incorrect magic number)\n");
+        fprintf(stderr, "Invalid file! (Incorrect magic number)\n");
         return 1;
-    } else {
-        // fprintf(stderr, "\nValid file was passed to program! (Correct magic number)\n");
     }
 
     // Set permissions of outfile
-    // fprintf(stderr, "\nSetting file permissions of outfile ...\n");
     fchmod(outfile, (mode_t) h->permissions);
 
     // Read tree from the infile
-    // fprintf(stderr, "\nReading tree from infile ...\n");
     uint8_t tree_bytes[h->tree_size];
     read_bytes(infile, tree_bytes, h->tree_size);
 
-    // Print tree read from infile (temporary)
-    // fprintf(stderr, "Tree read from infile: ");
-    // for (uint16_t i = 0; i < h->tree_size; i++) {
-    //     if (tree_bytes[i] < 32) {
-    //         fprintf(stderr, " ");
-    //     } else {
-    //         fprintf(stderr, "%c", tree_bytes[i]);
-    //     }
-    // }
-    // fprintf(stderr, "\n");
-
     // Rebuild tree
-    // fprintf(stderr, "\nRebuilding tree ...\n");
     Node *root = rebuild_tree(h->tree_size, tree_bytes);
-    // fprintf(stderr, "\nRoot of Huffman tree:\n");
-    // node_print(root);
 
-    // Decompress data
-    // fprintf(stderr, "\nDecompressing the data ...\n");
-    Node *current_node = root;
+    // Read compressed data and translate to decompressed data
+    Node *current_node = root; // Start at the root
     uint8_t bit;
     uint64_t decoded = 0;
-    // fprintf(stderr, "Starting at the root ...\n");
+    // For every bit read from infile ...
     while (read_bit(infile, &bit) && decoded < h->file_size) {
-        // fprintf(stderr, "Bit read from infile: %d\n", bit);
-        if (bit == 0) {
-            // fprintf(stderr, "Bit is 0 so going to the right ...\n");
-            current_node = current_node->right;
-        } else {
-            // fprintf(stderr, "Bit is 1 so going to the left ...\n");
-            current_node = current_node->left;
-        }
-        if (current_node->left == NULL && current_node->right == NULL) {
-            // fprintf(stderr, "Found a leaf with symbol: %c\n", current_node->symbol);
-            // fprintf(stderr, "Writing %c to outfile ...\n", current_node->symbol);
-            write_bytes(outfile, &(current_node->symbol), 1);
-            decoded += 1;
-            // fprintf(stderr, "Starting back from the root ...\n");
-            current_node = root;
+        if (current_node) { // Make sure current_node exists
+            if (bit) {
+                // If bit is 1 then go to the left
+                current_node = current_node->left;
+            } else {
+                // Else bit is 0 then go to the right
+                current_node = current_node->right;
+            }
+            // If you have arrived at a leaf ...
+            if (current_node && !current_node->left && !current_node->right) {
+                // Write symbol to outfile
+                write_bytes(outfile, &(current_node->symbol), 1);
+                decoded += 1;
+                // Go back to the root
+                current_node = root;
+            }
         }
     }
 
-    // Print decompression statistics
-    fprintf(stderr, "Compressed file size: %lu bytes\n", bytes_read);
-    fprintf(stderr, "Uncompressed file size: %lu bytes\n", bytes_written);
-    fprintf(
-        stderr, "Space saving: %.2f%%\n", 100 * (1 - ((float) bytes_read / (float) bytes_written)));
+    // Print decompression statistics if verbose printing was enabled
+    if (verbose) {
+        fprintf(stderr, "Compressed file size: %lu bytes\n", bytes_read);
+        fprintf(stderr, "Uncompressed file size: %lu bytes\n", bytes_written);
+        float saving = 100 * (1 - ((float) bytes_read / (float) bytes_written));
+        fprintf(stderr, "Space saving: %.2f%%\n", saving);
+    }
 
     // Delete Huffman tree
     delete_tree(&root);
@@ -135,7 +114,6 @@ int main(int argc, char **argv) {
     close(infile);
     close(outfile);
 
-    // fprintf(stderr, "\nFinished decoding!\n\n");
-
+    // Finished decoding! :)
     return 0;
 }
