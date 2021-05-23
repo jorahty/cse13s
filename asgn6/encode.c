@@ -43,13 +43,13 @@ static void write_tree(int outfile, Node *n) {
         return;
         // Otherwise, this node is an interior node
     } else {
-        // Write I to outfile
-        uint8_t buf[1] = { 'I' };
-        write_bytes(outfile, buf, 1);
         // Search to the left
         write_tree(outfile, n->left);
         // Search to the right
         write_tree(outfile, n->right);
+        // Write I to outfile
+        uint8_t buf[1] = { 'I' };
+        write_bytes(outfile, buf, 1);
     }
     return;
 }
@@ -181,17 +181,21 @@ int main(int argc, char **argv) {
     flush_codes(outfile);
 
     // Delete tree
+    printf("\nDeleting tree ...\n");
     delete_tree(&root);
 
     // Free memory allocated for header
+    printf("\nFreeing memory ...\n");
     if (h) {
         free(h);
         h = NULL;
     }
 
     // Close infile and outfile
+    printf("\nClosing files ...\n");
     close(infile);
     close(outfile);
 
+    printf("\nDone\n\n");
     return 0;
 }
