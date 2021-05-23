@@ -12,7 +12,7 @@ typedef struct PriorityQueue {
     uint32_t tail;
     uint32_t size;
     uint32_t capacity;
-    Node *items;
+    Node **items;
 } PriorityQueue;
 
 PriorityQueue *pq_create(uint32_t capacity) {
@@ -24,7 +24,7 @@ PriorityQueue *pq_create(uint32_t capacity) {
         q->tail = 0;
         q->size = 0;
         q->capacity = capacity;
-        q->items = (Node *) calloc(capacity, sizeof(Node));
+        q->items = (Node **) calloc(capacity, sizeof(Node *));
         if (!q->items) { // If calloc failed...
             // Free the memory allocated for q
             free(q);
@@ -36,7 +36,8 @@ PriorityQueue *pq_create(uint32_t capacity) {
 }
 
 void pq_delete(PriorityQueue **q) {
-    if (q && *q) { // If q and *q exist and are not already NULL ...
+    if (q && *q && (*q)->items) { // If q and *q exist and are not already NULL ...
+        free((*q)->items);
         // Free memory allocated for q
         free(*q);
         // Set *q to NULL
@@ -85,9 +86,9 @@ bool enqueue(PriorityQueue *q, Node *n) {
         // If we are at the head, meaning there is no node to the left,
         // Or if the frequency of the node to the left
         // is less than or equal to the frequency of n ...
-        if (i == q->head || q->items[l].frequency <= n->frequency) {
+        if (i == q->head || q->items[l]->frequency <= n->frequency) {
             // Insert node n at position i
-            q->items[i] = *n;
+            q->items[i] = n;
             q->size += 1;
             q->tail = rightof(q->tail, q->capacity);
             return true;
@@ -106,7 +107,7 @@ bool dequeue(PriorityQueue *q, Node **n) {
         return false;
     }
     // Get the node at the head of the queue and store at the value of n
-    *n = &(q->items[q->head]);
+    *n = q->items[q->head];
     // Decrease size by 1 because there is now 1 less node
     q->size -= 1;
     // Shift the head over 1 because the node at head has just been removed
@@ -139,13 +140,13 @@ void pq_print(PriorityQueue *q) {
     // Loop thru nodes and print their symbols
     uint32_t i = q->head;
     do {
-        if (q->items[i].symbol < 32) {
+        if (q->items[i]->symbol < 32) {
             printf("' ' ");
         } else {
-            printf("'%c' ", (q->items[i]).symbol);
+            printf("'%c' ", (q->items[i])->symbol);
         }
         // Space out the symbols
-        for (int space = 0; space < ndigits((q->items[i]).frequency); space++) {
+        for (int space = 0; space < ndigits((q->items[i])->frequency); space++) {
             printf(" ");
         }
         i = rightof(i, q->capacity);
@@ -154,7 +155,7 @@ void pq_print(PriorityQueue *q) {
     // Loop thru nodes again and print their frequencies
     i = q->head;
     do {
-        printf("%lu    ", q->items[i].frequency);
+        printf("%lu    ", q->items[i]->frequency);
         i = rightof(i, q->capacity);
     } while (i != q->tail);
     printf("⎦\n");

@@ -4,7 +4,6 @@
 #include "huffman.h"
 #include "io.h"
 #include "node.h"
-#include "pq.h"
 
 #include <fcntl.h>
 #include <getopt.h>
@@ -137,7 +136,7 @@ int main(int argc, char **argv) {
     printf("\nConstructing a header ...\n");
     // Use struct definition from header.h
     // Allocate memory for new header h
-    Header *h = malloc(sizeof(Header));
+    Header *h = (Header *) malloc(sizeof(Header));
     // Set magic to given macro
     h->magic = MAGIC;
     // Get information about infile
@@ -180,8 +179,14 @@ int main(int argc, char **argv) {
     printf("\nFlushing any remaining codes to outfile ...\n");
     flush_codes(outfile);
 
-    // Free memory? All those nodes and that priority queue? delete_tree?
-	// delete_tree(&root);
+    // Delete tree
+    delete_tree(&root);
+
+    // Free memory allocated for header
+    if (h) {
+        free(h);
+        h = NULL;
+    }
 
     // Close infile and outfile
     close(infile);
