@@ -102,8 +102,8 @@ int main(int argc, char **argv) {
     // Print decompression statistics if verbose printing was enabled
     if (verbose) {
         fprintf(stderr, "Compressed file size: %lu bytes\n", bytes_read);
-        fprintf(stderr, "Uncompressed file size: %lu bytes\n", bytes_written);
-        float saving = 100 * (1 - ((float) bytes_read / (float) bytes_written));
+        fprintf(stderr, "Uncompressed file size: %lu bytes\n", h->file_size);
+        float saving = 100 * (1 - ((float) bytes_read / (float) h->file_size));
         fprintf(stderr, "Space saving: %.2f%%\n", saving);
     }
 
