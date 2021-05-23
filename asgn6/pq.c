@@ -37,12 +37,7 @@ PriorityQueue *pq_create(uint32_t capacity) {
 
 void pq_delete(PriorityQueue **q) {
     if (q && *q) { // If q and *q exist and are not already NULL ...
-        // Then ...
-        if ((*q)->items) { // If the items in q are not NULL ...
-            // Free memory allocated for the items in q
-            free((*q)->items);
-        }
-        // Free memory allocated for all of q
+        // Free memory allocated for q
         free(*q);
         // Set *q to NULL
         *q = NULL;

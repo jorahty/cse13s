@@ -181,6 +181,7 @@ int main(int argc, char **argv) {
     flush_codes(outfile);
 
     // Free memory? All those nodes and that priority queue? delete_tree?
+	// delete_tree(&root);
 
     // Close infile and outfile
     close(infile);

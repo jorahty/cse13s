@@ -12,7 +12,8 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
     // Enqueue a node for every symbol in the histogram
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i] > 0) {
-            enqueue(q, node_create(i, hist[i]));
+			Node *n = node_create(i, hist[i]);
+            enqueue(q, n);
         }
     }
 
@@ -37,6 +38,11 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
     // This node is the root of the Huffman tree
     Node *root;
     dequeue(q, &root);
+	
+	// Delete the priority queue
+	pq_delete(&q);
+
+	// Return the root (which contains all the data for the entire Huffman tree
     return root;
 }
 
@@ -83,4 +89,37 @@ void build_codes(Node *root, Code table[static ALPHABET]) {
 
 Node *rebuild_tree(uint16_t nbytes, uint8_t tree[static nbytes]);
 
-void delete_tree(Node **root);
+void delete_tree(Node **root) {
+    // If this node is a leaf ...
+    // (If this node has no children ... )
+	printf("Checking if node is a leaf ...\n");
+    if (!(*root)->left && !(*root)->right) {
+		printf("Node is a leaf\n");
+		// Delete node
+		printf("Node to delete:\n");
+		node_print(*root);
+		printf("Deleteing node ...\n");
+		node_delete(root);
+		// And go back up tree to continue searching
+		printf("Going back up ...\n");
+        return;
+    // Otherwise, this node is an interior node
+    } else {
+		printf("Node is not a leaf\n");
+        // Search to the left
+		printf("Searching to the left\n");
+        delete_tree(&((*root)->left));
+        // Search to the right
+		printf("Searching to the right\n");
+        delete_tree(&((*root)->right));
+		// Delete node
+		printf("Node to delete:\n");
+		node_print(*root);
+		printf("Deleteing node ...\n");
+		node_delete(root);
+    }
+	// When both left and righ children have been searched,
+	// Go back up tree to continue searching
+	printf("Going back up ...\n");
+    return;
+}
