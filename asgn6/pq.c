@@ -128,36 +128,37 @@ static inline int ndigits(uint64_t x) {
 
 void pq_print(PriorityQueue *q) {
     // Print queue properties
-    printf("Head: %d, Tail: %d, Size: %d, Capacity: %d\n", q->head, q->tail, q->size, q->capacity);
+    fprintf(stderr, "Head: %d, Tail: %d, Size: %d, Capacity: %d\n", q->head, q->tail, q->size,
+        q->capacity);
     // Print items in queue
-    printf("Items: ");
+    fprintf(stderr, "Items: ");
     // Check if queue is empty
     if (pq_empty(q)) {
-        printf("⎡    ⎤\n       ⎣    ⎦\n");
+        fprintf(stderr, "⎡    ⎤\n       ⎣    ⎦\n");
         return;
     }
-    printf("⎡   ");
+    fprintf(stderr, "⎡   ");
     // Loop thru nodes and print their symbols
     uint32_t i = q->head;
     do {
         if (q->items[i]->symbol < 32) {
-            printf("' ' ");
+            fprintf(stderr, "' ' ");
         } else {
-            printf("'%c' ", (q->items[i])->symbol);
+            fprintf(stderr, "'%c' ", (q->items[i])->symbol);
         }
         // Space out the symbols
         for (int space = 0; space < ndigits((q->items[i])->frequency); space++) {
-            printf(" ");
+            fprintf(stderr, " ");
         }
         i = rightof(i, q->capacity);
     } while (i != q->tail);
-    printf(" ⎤\n       ⎣    ");
+    fprintf(stderr, " ⎤\n       ⎣    ");
     // Loop thru nodes again and print their frequencies
     i = q->head;
     do {
-        printf("%lu    ", q->items[i]->frequency);
+        fprintf(stderr, "%lu    ", q->items[i]->frequency);
         i = rightof(i, q->capacity);
     } while (i != q->tail);
-    printf("⎦\n");
+    fprintf(stderr, "⎦\n");
     return;
 }

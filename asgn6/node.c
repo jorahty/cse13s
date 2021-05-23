@@ -47,17 +47,17 @@ Node *node_join(Node *left, Node *right) {
 void node_print(Node *n) {
     if (n) { // If n exists and is not NULL ...
         if (n->left && n->right) { // If n has children ...
-            printf("Interior node:   '%c'\n", n->symbol);
-            printf("                  %lu\n", n->frequency);
-            printf("Left child:      '%c'\n", n->left->symbol);
-            printf("                  %lu\n", n->left->frequency);
-            printf("Right child:     '%c'\n", n->right->symbol);
-            printf("                  %lu\n", n->right->frequency);
+            fprintf(stderr, "Interior node:   '%c'\n", n->symbol);
+            fprintf(stderr, "                  %lu\n", n->frequency);
+            fprintf(stderr, "Left child:      '%c'\n", n->left->symbol);
+            fprintf(stderr, "                  %lu\n", n->left->frequency);
+            fprintf(stderr, "Right child:     '%c'\n", n->right->symbol);
+            fprintf(stderr, "                  %lu\n", n->right->frequency);
         } else { // If n does not have children ...
-            printf("Leaf node:       '%c'\n", n->symbol);
-            printf("                  %lu\n", n->frequency);
-            printf("Left child:       None\n");
-            printf("Right child:      None\n");
+            fprintf(stderr, "Leaf node:       '%c'\n", n->symbol);
+            fprintf(stderr, "                  %lu\n", n->frequency);
+            fprintf(stderr, "Left child:       None\n");
+            fprintf(stderr, "Right child:      None\n");
         }
     }
     return;

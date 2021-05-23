@@ -37,7 +37,7 @@ static void help(char *exec) {
 static void write_tree(int outfile, Node *n) {
     // If this node is a leaf ...
     if (!n->left && !n->right) {
-        // Write L + n->symbol to outfile
+        // Write 'L' + n->symbol to outfile
         uint8_t buf[2] = { 'L', n->symbol };
         write_bytes(outfile, buf, 2);
         return;
@@ -47,7 +47,7 @@ static void write_tree(int outfile, Node *n) {
         write_tree(outfile, n->left);
         // Search to the right
         write_tree(outfile, n->right);
-        // Write I to outfile
+        // Write 'I' to outfile
         uint8_t buf[1] = { 'I' };
         write_bytes(outfile, buf, 1);
     }
@@ -81,34 +81,34 @@ int main(int argc, char **argv) {
     uint64_t hist[ALPHABET] = { 0 }; // This will initialize all values to zero
     uint8_t buffer1[BLOCK]; // This is where we store the data temporarily
     int n1; // This is the number of bytes that were read
-    // printf("\nLooping calls to read_bytes() until there are no more bytes to read ...\n");
+    // fprintf(stderr, "\nLooping calls to read_bytes() until there are no more bytes to read ...\n");
     while ((n1 = read_bytes(infile, buffer1, BLOCK)) > 0) {
-        // printf("%d out of %d bytes were read using read_bytes()\n", n1, BLOCK);
+        // fprintf(stderr, "%d out of %d bytes were read using read_bytes()\n", n1, BLOCK);
         for (int i = 0; i < n1; i++) {
             hist[buffer1[i]]++; // Count occurence
         }
     }
-    // printf("read_bytes() could not read any more bytes\n");
+    // fprintf(stderr, "read_bytes() could not read any more bytes\n");
     hist[0]++;
     hist[255]++;
 
     // Print histogram (temporary)
-    printf("\nHistogram:\n");
-    for (int i = 0; i < ALPHABET; i++) {
-        if (hist[i]) {
-            if (i < 32) {
-                printf("%3d ( ) %lu\n", i, hist[i]);
-            } else {
-                printf("%3d (%c) %lu\n", i, i, hist[i]);
-            }
-        }
-    }
+    // fprintf(stderr, "\nHistogram:\n");
+    // for (int i = 0; i < ALPHABET; i++) {
+    //     if (hist[i]) {
+    //         if (i < 32) {
+    //             fprintf(stderr, "%3d ( ) %lu\n", i, hist[i]);
+    //         } else {
+    //             fprintf(stderr, "%3d (%c) %lu\n", i, i, hist[i]);
+    //         }
+    //     }
+    // }
 
     // Contruct Huffman tree
     Node *root = build_tree(hist);
-    // printf("Root node:\n");
+    // fprintf(stderr, "Root node:\n");
     // node_print(root);
-    // printf("\n");
+    // fprintf(stderr, "\n");
 
     // Initialize code table
     Code table[ALPHABET];
@@ -120,20 +120,20 @@ int main(int argc, char **argv) {
     build_codes(root, table);
 
     // Print code table (temporary)
-    printf("Code table:\n");
-    for (int i = 0; i < ALPHABET; i++) {
-        if (table[i].top) {
-            if (i < 32) {
-                printf("' ' ");
-            } else {
-                printf("'%c' ", i);
-            }
-            code_print(&(table[i]));
-        }
-    }
+    // fprintf(stderr, "Code table:\n");
+    // for (int i = 0; i < ALPHABET; i++) {
+    //     if (table[i].top) {
+    //         if (i < 32) {
+    //             fprintf(stderr, "' ' ");
+    //         } else {
+    //             fprintf(stderr, "'%c' ", i);
+    //         }
+    //         code_print(&(table[i]));
+    //     }
+    // }
 
     // Construct a header
-    printf("\nConstructing a header ...\n");
+    // fprintf(stderr, "\nConstructing a header ...\n");
     // Use struct definition from header.h
     // Allocate memory for new header h
     Header *h = (Header *) malloc(sizeof(Header));
@@ -157,15 +157,15 @@ int main(int argc, char **argv) {
     h->file_size = (uint64_t) infile_info.st_size;
 
     // Write header to outfile
-    printf("\nWriting header to outfile ...\n");
+    // fprintf(stderr, "\nWriting header to outfile ...\n");
     write_bytes(outfile, (uint8_t *) h, sizeof(Header));
 
     // Write tree to outfile
-    printf("\nWriting tree to outfile ...\n");
+    // fprintf(stderr, "\nWriting tree to outfile ...\n");
     write_tree(outfile, root);
 
     // Read through infile a second time and compress it using code table
-    printf("\nReading infile to generate encoded data ...\n");
+    // fprintf(stderr, "\nReading infile to generate encoded data ...\n");
     // First perform a seek to read from the start of infile
     lseek(infile, 0, SEEK_SET);
     uint8_t buffer2[BLOCK]; // This is where we store the data temporarily
@@ -173,30 +173,36 @@ int main(int argc, char **argv) {
     while ((n2 = read_bytes(infile, buffer2, BLOCK)) > 0) {
         // For every byte read ...
         for (int i = 0; i < n2; i++) {
-    		printf("Writing code for %c to outfile ...\n", buffer2[i]);
+            // fprintf(stderr, "Writing code for %c to outfile ...\n", buffer2[i]);
             write_code(outfile, &(table[buffer2[i]])); // Write code to outfile
         }
     }
     // Flush any remaining codes to outfile
-    printf("\nFlushing any remaining codes to outfile ...\n");
+    // fprintf(stderr, "\nFlushing any remaining codes to outfile ...\n");
     flush_codes(outfile);
 
+    // Print compression statistics
+    fprintf(stderr, "Uncompressed file size: %lu bytes\n", h->file_size);
+    fprintf(stderr, "Compressed file size: %lu bytes\n", bytes_written);
+    fprintf(stderr, "Space saving: %.2f%%\n",
+        100 * (1 - ((float) bytes_written / (float) h->file_size)));
+
     // Delete tree
-    printf("\nDeleting tree ...\n");
+    // fprintf(stderr, "\nDeleting tree ...\n");
     delete_tree(&root);
 
     // Free memory allocated for header
-    printf("\nFreeing memory ...\n");
+    // fprintf(stderr, "\nFreeing memory ...\n");
     if (h) {
         free(h);
         h = NULL;
     }
 
     // Close infile and outfile
-    printf("\nClosing files ...\n");
+    // fprintf(stderr, "\nClosing files ...\n");
     close(infile);
     close(outfile);
 
-    printf("\nDone!\n\n");
+    // fprintf(stderr, "\nFinished encoding!\n\n");
     return 0;
 }
