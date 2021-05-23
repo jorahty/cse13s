@@ -17,7 +17,7 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
     }
 
     // Print priority queue (temporary)
-    printf("Priority Queue:\n");
+    printf("\nPriority Queue:\n");
     pq_print(q);
     // Rearranging the prioty queue into a Huffman tree
     // While there are two or more nodes in the queue ...

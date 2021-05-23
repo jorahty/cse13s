@@ -38,15 +38,15 @@ static void help(char *exec) {
 static void write_tree(int outfile, Node *n) {
     // If this node is a leaf ...
     if (!n->left && !n->right) {
-		// Write L + n->symbol to outfile
-		uint8_t buf[2] = {'L', n->symbol};
-		write_bytes(outfile, buf, 2);
+        // Write L + n->symbol to outfile
+        uint8_t buf[2] = { 'L', n->symbol };
+        write_bytes(outfile, buf, 2);
         return;
-    // Otherwise, this node is an interior node
+        // Otherwise, this node is an interior node
     } else {
-		// Write I to outfile
-		uint8_t buf[1] = {'I'};
-		write_bytes(outfile, buf, 1);
+        // Write I to outfile
+        uint8_t buf[1] = { 'I' };
+        write_bytes(outfile, buf, 1);
         // Search to the left
         write_tree(outfile, n->left);
         // Search to the right
@@ -82,14 +82,14 @@ int main(int argc, char **argv) {
     uint64_t hist[ALPHABET] = { 0 }; // This will initialize all values to zero
     uint8_t buffer1[BLOCK]; // This is where we store the data temporarily
     int n1; // This is the number of bytes that were read
-	printf("Looping calls to read_bytes() until there are no more bytes to read ...\n");
+    printf("\nLooping calls to read_bytes() until there are no more bytes to read ...\n");
     while ((n1 = read_bytes(infile, buffer1, BLOCK)) > 0) {
-		printf("%d out of %d bytes were read using read_bytes()\n", n1, BLOCK);
+        printf("%d out of %d bytes were read using read_bytes()\n", n1, BLOCK);
         for (int i = 0; i < n1; i++) {
             hist[buffer1[i]]++; // Count occurence
         }
     }
-	printf("read_bytes() could not read any more bytes\n");
+    printf("read_bytes() could not read any more bytes\n");
     hist[0]++;
     hist[255]++;
 
@@ -97,14 +97,13 @@ int main(int argc, char **argv) {
     printf("\nHistogram:\n");
     for (int i = 0; i < ALPHABET; i++) {
         if (hist[i]) {
-			if (i < 32) {
-            printf("%3d ( ) %lu\n", i, hist[i]);
-			} else {
-            printf("%3d (%c) %lu\n", i, i, hist[i]);
-			}
+            if (i < 32) {
+                printf("%3d ( ) %lu\n", i, hist[i]);
+            } else {
+                printf("%3d (%c) %lu\n", i, i, hist[i]);
+            }
         }
     }
-    printf("\n");
 
     // Contruct Huffman tree
     Node *root = build_tree(hist);
@@ -133,10 +132,9 @@ int main(int argc, char **argv) {
             code_print(&(table[i]));
         }
     }
-    printf("\n");
 
     // Construct a header
-    printf("Constructing a header ...\n");
+    printf("\nConstructing a header ...\n");
     // Use struct definition from header.h
     // Allocate memory for new header h
     Header *h = malloc(sizeof(Header));
@@ -159,28 +157,28 @@ int main(int argc, char **argv) {
     h->file_size = (uint64_t) infile_info.st_size;
 
     // Write header to outfile
-    printf("Writing header to outfile ...\n");
-	write_bytes(outfile, (uint8_t *) h, sizeof(Header));
+    printf("\nWriting header to outfile ...\n");
+    write_bytes(outfile, (uint8_t *) h, sizeof(Header));
 
     // Write tree to outfile
-    printf("Writing tree to outfile ...\n");
+    printf("\nWriting tree to outfile ...\n");
     write_tree(outfile, root);
 
     // Read through infile a second time and compress it using code table
-    printf("Writing compressed data to outfile ...\n");
-	// First perform a seek to read from the start of infile
-	lseek(infile, 0, SEEK_SET);
+    printf("\nReading infile to generate encoded data ...\n");
+    // First perform a seek to read from the start of infile
+    lseek(infile, 0, SEEK_SET);
     uint8_t buffer2[BLOCK]; // This is where we store the data temporarily
     int n2; // This is the number of bytes that were read
     while ((n2 = read_bytes(infile, buffer2, BLOCK)) > 0) {
-		// For every byte read ...
+        // For every byte read ...
         for (int i = 0; i < n2; i++) {
             write_code(outfile, &(table[buffer2[i]])); // Write code to outfile
         }
     }
-	// Flush any remaining codes to outfile
-	printf("Flushing any remaining codes to outfile ...\n");
-	flush_codes(outfile);
+    // Flush any remaining codes to outfile
+    printf("\nFlushing any remaining codes to outfile ...\n");
+    flush_codes(outfile);
 
     // Free memory? All those nodes and that priority queue? delete_tree?
 
