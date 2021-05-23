@@ -2,6 +2,7 @@
 
 #include "node.h"
 #include "pq.h"
+#include "stack.h"
 
 #include <stdio.h>
 
@@ -30,7 +31,7 @@ Node *build_tree(uint64_t hist[static ALPHABET]) {
         dequeue(q, &r);
         // Put the joined nodes back in the queue
         enqueue(q, node_join(l, r));
-        pq_print(q);
+        // pq_print(q);
     }
     printf("\n");
 
@@ -50,76 +51,117 @@ static void traverse(Node *n, Code table[static ALPHABET], Code c) {
     // If this node is a leaf ...
     if (!n->left && !n->right) {
         if (n->symbol < 32) {
-            printf("Found a leaf: ' ' %lu\n", n->frequency);
+            // printf("Found a leaf: ' ' %lu\n", n->frequency);
         } else {
-            printf("Found a leaf: '%c' %lu\n", n->symbol, n->frequency);
+            // printf("Found a leaf: '%c' %lu\n", n->symbol, n->frequency);
         }
         // Then c is the code for this node's symbol
         table[n->symbol] = c;
-        printf("Done with leaf so going back up ...\n");
+        // printf("Done with leaf so going back up ...\n");
         return;
 
         // Otherwise, this node is an interior node
     } else {
-        printf("Found an interior node: '%c' %lu\n", n->symbol, n->frequency);
+        // printf("Found an interior node: '%c' %lu\n", n->symbol, n->frequency);
         uint8_t trash; // We don't care about the popped bits
         // Search to the left
-        printf("Searching to the left ...\n");
+        // printf("Searching to the left ...\n");
         code_push_bit(&c, 0);
         traverse(n->left, table, c);
         code_pop_bit(&c, &trash);
         // Search to the right
-        printf("Searching to the right ...\n");
+        // printf("Searching to the right ...\n");
         code_push_bit(&c, 1);
         traverse(n->right, table, c);
         code_pop_bit(&c, &trash);
     }
 
-    printf("Left and right child searched so going back up ...\n");
+    // printf("Left and right child searched so going back up ...\n");
     return;
 }
 
 void build_codes(Node *root, Code table[static ALPHABET]) {
+	// Create a place to store codes
     Code c = code_init();
-    printf("Traversal:\n");
+	// Traverse tree to build code table
+    printf("Traversing Huffman tree to build code table ...\n");
     traverse(root, table, c);
     printf("\n");
     return;
 }
 
-Node *rebuild_tree(uint16_t nbytes, uint8_t tree[static nbytes]);
+Node *rebuild_tree(uint16_t nbytes, uint8_t tree[static nbytes]) {
+	// Create a stack to temporarily store nodes
+	// Nodes in stack s will be rearanged into a Huffman tree
+	Stack *s = stack_create(nbytes);
+	// For each byte of the tree ...
+    for (uint16_t i = 0; i < nbytes; i++) {
+		// Print the stack (temporary)
+		// stack_print(s);
+		// If byte is 'L' then ...		
+        if (tree[i] == 'L') {
+			// Create a node with the symbol immediately after the 'L'
+			Node *n = node_create(tree[i + 1], 1);
+			// And add it to the stack
+			stack_push(s, n);
+			// Increment i to skip over symbol
+			i++;
+		// Else then byte is 'I'
+		} else {
+			// An 'I' will always has at least two bytes that came before it
+			// So we can remove two nodes from the stack
+			Node *left;
+			Node *right;
+			stack_pop(s, &left);
+			stack_pop(s, &right);
+			// Join them together
+			Node *p = node_join(left, right);
+			// And put the new parent node p back onto the stack
+			stack_push(s, p);
+		}
+    }
+	// At this point there should be one node in stack s
+	// This node is the root of the Huffman tree, and the root contains the entire tree
+	// Pop the root from stack s
+	Node *root;
+	stack_pop(s, &root);
+	// At this point we can delete s
+	stack_delete(&s);
+	// Return the root node of the Huffman tree
+    return root; 
+}
 
 void delete_tree(Node **root) {
     // If this node is a leaf ...
     // (If this node has no children ... )
-    printf("Checking if node is a leaf ...\n");
+    // printf("Checking if node is a leaf ...\n");
     if (!(*root)->left && !(*root)->right) {
-        printf("Node is a leaf\n");
+        // printf("Node is a leaf\n");
         // Delete node
-        printf("Node to delete:\n");
-        node_print(*root);
-        printf("Deleteing node ...\n");
+        // printf("Node to delete:\n");
+        // node_print(*root);
+        // printf("Deleteing node ...\n");
         node_delete(root);
         // And go back up tree to continue searching
-        printf("Going back up ...\n");
+        // printf("Going back up ...\n");
         return;
         // Otherwise, this node is an interior node
     } else {
-        printf("Node is not a leaf\n");
+        // printf("Node is not a leaf\n");
         // Search to the left
-        printf("Searching to the left\n");
+        // printf("Searching to the left\n");
         delete_tree(&((*root)->left));
         // Search to the right
-        printf("Searching to the right\n");
+        // printf("Searching to the right\n");
         delete_tree(&((*root)->right));
         // Delete node
-        printf("Node to delete:\n");
-        node_print(*root);
-        printf("Deleteing node ...\n");
-        node_delete(root);
+        // printf("Node to delete:\n");
+        // node_print(*root);
+        // printf("Deleteing node ...\n");
+        // node_delete(root);
     }
     // When both left and righ children have been searched,
     // Go back up tree to continue searching
-    printf("Going back up ...\n");
+    // printf("Going back up ...\n");
     return;
 }

@@ -81,14 +81,14 @@ int main(int argc, char **argv) {
     uint64_t hist[ALPHABET] = { 0 }; // This will initialize all values to zero
     uint8_t buffer1[BLOCK]; // This is where we store the data temporarily
     int n1; // This is the number of bytes that were read
-    printf("\nLooping calls to read_bytes() until there are no more bytes to read ...\n");
+    // printf("\nLooping calls to read_bytes() until there are no more bytes to read ...\n");
     while ((n1 = read_bytes(infile, buffer1, BLOCK)) > 0) {
-        printf("%d out of %d bytes were read using read_bytes()\n", n1, BLOCK);
+        // printf("%d out of %d bytes were read using read_bytes()\n", n1, BLOCK);
         for (int i = 0; i < n1; i++) {
             hist[buffer1[i]]++; // Count occurence
         }
     }
-    printf("read_bytes() could not read any more bytes\n");
+    // printf("read_bytes() could not read any more bytes\n");
     hist[0]++;
     hist[255]++;
 
@@ -106,9 +106,9 @@ int main(int argc, char **argv) {
 
     // Contruct Huffman tree
     Node *root = build_tree(hist);
-    printf("Root node:\n");
-    node_print(root);
-    printf("\n");
+    // printf("Root node:\n");
+    // node_print(root);
+    // printf("\n");
 
     // Initialize code table
     Code table[ALPHABET];
@@ -173,6 +173,7 @@ int main(int argc, char **argv) {
     while ((n2 = read_bytes(infile, buffer2, BLOCK)) > 0) {
         // For every byte read ...
         for (int i = 0; i < n2; i++) {
+    		printf("Writing code for %c to outfile ...\n", buffer2[i]);
             write_code(outfile, &(table[buffer2[i]])); // Write code to outfile
         }
     }
@@ -196,6 +197,6 @@ int main(int argc, char **argv) {
     close(infile);
     close(outfile);
 
-    printf("\nDone\n\n");
+    printf("\nDone!\n\n");
     return 0;
 }
