@@ -20,7 +20,7 @@ bool code_empty(Code *c) {
 }
 
 bool code_full(Code *c) {
-    return c->top * 8 == ALPHABET;
+    return c->top == MAX_CODE_SIZE;
 }
 
 bool code_push_bit(Code *c, uint8_t bit) {

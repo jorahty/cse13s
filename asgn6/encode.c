@@ -136,6 +136,7 @@ int main(int argc, char **argv) {
     printf("\n");
 
     // Construct a header
+    printf("Constructing a header ...\n");
     // Use struct definition from header.h
     // Allocate memory for new header h
     Header *h = malloc(sizeof(Header));
@@ -158,12 +159,17 @@ int main(int argc, char **argv) {
     h->file_size = (uint64_t) infile_info.st_size;
 
     // Write header to outfile
+    printf("Writing header to outfile ...\n");
 	write_bytes(outfile, (uint8_t *) h, sizeof(Header));
 
     // Write tree to outfile
+    printf("Writing tree to outfile ...\n");
     write_tree(outfile, root);
 
     // Read through infile a second time and compress it using code table
+    printf("Writing compressed data to outfile ...\n");
+	// First perform a seek to read from the start of infile
+	lseek(infile, 0, SEEK_SET);
     uint8_t buffer2[BLOCK]; // This is where we store the data temporarily
     int n2; // This is the number of bytes that were read
     while ((n2 = read_bytes(infile, buffer2, BLOCK)) > 0) {
@@ -172,6 +178,9 @@ int main(int argc, char **argv) {
             write_code(outfile, &(table[buffer2[i]])); // Write code to outfile
         }
     }
+	// Flush any remaining codes to outfile
+	printf("Flushing any remaining codes to outfile ...\n");
+	flush_codes(outfile);
 
     // Free memory? All those nodes and that priority queue? delete_tree?
 
