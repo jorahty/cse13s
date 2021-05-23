@@ -41,3 +41,6 @@ format:
 
 infer:
 	make clean; infer-capture -- make; infer-analyze -- make
+
+setup:
+	> encoded.data > decoded.data
