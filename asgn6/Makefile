@@ -1,13 +1,16 @@
 CC = clang
 CFLAGS = -Wall -Werror -Wextra -Wpedantic
  
-all: encode decode
+all: encode decode entropy
 
 encode: encode.o node.o pq.o io.o huffman.o code.o stack.o
 	$(CC) -o encode encode.o node.o pq.o io.o huffman.o code.o stack.o
 
 decode: decode.o io.o code.o huffman.o pq.o node.o stack.o
 	$(CC) -o decode decode.o io.o code.o huffman.o pq.o node.o stack.o
+
+entropy: entropy.o
+	$(CC) -o entropy entropy.o
 
 encode.o: encode.c 
 	$(CC) $(CFLAGS) -c encode.c
