@@ -10,7 +10,7 @@ decode: decode.o io.o code.o huffman.o pq.o node.o stack.o
 	$(CC) -o decode decode.o io.o code.o huffman.o pq.o node.o stack.o
 
 entropy: entropy.o
-	$(CC) -o entropy entropy.o
+	$(CC) -o entropy entropy.o -lm
 
 encode.o: encode.c 
 	$(CC) $(CFLAGS) -c encode.c
@@ -44,6 +44,3 @@ format:
 
 infer:
 	make clean; infer-capture -- make; infer-analyze -- make
-
-setup:
-	> encoded.data > decoded.data
