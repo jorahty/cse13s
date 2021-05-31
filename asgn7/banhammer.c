@@ -1,6 +1,6 @@
 #include <stdio.h>
 
 int main(void) {
-	printf("Hello Censorship!\n");
-	return 0;
+    printf("Hello Censorship!\n");
+    return 0;
 }
