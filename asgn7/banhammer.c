@@ -1,6 +1,12 @@
+#include "node.h"
+
 #include <stdio.h>
 
 int main(void) {
-    printf("Hello Censorship!\n");
+
+	Node *n = node_create("hello", "clyde");
+	node_print(n);
+	node_delete(&n);
+
     return 0;
 }
