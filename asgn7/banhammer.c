@@ -41,14 +41,14 @@ int main(void) {
 
     a->oldspeak = "Stark";
     a->newspeak = "Lannister";
-	Node *b = node_create(NULL, NULL);
+    Node *b = node_create(NULL, NULL);
     a->prev = b;
     printf("\n");
     node_print(a);
     printf("\n");
 
-	node_delete(&a);
-	node_delete(&b);
+    node_delete(&a);
+    node_delete(&b);
 
     return 0;
 }
