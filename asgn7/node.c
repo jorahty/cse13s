@@ -9,10 +9,18 @@
 Node *node_create(char *oldspeak, char *newspeak) {
     // Allocate memory for a new node `n`
     Node *n = (Node *) malloc(sizeof(Node));
+	if (n == NULL) {
+		return NULL;
+	}
 
     // Set n->oldspeak
     if (oldspeak) {
         n->oldspeak = (char *) malloc(strlen(oldspeak) + 1);
+		if (n->oldspeak == NULL) {
+			free(n);
+			n = NULL;
+			return NULL;
+		}
         strcpy(n->oldspeak, oldspeak);
     } else {
         n->oldspeak = NULL;
@@ -21,6 +29,11 @@ Node *node_create(char *oldspeak, char *newspeak) {
     // Set n->newspeak
     if (newspeak) {
         n->newspeak = (char *) malloc(strlen(newspeak) + 1);
+		if (n->newspeak == NULL) {
+			free(n);
+			n = NULL;
+			return NULL;
+		}
         strcpy(n->newspeak, newspeak);
     } else {
         n->newspeak = NULL;
