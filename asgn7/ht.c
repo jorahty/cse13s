@@ -43,6 +43,10 @@ void ht_delete(HashTable **ht) {
         // Free memory allocated
         // for the linked lists in the hash table
         if ((*ht)->lists) {
+            // Delete every linked list
+            for (uint32_t i = 0; i < (*ht)->size; i += 1) {
+                ll_delete(&((*ht)->lists[i]));
+            }
             free((*ht)->lists);
         }
         // Free the rest of the hash table
@@ -59,10 +63,10 @@ uint32_t ht_size(HashTable *ht) {
 }
 
 Node *ht_lookup(HashTable *ht, char *oldspeak) {
-    // Hash to get the right linked list in the hash table
-    LinkedList *ll = ht->lists[hash(ht->salt, oldspeak) % ht_size(ht)];
-    // Perform lookup of `oldspeak` on that linked list
-    return ll_lookup(ll, oldspeak);
+    // Hash to get the right index
+    uint32_t i = hash(ht->salt, oldspeak) % ht_size(ht);
+    // Perform lookup of `oldspeak` at that index
+    return ll_lookup(ht->lists[i], oldspeak);
 }
 
 void ht_insert(HashTable *ht, char *oldspeak, char *newspeak) {
