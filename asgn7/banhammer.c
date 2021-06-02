@@ -1,3 +1,4 @@
+#include "bv.h"
 #include "ll.h"
 #include "node.h"
 
@@ -6,31 +7,20 @@
 
 int main(void) {
 
-    LinkedList *ll = ll_create(true);
-    ll_insert(ll, "Jon", "Snow");
-    ll_insert(ll, "Hound", NULL);
-    ll_insert(ll, "Lannister", "Stark");
-    ll_insert(ll, NULL, NULL);
-    ll_insert(ll, "Dorne", "Winterfell");
+    BitVector *bv = bv_create(16);
+    bv_set_bit(bv, 8);
+    bv_set_bit(bv, 6);
+    bv_set_bit(bv, 11);
+    bv_set_bit(bv, 6);
+    bv_clr_bit(bv, 8);
+    bv_clr_bit(bv, 0);
 
-    printf("\n");
-    ll_print(ll);
-    printf("\n");
+    printf("bit at %d: %d\n", 5, bv_get_bit(bv, 5));
 
-    node_print(ll_lookup(ll, "Jon"));
+    bv_print(bv);
+    printf("Length: %d\n", bv_length(bv));
 
-    printf("\n");
-    ll_print(ll);
-    printf("\n");
-
-    LinkedList *ll2 = ll_create(false);
-
-    printf("\n");
-    ll_print(ll2);
-    printf("\n");
-
-    ll_delete(&ll2);
-    ll_delete(&ll);
+    bv_delete(&bv);
 
     return 0;
 }
