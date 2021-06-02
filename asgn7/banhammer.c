@@ -1,54 +1,23 @@
+#include "ll.h"
 #include "node.h"
 
+#include <stdbool.h>
 #include <stdio.h>
 
 int main(void) {
 
-    Node *a = node_create(NULL, NULL);
-    printf("\n");
-    node_print(a);
-    printf("\n");
+    LinkedList *ll = ll_create(true);
 
-    a->oldspeak = "Tyrion";
-    printf("\n");
-    node_print(a);
-    printf("\n");
+	ll_insert(ll, "Stark", "Lannister");
+	ll_insert(ll, "King", NULL);
+	ll_insert(ll, "Winterfell", NULL);
+	ll_insert(ll, "Sam", "Gilly");
 
-    a->newspeak = "Aria";
-    printf("\n");
-    node_print(a);
-    printf("\n");
+	printf("\n");
+    ll_print(ll);
+	printf("\n");
 
-    a->oldspeak = NULL;
-    printf("\n");
-    node_print(a);
-    printf("\n");
-
-    a->next = a;
-    printf("\n");
-    node_print(a);
-    printf("\n");
-
-    a->prev = a;
-    printf("\n");
-    node_print(a);
-    printf("\n");
-
-    a->next = NULL;
-    printf("\n");
-    node_print(a);
-    printf("\n");
-
-    a->oldspeak = "Stark";
-    a->newspeak = "Lannister";
-    Node *b = node_create(NULL, NULL);
-    a->prev = b;
-    printf("\n");
-    node_print(a);
-    printf("\n");
-
-    node_delete(&a);
-    node_delete(&b);
+	ll_delete(&ll);
 
     return 0;
 }
