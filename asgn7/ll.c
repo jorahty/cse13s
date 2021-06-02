@@ -157,7 +157,7 @@ static void print_word(Node *n, char *word) {
     }
 
     else {
-    	// Else word is null so print "Null"
+        // Else word is null so print "Null"
         fprintf(stderr, RED "%-*s" RESET, w, "Null");
     }
 
@@ -183,7 +183,7 @@ void ll_print(LinkedList *ll) {
         print_word(n, n->oldspeak);
     }
 
-	// Print bottom row of contents
+    // Print bottom row of contents
     n = ll->head;
     fprintf(stderr, RED "Null" RESET " ← ⎣ ");
     print_word(n, n->newspeak);
