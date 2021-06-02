@@ -112,6 +112,12 @@ void node_print(Node *n) {
     }
 
     // Below is ugly code that prints pretty output
+    if (!n) {
+        fprintf(stderr, "\x1b[31m"
+                        "Null"
+                        "\x1b[0m"
+                        "\n");
+    }
     int w = maxlen(n->oldspeak, n->newspeak);
     int s;
     if (n->prev) {
