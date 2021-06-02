@@ -140,7 +140,7 @@ static void print_word(Node *n, char *word) {
     int b = n->newspeak ? strlen(n->newspeak) + 2 : 4;
     int w = a >= b ? a : b;
 
-    // If word is not null ..
+    // If word is not null,
     if (word) {
         // Get word with quotes `q`
         int len = strlen(word);
@@ -156,9 +156,8 @@ static void print_word(Node *n, char *word) {
         fprintf(stderr, BLUE "%-*s" RESET, w, q);
     }
 
-    // Else word is null so ...
     else {
-        // Print "Null"
+    	// Else word is null so print "Null"
         fprintf(stderr, RED "%-*s" RESET, w, "Null");
     }
 
@@ -170,7 +169,7 @@ void ll_print(LinkedList *ll) {
     fprintf(stderr, "Length: " BLUE "%d" RESET ", Move-to-front: %s, Contents:\n", ll->length,
         ll->mtf ? GREEN "On" RESET : RED "Off" RESET);
 
-    // Print the contents of `ll`
+    // Print top row of contents
     Node *n = ll->head;
     fprintf(stderr, "       ⎡ ");
     print_word(n, n->oldspeak);
@@ -183,6 +182,8 @@ void ll_print(LinkedList *ll) {
         fprintf(stderr, " ⎤ → ⎡ ");
         print_word(n, n->oldspeak);
     }
+
+	// Print bottom row of contents
     n = ll->head;
     fprintf(stderr, RED "Null" RESET " ← ⎣ ");
     print_word(n, n->newspeak);
