@@ -1,3 +1,4 @@
+#include "bf.h"
 #include "bv.h"
 #include "ll.h"
 #include "node.h"
@@ -7,20 +8,25 @@
 
 int main(void) {
 
-    BitVector *bv = bv_create(16);
-    bv_set_bit(bv, 8);
-    bv_set_bit(bv, 6);
-    bv_set_bit(bv, 11);
-    bv_set_bit(bv, 6);
-    bv_clr_bit(bv, 8);
-    bv_clr_bit(bv, 0);
+    BloomFilter *bf = bf_create(50);
+    bf_insert(bf, "Tyrion");
+    bf_insert(bf, "Cercei");
+    bf_insert(bf, "Jaime");
+    bf_insert(bf, "Joffrey");
+    fprintf(stderr, "%s\n", bf_probe(bf, "Tyrion") ? "true" : "false");
+    fprintf(stderr, "%s\n", bf_probe(bf, "Tywin") ? "true" : "false");
+    fprintf(stderr, "%s\n", bf_probe(bf, "Arya") ? "true" : "false");
+    fprintf(stderr, "%s\n", bf_probe(bf, "Jaime") ? "true" : "false");
+    fprintf(stderr, "%s\n", bf_probe(bf, "Cercei") ? "true" : "false");
+    fprintf(stderr, "%s\n", bf_probe(bf, "Sansa") ? "true" : "false");
+    fprintf(stderr, "%s\n", bf_probe(bf, "Stark") ? "true" : "false");
+    fprintf(stderr, "%s\n", bf_probe(bf, "Joffrey") ? "true" : "false");
 
-    printf("bit at %d: %d\n", 5, bv_get_bit(bv, 5));
+    bf_print(bf);
+    fprintf(stderr, "Size: %d\n", bf_size(bf));
+    fprintf(stderr, "Count: %d\n", bf_count(bf));
 
-    bv_print(bv);
-    printf("Length: %d\n", bv_length(bv));
-
-    bv_delete(&bv);
+    bf_delete(&bf);
 
     return 0;
 }
