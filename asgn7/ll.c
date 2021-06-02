@@ -166,16 +166,17 @@ static void print_word(Node *n, char *word) {
 void ll_print(LinkedList *ll) {
     // Print "Null" if `ll` is null
     if (!ll) {
-        fprintf(stderr, RED "Null" RESET "\n");
+        fprintf(stderr, RED "Null" RESET "\n\n");
         return;
     }
+
     // Print properties of `ll`
-    fprintf(stderr, "Length: " BLUE "%d" RESET ", Move-to-front: %s, Contents:\n", ll->length,
-        ll->mtf ? GREEN "On" RESET : RED "Off" RESET);
+    // fprintf(stderr, "Length: " BLUE "%d" RESET ", Move-to-front: %s, Contents:\n", ll->length,
+    //     ll->mtf ? GREEN "On" RESET : RED "Off" RESET);
 
     // Print top row of contents
     Node *n = ll->head;
-    fprintf(stderr, "       ⎡ ");
+    fprintf(stderr, RED "Null" RESET " ← ⎡ ");
     print_word(n, n->oldspeak);
     while (true) {
         n = n->next;
@@ -189,7 +190,7 @@ void ll_print(LinkedList *ll) {
 
     // Print bottom row of contents
     n = ll->head;
-    fprintf(stderr, RED "Null" RESET " ← ⎣ ");
+    fprintf(stderr, "            ⎣ ");
     print_word(n, n->newspeak);
     while (true) {
         n = n->next;
