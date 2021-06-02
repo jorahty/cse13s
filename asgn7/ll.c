@@ -164,11 +164,11 @@ static void print_word(Node *n, char *word) {
 }
 
 void ll_print(LinkedList *ll) {
-	// Print "Null" if `ll` is null
-	if (!ll) {
-		fprintf(stderr, RED "Null" RESET "\n");
-		return;
-	}
+    // Print "Null" if `ll` is null
+    if (!ll) {
+        fprintf(stderr, RED "Null" RESET "\n");
+        return;
+    }
     // Print properties of `ll`
     fprintf(stderr, "Length: " BLUE "%d" RESET ", Move-to-front: %s, Contents:\n", ll->length,
         ll->mtf ? GREEN "On" RESET : RED "Off" RESET);
