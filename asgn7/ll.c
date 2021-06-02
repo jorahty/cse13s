@@ -86,8 +86,9 @@ uint32_t ll_length(LinkedList *ll) {
 }
 
 Node *ll_lookup(LinkedList *ll, char *oldspeak) {
-    Node *n = ll->head->next; // Starting at the node after the head,
-    while (true) { // Traverse the linked list until ...
+    Node *n = ll->head; // Starting at the node after the head,
+    while (true) { // Traverse the linked list until
+        n = n->next;
         // either the end of the linked list is reached,
         if (n == ll->tail) {
             return NULL;
@@ -108,8 +109,6 @@ Node *ll_lookup(LinkedList *ll, char *oldspeak) {
             }
             return n;
         }
-        // (Traversing to the next node in the linked list)
-        n = n->next;
     }
 }
 
@@ -165,7 +164,12 @@ static void print_word(Node *n, char *word) {
 }
 
 void ll_print(LinkedList *ll) {
-    // Print properties if `ll`
+	// Print "Null" if `ll` is null
+	if (!ll) {
+		fprintf(stderr, RED "Null" RESET "\n");
+		return;
+	}
+    // Print properties of `ll`
     fprintf(stderr, "Length: " BLUE "%d" RESET ", Move-to-front: %s, Contents:\n", ll->length,
         ll->mtf ? GREEN "On" RESET : RED "Off" RESET);
 
