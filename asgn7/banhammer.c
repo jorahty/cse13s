@@ -7,17 +7,30 @@
 int main(void) {
 
     LinkedList *ll = ll_create(true);
+    ll_insert(ll, "Jon", "Snow");
+    ll_insert(ll, "Hound", NULL);
+    ll_insert(ll, "Lannister", "Stark");
+    ll_insert(ll, NULL, NULL);
+    ll_insert(ll, "Dorne", "Winterfell");
 
-	ll_insert(ll, "Stark", "Lannister");
-	ll_insert(ll, "King", NULL);
-	ll_insert(ll, "Winterfell", NULL);
-	ll_insert(ll, "Sam", "Gilly");
-
-	printf("\n");
+    printf("\n");
     ll_print(ll);
-	printf("\n");
+    printf("\n");
 
-	ll_delete(&ll);
+    node_print(ll_lookup(ll, "Jon"));
+
+    printf("\n");
+    ll_print(ll);
+    printf("\n");
+
+    LinkedList *ll2 = ll_create(false);
+
+    printf("\n");
+    ll_print(ll2);
+    printf("\n");
+
+    ll_delete(&ll2);
+    ll_delete(&ll);
 
     return 0;
 }

@@ -6,11 +6,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 #define RESET "\x1b[0m"
-#define RED "\x1b[31m"
+#define RED   "\x1b[31m"
 #define GREEN "\x1b[32m"
-#define BLUE "\x1b[34m"
+#define BLUE  "\x1b[34m"
 
 // Number of seeks
 // and number of links travered
@@ -94,7 +93,8 @@ Node *ll_lookup(LinkedList *ll, char *oldspeak) {
             return NULL;
         }
         // or the matching key (oldspeak) is found
-        if (n->oldspeak && strcmp(n->oldspeak, oldspeak) == 0) {
+        if ((n->oldspeak && oldspeak && strcmp(n->oldspeak, oldspeak) == 0)
+            || (!n->oldspeak && !oldspeak)) {
             // Move found node `n` to front if `mtf` is enabled
             if (ll->mtf) {
                 // Bridge over `n`
@@ -130,81 +130,71 @@ void ll_insert(LinkedList *ll, char *oldspeak, char *newspeak) {
     n->prev = ll->head;
     ll->head->next = n;
     n->next->prev = n;
+    ll->length += 1;
     return;
 }
 
 static void print_word(Node *n, char *word) {
-	// Get width `w`
-	int a = n->oldspeak ? strlen(n->oldspeak) + 2 : 4;
+    // Get width `w`
+    int a = n->oldspeak ? strlen(n->oldspeak) + 2 : 4;
     int b = n->newspeak ? strlen(n->newspeak) + 2 : 4;
     int w = a >= b ? a : b;
-	
-	// If word is not null ..
-	if (word) {
-		// Get word with quotes `q`
-		int len = strlen(word);
-		char q[len + 3];
-		q[0] = '"';
-		q[len + 1] = '"';
-		q[len + 2] = '\0';
-		for (int i = 0; i < len; i += 1) {
-			q[i + 1] = word[i];
-		}
-		
-		// Print word with quotes
-		fprintf(stderr, BLUE "%-*s" RESET, w, q);
-	}
 
-	// Else word is null so ...
-	else {
-		// Print "Null"
-		fprintf(stderr, RED "%-*s" RESET, w, "Null");
-	}
+    // If word is not null ..
+    if (word) {
+        // Get word with quotes `q`
+        int len = strlen(word);
+        char q[len + 3];
+        q[0] = '"';
+        q[len + 1] = '"';
+        q[len + 2] = '\0';
+        for (int i = 0; i < len; i += 1) {
+            q[i + 1] = word[i];
+        }
 
-	return;
+        // Print word with quotes
+        fprintf(stderr, BLUE "%-*s" RESET, w, q);
+    }
+
+    // Else word is null so ...
+    else {
+        // Print "Null"
+        fprintf(stderr, RED "%-*s" RESET, w, "Null");
+    }
+
+    return;
 }
 
 void ll_print(LinkedList *ll) {
-	// Print properties if `ll`
-    fprintf(stderr,
-        "Length: "
-        BLUE
-        "%d"
-        RESET
-        ", Move-to-front: %s, Contents:\n",
-        ll->length,
-        ll->mtf ? GREEN
-                  "On"
-                  RESET
-                : RED
-                  "Off"
-                  RESET);
+    // Print properties if `ll`
+    fprintf(stderr, "Length: " BLUE "%d" RESET ", Move-to-front: %s, Contents:\n", ll->length,
+        ll->mtf ? GREEN "On" RESET : RED "Off" RESET);
 
-	// Print the contents of `ll`
-	Node *n = ll->head;
-	fprintf(stderr, "       ⎡ ");
-	print_word(n, n->oldspeak);
-	while (true) {
-		n = n->next;
-		if (n == NULL) {
-			fprintf(stderr, " ⎤ → " RED "Null" RESET "\n");
-			break;
-		}
-		fprintf(stderr, " ⎤ → ⎡ ");
-		print_word(n, n->oldspeak);
-	}
-	n = ll->head;
-	fprintf(stderr, RED "Null" RESET " ← ⎣ ");
-	print_word(n, n->newspeak);
-	while (true) {
-		n = n->next;
-		if (n == NULL) {
-			fprintf(stderr, " ⎦\n");
-			break;
-		}
-		fprintf(stderr, " ⎦ ← ⎣ ");
-		print_word(n, n->newspeak);
-	}
+    // Print the contents of `ll`
+    Node *n = ll->head;
+    fprintf(stderr, "       ⎡ ");
+    print_word(n, n->oldspeak);
+    while (true) {
+        n = n->next;
+        if (n == NULL) {
+            fprintf(stderr, " ⎤ → " RED "Null" RESET "\n");
+            break;
+        }
+        fprintf(stderr, " ⎤ → ⎡ ");
+        print_word(n, n->oldspeak);
+    }
+    n = ll->head;
+    fprintf(stderr, RED "Null" RESET " ← ⎣ ");
+    print_word(n, n->newspeak);
+    while (true) {
+        n = n->next;
+        if (n == NULL) {
+            fprintf(stderr, " ⎦\n");
+            break;
+        }
+        fprintf(stderr, " ⎦ ← ⎣ ");
+        print_word(n, n->newspeak);
+    }
 
     return;
 }
