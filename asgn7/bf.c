@@ -5,6 +5,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define RESET "\x1b[0m"
+#define BLUE  "\x1b[34m"
+
 // Taken from assignment PDF
 struct BloomFilter {
     uint64_t primary[2]; // Primary hash function salt
@@ -77,6 +80,8 @@ uint32_t bf_count(BloomFilter *bf) {
 }
 
 void bf_print(BloomFilter *bf) {
+    fprintf(stderr, "Size: " BLUE "%d" RESET ", Count: " BLUE "%d" RESET ", Contents:\n",
+        bf_size(bf), bf_count(bf));
     bv_print(bf->filter);
     return;
 }
