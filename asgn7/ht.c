@@ -93,7 +93,7 @@ void ht_print(HashTable *ht) {
     fprintf(stderr, "Size: " BLUE "%d" RESET ", Move-to-front: %s, Contents:\n", ht_size(ht),
         ht->mtf ? GREEN "On" RESET : RED "Off" RESET);
     for (uint32_t i = 0; i < ht_size(ht); i += 1) {
-        fprintf(stderr, MAGENTA "%2d:" RESET "  ", i);
+        fprintf(stderr, MAGENTA "%4d:" RESET "  ", i);
         ll_print(ht->lists[i]);
     }
     return;

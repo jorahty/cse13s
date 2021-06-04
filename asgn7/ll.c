@@ -190,7 +190,7 @@ void ll_print(LinkedList *ll) {
 
     // Print bottom row of contents
     n = ll->head;
-    fprintf(stderr, "            ⎣ ");
+    fprintf(stderr, "              ⎣ ");
     print_word(n, n->newspeak);
     while (true) {
         n = n->next;
