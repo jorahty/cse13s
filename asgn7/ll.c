@@ -86,10 +86,13 @@ uint32_t ll_length(LinkedList *ll) {
 }
 
 Node *ll_lookup(LinkedList *ll, char *oldspeak) {
-    seeks += 1;
+    seeks += 1; // Immediatly count this seek
+	if (!ll) {
+		return NULL; // Return null if list does not exist
+	}
     Node *n = ll->head->next; // Start at the node after the head
     while (true) { // Traverse the linked list until
-        // either the end of the linked list is reached,
+        // either the end of the linked list is reached
         if (n == ll->tail) {
             return NULL;
         }
@@ -109,8 +112,8 @@ Node *ll_lookup(LinkedList *ll, char *oldspeak) {
             }
             return n;
         }
-        n = n->next;
-        links += 1;
+        n = n->next; // Traverse to next node
+        links += 1; // (And count this traversal/seek)
     }
 }
 
