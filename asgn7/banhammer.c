@@ -58,10 +58,8 @@ int main(int argc, char **argv) {
     BloomFilter *bf = bf_create(f);
     HashTable *ht = ht_create(t, mtf);
 
-    // Open baspeak.txt
-    FILE *badspeaktxt = fopen("mybadspeak.txt", "r");
-
     // Read badspeak words from badspeak.txt with fscanf()
+    FILE *badspeaktxt = fopen("mybadspeak.txt", "r");
     char badspeak[KB];
     while (fscanf(badspeaktxt, "%s", badspeak) != EOF) {
         // Convert word to lowercase
@@ -73,6 +71,29 @@ int main(int argc, char **argv) {
         // Add word to hash table
         ht_insert(ht, badspeak, NULL);
     }
+    fclose(badspeaktxt);
+
+    bf_print(bf);
+    ht_print(ht);
+
+    // Read newspeak words from newspeak.txt with fscanf()
+    FILE *newspeaktxt = fopen("newspeak.txt", "r");
+    char oldspeak[KB], newspeak[KB];
+    while (fscanf(newspeaktxt, "%s %s", oldspeak, newspeak) != EOF) {
+        // Convert oldspeak to lowercase
+        for (int i = 0; i < (int) strlen(oldspeak); i += 1) {
+            oldspeak[i] = tolower(oldspeak[i]);
+        }
+        // Convert newspeak to lowercase
+        for (int i = 0; i < (int) strlen(newspeak); i += 1) {
+            newspeak[i] = tolower(newspeak[i]);
+        }
+        // Add word to bloom filter
+        bf_insert(bf, oldspeak);
+        // Add word to hash table
+        ht_insert(ht, oldspeak, newspeak);
+    }
+    fclose(newspeaktxt);
 
     bf_print(bf);
     ht_print(ht);
