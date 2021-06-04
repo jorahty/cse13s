@@ -99,7 +99,7 @@ static inline int ndigits(uint64_t x) {
 }
 
 void node_print(Node *n) {
-    bool pretty = true;
+    bool pretty = false;
     if (pretty == false) {
 
         // As instructed by PDF

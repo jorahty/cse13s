@@ -2,6 +2,7 @@
 #include "bv.h"
 #include "ht.h"
 #include "ll.h"
+#include "messages.h"
 #include "node.h"
 #include "parser.h"
 
@@ -97,7 +98,7 @@ int main(int argc, char **argv) {
     // so the `mtf` property is irrelevant)
 
     // Phase 2:
-    // Apply firewall to `stdin`
+    // Apply firewall to input from `stdin`
 
     // Compile regex
     regex_t re;
@@ -109,9 +110,42 @@ int main(int argc, char **argv) {
     // Read words from `stdin` using parsing module
     char *word = NULL;
     while ((word = next_word(stdin, &re)) != NULL) {
-        fprintf(stderr, "Word: %s\n", word);
+        // If word is in bf
+        if (bf_probe(bf, word)) {
+            // If word is in ht
+            Node *n = ht_lookup(ht, word);
+            if (n) {
+                // Add it to corresponding linked list
+                if (n->newspeak) {
+                    ll_insert(newspeak, n->oldspeak, n->newspeak);
+                    continue;
+                }
+                ll_insert(badspeak, n->oldspeak, n->newspeak);
+            }
+        }
     }
     clear_words();
+
+    // Print statistics if enabled
+    if (s) {
+
+    }
+
+    else {
+        // Print appropriate message
+        if (ll_length(badspeak) && ll_length(newspeak)) {
+            printf("%s", mixspeak_message);
+        } else if (ll_length(badspeak) && !ll_length(newspeak)) {
+            printf("%s", mixspeak_message);
+            printf("%s", badspeak_message);
+        } else if (!ll_length(badspeak) && ll_length(newspeak)) {
+            printf("%s", goodspeak_message);
+        }
+
+        // Print transgressions
+        ll_print(badspeak);
+        ll_print(newspeak);
+    }
 
     // Free memory
     bf_delete(&bf);
@@ -122,16 +156,3 @@ int main(int argc, char **argv) {
 
     return 0;
 }
-
-// Notes:
-// Add words from badspeak.txt to bf and ht
-
-// Add words from newspeak.txt to bf and ht
-
-// Read data from stdin
-// For each word,
-// Query bf
-// If in bf
-// Check ht
-// Else
-// It's not a bad word

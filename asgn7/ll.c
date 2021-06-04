@@ -164,43 +164,49 @@ static void print_word(Node *n, char *word) {
 }
 
 void ll_print(LinkedList *ll) {
-    // Print "Null" if `ll` is null
-    if (!ll) {
-        fprintf(stderr, RED "Null" RESET "\n\n");
+    bool pretty = false;
+    if (pretty == false) {
+        for (Node *n = ll->head->next; n != ll->tail; n = n->next) {
+            node_print(n);
+        }
         return;
     }
 
-    // Print properties of `ll`
-    // fprintf(stderr, "Length: " BLUE "%d" RESET ", Move-to-front: %s, Contents:\n", ll->length,
-    //     ll->mtf ? GREEN "On" RESET : RED "Off" RESET);
-
-    // Print top row of contents
-    Node *n = ll->head;
-    fprintf(stderr, RED "Null" RESET " ← ⎡ ");
-    print_word(n, n->oldspeak);
-    while (true) {
-        n = n->next;
-        if (n == NULL) {
-            fprintf(stderr, " ⎤ → " RED "Null" RESET "\n");
-            break;
+    else {
+        // Print "Null" if `ll` is null
+        if (!ll) {
+            fprintf(stderr, RED "Null" RESET "\n\n");
+            return;
         }
-        fprintf(stderr, " ⎤ → ⎡ ");
+
+        // Print top row of contents
+        Node *n = ll->head;
+        fprintf(stderr, RED "Null" RESET " ← ⎡ ");
         print_word(n, n->oldspeak);
-    }
-
-    // Print bottom row of contents
-    n = ll->head;
-    fprintf(stderr, "              ⎣ ");
-    print_word(n, n->newspeak);
-    while (true) {
-        n = n->next;
-        if (n == NULL) {
-            fprintf(stderr, " ⎦\n");
-            break;
+        while (true) {
+            n = n->next;
+            if (n == NULL) {
+                fprintf(stderr, " ⎤ → " RED "Null" RESET "\n");
+                break;
+            }
+            fprintf(stderr, " ⎤ → ⎡ ");
+            print_word(n, n->oldspeak);
         }
-        fprintf(stderr, " ⎦ ← ⎣ ");
-        print_word(n, n->newspeak);
-    }
 
-    return;
+        // Print bottom row of contents
+        n = ll->head;
+        fprintf(stderr, "              ⎣ ");
+        print_word(n, n->newspeak);
+        while (true) {
+            n = n->next;
+            if (n == NULL) {
+                fprintf(stderr, " ⎦\n");
+                break;
+            }
+            fprintf(stderr, " ⎦ ← ⎣ ");
+            print_word(n, n->newspeak);
+        }
+
+        return;
+    }
 }
