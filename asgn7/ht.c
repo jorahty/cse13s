@@ -66,6 +66,9 @@ Node *ht_lookup(HashTable *ht, char *oldspeak) {
     // Hash to get the right index
     uint32_t i = hash(ht->salt, oldspeak) % ht_size(ht);
     // Perform lookup of `oldspeak` at that index
+    if (!ht->lists[i]) {
+        return NULL;
+    }
     return ll_lookup(ht->lists[i], oldspeak);
 }
 
