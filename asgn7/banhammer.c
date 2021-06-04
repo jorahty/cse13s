@@ -110,6 +110,10 @@ int main(int argc, char **argv) {
     // Read words from `stdin` using parsing module
     char *word = NULL;
     while ((word = next_word(stdin, &re)) != NULL) {
+        // Convert word to lowercase
+        for (int i = 0; i < (int) strlen(word); i += 1) {
+            word[i] = tolower(word[i]);
+        }
         // If word is in bf
         if (bf_probe(bf, word)) {
             // If word is in ht
