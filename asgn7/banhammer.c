@@ -132,8 +132,7 @@ int main(int argc, char **argv) {
     if (s) {
         // Print statistics if enabled
         printf("Seeks: %lu\n", seeks);
-        printf("Links: %lu\n", links);
-        printf("Average seek length: %f\n", (float) seeks / (float) links);
+        printf("Average seek length: %f\n", (float) links / (float) seeks);
         printf("Hash table load: %f%%\n", 100 * (float) ht_count(ht) / ht_size(ht));
         printf("Bloom filter load: %f%%\n", 100 * (float) bf_count(bf) / bf_size(bf));
     }
