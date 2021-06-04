@@ -92,10 +92,8 @@ int main(int argc, char **argv) {
     fclose(newspeaktxt); // Close newspeak.txt because it will not be needed again
 
     // Use linked lists to keep track of user's transgressions
-    LinkedList *badspeak = ll_create(false);
-    LinkedList *newspeak = ll_create(false);
-    // (Lookups will not be performed on these lists
-    // so the `mtf` property is irrelevant)
+    LinkedList *badspeak = ll_create(mtf);
+    LinkedList *newspeak = ll_create(mtf);
 
     // Phase 2:
     // Apply firewall to input from `stdin`
