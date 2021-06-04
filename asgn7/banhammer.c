@@ -59,39 +59,36 @@ int main(int argc, char **argv) {
     HashTable *ht = ht_create(t, mtf);
 
     // Read badspeak words from badspeak.txt with fscanf()
-    FILE *badspeaktxt = fopen("mybadspeak.txt", "r");
-    char badspeak[KB];
-    while (fscanf(badspeaktxt, "%s", badspeak) != EOF) {
+    FILE *badspeaktxt = fopen("badspeak.txt", "r");
+    char badbuffer[KB];
+    while (fscanf(badspeaktxt, "%s", badbuffer) != EOF) {
         // Convert word to lowercase
-        for (int i = 0; i < (int) strlen(badspeak); i += 1) {
-            badspeak[i] = tolower(badspeak[i]);
+        for (int i = 0; i < (int) strlen(badbuffer); i += 1) {
+            badbuffer[i] = tolower(badbuffer[i]);
         }
         // Add word to bloom filter
-        bf_insert(bf, badspeak);
+        bf_insert(bf, badbuffer);
         // Add word to hash table
-        ht_insert(ht, badspeak, NULL);
+        ht_insert(ht, badbuffer, NULL);
     }
     fclose(badspeaktxt);
 
-    bf_print(bf);
-    ht_print(ht);
-
     // Read newspeak words from newspeak.txt with fscanf()
     FILE *newspeaktxt = fopen("newspeak.txt", "r");
-    char oldspeak[KB], newspeak[KB];
-    while (fscanf(newspeaktxt, "%s %s", oldspeak, newspeak) != EOF) {
+    char oldbuffer[KB], newbuffer[KB];
+    while (fscanf(newspeaktxt, "%s %s", oldbuffer, newbuffer) != EOF) {
         // Convert oldspeak to lowercase
-        for (int i = 0; i < (int) strlen(oldspeak); i += 1) {
-            oldspeak[i] = tolower(oldspeak[i]);
+        for (int i = 0; i < (int) strlen(oldbuffer); i += 1) {
+            oldbuffer[i] = tolower(oldbuffer[i]);
         }
         // Convert newspeak to lowercase
-        for (int i = 0; i < (int) strlen(newspeak); i += 1) {
-            newspeak[i] = tolower(newspeak[i]);
+        for (int i = 0; i < (int) strlen(newbuffer); i += 1) {
+            newbuffer[i] = tolower(newbuffer[i]);
         }
         // Add word to bloom filter
-        bf_insert(bf, oldspeak);
+        bf_insert(bf, oldbuffer);
         // Add word to hash table
-        ht_insert(ht, oldspeak, newspeak);
+        ht_insert(ht, oldbuffer, newbuffer);
     }
     fclose(newspeaktxt);
 
