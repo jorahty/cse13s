@@ -54,6 +54,10 @@ int main(int argc, char **argv) {
         }
     }
 
+    // Phase 1:
+    // Construct Bloom filter and hash table
+    // from badspeak.txt and newspeak.txt
+
     // Initialize Bloom filter and hash table
     BloomFilter *bf = bf_create(f);
     HashTable *ht = ht_create(t, mtf);
@@ -64,40 +68,57 @@ int main(int argc, char **argv) {
     while (fscanf(badspeaktxt, "%s", badbuffer) != EOF) {
         // Convert word to lowercase
         for (int i = 0; i < (int) strlen(badbuffer); i += 1) {
-            badbuffer[i] = tolower(badbuffer[i]);
+            badbuffer[i] = tolower(badbuffer[i]); // Convert badspeak word to lowercase
         }
-        // Add word to bloom filter
-        bf_insert(bf, badbuffer);
-        // Add word to hash table
-        ht_insert(ht, badbuffer, NULL);
+        bf_insert(bf, badbuffer); // Add badspeak word to Bloom filter
+        ht_insert(ht, badbuffer, NULL); // Add badspeak word to hash table
     }
-    fclose(badspeaktxt);
+    fclose(badspeaktxt); // Close badspeak.txt because it will not be needed again
 
-    // Read newspeak words from newspeak.txt with fscanf()
+    // Read translations from newspeak.txt with fscanf()
     FILE *newspeaktxt = fopen("newspeak.txt", "r");
     char oldbuffer[KB], newbuffer[KB];
     while (fscanf(newspeaktxt, "%s %s", oldbuffer, newbuffer) != EOF) {
-        // Convert oldspeak to lowercase
         for (int i = 0; i < (int) strlen(oldbuffer); i += 1) {
-            oldbuffer[i] = tolower(oldbuffer[i]);
+            oldbuffer[i] = tolower(oldbuffer[i]); // Convert oldspeak to lowercase
         }
-        // Convert newspeak to lowercase
         for (int i = 0; i < (int) strlen(newbuffer); i += 1) {
-            newbuffer[i] = tolower(newbuffer[i]);
+            newbuffer[i] = tolower(newbuffer[i]); // Convert newspeak to lowercase
         }
-        // Add word to bloom filter
-        bf_insert(bf, oldbuffer);
-        // Add word to hash table
-        ht_insert(ht, oldbuffer, newbuffer);
+        bf_insert(bf, oldbuffer); // Add oldspeak to Bloom filter
+        ht_insert(ht, oldbuffer, newbuffer); // Add translation to hash table
     }
-    fclose(newspeaktxt);
+    fclose(newspeaktxt); // Close newspeak.txt because it will not be needed again
 
-    bf_print(bf);
-    ht_print(ht);
+    // Use linked lists to keep track of user's transgressions
+    LinkedList *badspeak = ll_create(false);
+    LinkedList *newspeak = ll_create(false);
+    // (Lookups will not be performed on these lists
+    // so the `mtf` property is irrelevant)
 
-    // Free Bloom filter and Hash Table
+    // Phase 2:
+    // Apply firewall to `stdin`
+
+    // Compile regex
+    regex_t re;
+    if (regcomp(&re, WORD, REG_EXTENDED)) {
+        fprintf(stderr, "Failed to compile regex.\n");
+        return 1;
+    }
+
+    // Read words from `stdin` using parsing module
+    char *word = NULL;
+    while ((word = next_word(stdin, &re)) != NULL) {
+        fprintf(stderr, "Word: %s\n", word);
+    }
+    clear_words();
+
+    // Free memory
     bf_delete(&bf);
     ht_delete(&ht);
+    ll_delete(&badspeak);
+    ll_delete(&newspeak);
+    regfree(&re);
 
     return 0;
 }
@@ -114,21 +135,3 @@ int main(int argc, char **argv) {
 // Check ht
 // Else
 // It's not a bad word
-
-// Compile regex
-// regex_t re;
-// if (regcomp(&re, WORD, REG_EXTENDED)) {
-// 	fprintf(stderr, "Failed to compile regex.\n");
-// 	return 1;
-// }
-
-// FILE *badspeak = fopen("badspeak.txt", "r");
-// FILE *outfile = fopen("output.txt", "w");
-
-// char *word = NULL;
-// while ((word = next_word(badspeak, &re)) != NULL) {
-// 	fprintf(outfile, "%s\n", word);
-// }
-
-// clear_words();
-// regfree(&re);
