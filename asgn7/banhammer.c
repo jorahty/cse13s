@@ -142,7 +142,6 @@ int main(int argc, char **argv) {
         if (ll_length(badspeak) && ll_length(newspeak)) {
             printf("%s", mixspeak_message);
         } else if (ll_length(badspeak) && !ll_length(newspeak)) {
-            printf("%s", mixspeak_message);
             printf("%s", badspeak_message);
         } else if (!ll_length(badspeak) && ll_length(newspeak)) {
             printf("%s", goodspeak_message);
