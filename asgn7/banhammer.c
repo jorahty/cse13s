@@ -5,13 +5,16 @@
 #include "node.h"
 #include "parser.h"
 
+#include <ctype.h>
 #include <getopt.h>
 #include <regex.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define OPTIONS "hsmt:f:"
-#define WORD    "[a-zA-Z0-9_]+(('|-|'-|-')*[a-zA-Z0-9_]+)*"
+#define WORD    "[a-zA-Z0-9_]+(('|-)[a-zA-Z0-9_]+)*"
+#define KB      1024
 
 // Inspired by error.c from asgn5
 static void help(char *exec) {
@@ -55,17 +58,24 @@ int main(int argc, char **argv) {
     BloomFilter *bf = bf_create(f);
     HashTable *ht = ht_create(t, mtf);
 
-    // Add words from badspeak.txt to bf and ht
+    // Open baspeak.txt
+    FILE *badspeaktxt = fopen("mybadspeak.txt", "r");
 
-    // Add words from newspeak.txt to bf and ht
+    // Read badspeak words from badspeak.txt with fscanf()
+    char badspeak[KB];
+    while (fscanf(badspeaktxt, "%s", badspeak) != EOF) {
+        // Convert word to lowercase
+        for (int i = 0; i < (int) strlen(badspeak); i += 1) {
+            badspeak[i] = tolower(badspeak[i]);
+        }
+        // Add word to bloom filter
+        bf_insert(bf, badspeak);
+        // Add word to hash table
+        ht_insert(ht, badspeak, NULL);
+    }
 
-    // Read data from stdin
-    // For each word,
-    // Query bf
-    // If in bf
-    // Check ht
-    // Else
-    // It's not a bad word
+    bf_print(bf);
+    ht_print(ht);
 
     // Free Bloom filter and Hash Table
     bf_delete(&bf);
@@ -75,6 +85,18 @@ int main(int argc, char **argv) {
 }
 
 // Notes:
+// Add words from badspeak.txt to bf and ht
+
+// Add words from newspeak.txt to bf and ht
+
+// Read data from stdin
+// For each word,
+// Query bf
+// If in bf
+// Check ht
+// Else
+// It's not a bad word
+
 // Compile regex
 // regex_t re;
 // if (regcomp(&re, WORD, REG_EXTENDED)) {
