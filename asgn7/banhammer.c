@@ -126,9 +126,16 @@ int main(int argc, char **argv) {
     }
     clear_words();
 
-    // Print statistics if enabled
-    if (s) {
+    // Phase 3:
+    // Print output to `stdout`
 
+    if (s) {
+        // Print statistics if enabled
+        printf("Seeks: %lu\n", seeks);
+        printf("Links: %lu\n", links);
+        printf("Average seek length: %f\n", (float) seeks / (float) links);
+        printf("Hash table load: %f%%\n", 100 * (float) ht_count(ht) / ht_size(ht));
+        printf("Bloom filter load: %f%%\n", 100 * (float) bf_count(bf) / bf_size(bf));
     }
 
     else {
