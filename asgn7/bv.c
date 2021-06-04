@@ -59,10 +59,16 @@ uint8_t bv_get_bit(BitVector *bv, uint32_t i) {
 }
 
 #define RESET "\x1b[0m"
-#define BLUE  "\x1b[34m"
+#define RED   "\x1b[31m"
+#define GREEN "\x1b[32m"
 
 void bv_print(BitVector *bv) {
     for (uint32_t i = 0; i < bv->length; i++) {
-        printf("%2d " BLUE "%d" RESET "\n", i, (bv->vector[i / 8] >> (i % 8)) & 1);
+        uint8_t b = (bv->vector[i / 8] >> (i % 8)) & 1;
+        if (b) {
+            printf("%4d " GREEN "%d" RESET "\n", i, b);
+            continue;
+        }
+        printf("%4d " RED "%d" RESET "\n", i, b);
     }
 }
