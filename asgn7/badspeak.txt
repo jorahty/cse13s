@@ -309,6 +309,7 @@ ain
 ainsi
 aio
 aire
+ais
 ajah
 ajalon
 ak
@@ -331,9 +332,8 @@ alcides
 alehouse
 alehouses
 alemeth
-alencon
 alen
-on
+alencon
 aleppo
 ales
 alexanders
@@ -395,7 +395,6 @@ amasai
 amashai
 amasiah
 amaz
-d
 amazedness
 amazeth
 amaziah
@@ -469,9 +468,6 @@ andarus
 andirons
 andren
 andrew
-sask
-usask
-ca
 andronici
 andronicus
 anem
@@ -489,6 +485,7 @@ aniam
 anim
 animis
 anjou
+anmoins
 annas
 annexions
 annexment
@@ -498,7 +495,6 @@ anointest
 anothers
 answeard
 answer
-d
 answeredst
 answerest
 answereth
@@ -847,7 +843,6 @@ awaked
 awakest
 awaketh
 away
-you
 aweary
 aweless
 axe
@@ -940,9 +935,8 @@ bagpiper
 baharumite
 bahurim
 baillez
-baisant
 bais
-es
+baisant
 bajith
 bakbakkar
 bakbuk
@@ -1062,7 +1056,6 @@ bazluth
 bdellium
 be
 beach
-d
 beachy
 beadsmen
 beakes
@@ -1203,8 +1196,8 @@ beneficiall
 benejaakan
 benetted
 benevolences
-benhadad
 ben-hadad
+benhadad
 benhail
 benhanan
 beninu
@@ -1453,9 +1446,8 @@ bleedeth
 blench
 blenches
 blent
-blesse
 bless
-d
+blesse
 blessedly
 blessedness
 blesses
@@ -1630,8 +1622,8 @@ bretheren
 brevis
 brewage
 briareus
-brickkiln
 brick-kiln
+brickkiln
 bridechamber
 brided
 bridegroomes
@@ -1682,8 +1674,6 @@ bruited
 brundusium
 brutus
 bryan67
-myway
-com
 brymd
 bubukles
 buckingham
@@ -1723,11 +1713,10 @@ burs
 burthen
 burthens
 buryingplace
+bus
 busines
-businesse
 business
-pglaf
-org
+businesse
 busky
 busybodies
 busybody
@@ -1742,6 +1731,7 @@ buzi
 buzite
 buzzers
 c
+ca
 cabbon
 cabileros
 cabind
@@ -1758,13 +1748,9 @@ cadwal
 cadwallader
 caelius
 caelo
-c
-sar
 caesarea
 caesarion
 caesars
-c
-sars
 caiaphas
 cainan
 caithness
@@ -2037,6 +2023,7 @@ changest
 changeth
 changling
 chanson
+chante
 chantries
 chantry
 chape
@@ -2067,9 +2054,8 @@ chariest
 chariness
 charitably
 charlemain
-charme
 charm
-d
+charme
 charmeth
 charmian
 charneco
@@ -2249,6 +2235,7 @@ circumcising
 circumvention
 cis
 cital
+citerai
 citties
 citty
 cizard
@@ -2388,6 +2375,7 @@ colted
 columbine
 columbines
 colville
+com
 comagene
 combinate
 combless
@@ -2501,8 +2489,6 @@ confutation
 confutes
 congeal
 congealed
-congeal
-d
 congealment
 congee
 conger
@@ -2610,6 +2596,7 @@ copperspur
 coppice
 copulation
 copulatives
+copyright
 cor
 coragio
 coram
@@ -2746,7 +2733,6 @@ cravens
 craver
 craveth
 craz
-d
 createth
 credent
 credite
@@ -2788,9 +2774,8 @@ crost
 crotchets
 croucheth
 crowes
-crowne
 crown
-d
+crowne
 crownedst
 crowner
 crownes
@@ -2934,10 +2919,9 @@ damascenes
 damaske
 damasked
 dames
+damn
 damnable
 damnably
-damn
-d
 damosella
 damps
 damsons
@@ -3099,8 +3083,6 @@ deifies
 deifying
 deinty
 deiphobus
-d
-j
 deject
 dekar
 delabreth
@@ -3169,8 +3151,6 @@ derogate
 derogately
 derogation
 derry
-d
-s
 desartless
 descant
 descendeth
@@ -3194,7 +3174,6 @@ desirers
 desirest
 desireth
 despis
-d
 despiser
 despisers
 despisest
@@ -3285,8 +3264,6 @@ dimonah
 dimpled
 dimples
 dinaites
-d
-ner
 dinhabah
 diomed
 diomede
@@ -3396,8 +3373,8 @@ displeasures
 disponge
 disport
 disports
-disposd
 dispos
+disposd
 disposers
 dispossess
 dispossessing
@@ -3504,6 +3481,7 @@ dominions
 domitius
 dommelton
 donalbain
+donate
 donations
 doncaster
 dong
@@ -3608,9 +3586,8 @@ drossy
 drouth
 droven
 drovier
-drowne
 drown
-d
+drowne
 drowse
 drowsed
 drowsily
@@ -3839,13 +3816,12 @@ eluzai
 elymas
 elzabad
 elzaphan
-email
 e-mail
+email
 emballing
 embalmed
 embalms
 embark
-d
 embarquements
 embassade
 embassage
@@ -4009,9 +3985,8 @@ entangles
 entangleth
 entappuah
 entereth
-enthralled
 enthrall
-d
+enthralled
 enthroand
 enthroned
 enticements
@@ -4100,6 +4075,7 @@ errours
 erst
 erudition
 eruptions
+es
 esaias
 esarhaddon
 esau
@@ -4310,7 +4286,6 @@ fallows
 falne
 falorous
 fals
-fals
 falser
 falsest
 falsing
@@ -4488,6 +4463,7 @@ filberts
 filch
 filches
 filching
+files
 filij
 filius
 filledst
@@ -4553,7 +4529,6 @@ flattereth
 flatteries
 flatters
 flauin
-a
 flavina
 flavius
 flavus
@@ -4749,7 +4724,6 @@ frameth
 frampall
 frampold
 fran
-ais
 franchisement
 franciae
 francisca
@@ -4819,6 +4793,7 @@ fumbles
 fumblest
 fumiter
 fumitory
+fundraising
 funerall
 furbish
 furbished
@@ -4963,10 +4938,6 @@ gazingstock
 gazites
 gazzam
 gbnewby
-pglaf
-gbnewby
-pglaf
-org
 geba
 gebal
 geber
@@ -5231,7 +5202,6 @@ gowne
 gowt
 gozan
 gr
-ce
 graceless
 graffed
 graffing
@@ -5241,7 +5211,6 @@ gramercies
 gramercy
 grandam
 grande
-grandpr
 grandpr
 grandsire
 grandsires
@@ -5357,6 +5326,7 @@ gur
 gurbaal
 gurnet
 gurney
+gutenberg
 guynes
 guysors
 gyve
@@ -5624,6 +5594,7 @@ hazezontamar
 haziel
 hazo
 hazor
+he
 headbands
 headborough
 heades
@@ -5750,8 +5721,6 @@ heresies
 heretick
 hereunto
 hereupon
-h
-ritier
 hermas
 hermia
 hermione
@@ -5940,11 +5909,9 @@ horims
 horite
 horites
 hormah
+horn
 hornbook
 hornebooke
-horn
-d
-horner
 horner
 hornes
 horning
@@ -6001,46 +5968,8 @@ hoxes
 hoy
 hoyday
 hoyst
-http
-gutenberg
-net
-license
-http
-pglaf
-org
-http
-pglaf
-org
-donate
-http
-pglaf
-org
-fundraising
-http
-www
-http
-www
-gutenberg
-net
-http
-www
-gutenberg
-org
-3
-30
-http
-www
-gutenberg
-org
-files
-10900
-10900-h
-10900-h
 htm
 http
-www
-pglaf
-org
 hugs
 hujus
 hukkok
@@ -6127,6 +6056,7 @@ iadrie
 iago
 iailor
 iailors
+iament
 iavelyns
 iaylor
 iaylors
@@ -6396,7 +6326,6 @@ intercessions
 intercessor
 intercessors
 interchain
-d
 interchangement
 interims
 interjections
@@ -6508,7 +6437,6 @@ ista
 isuah
 isui
 it
-it
 itched
 iterance
 ith
@@ -6544,6 +6472,7 @@ izharites
 izrahiah
 izrahite
 izri
+j
 jaakan
 jaakobah
 jaala
@@ -7177,10 +7106,9 @@ laund
 laundress
 laura
 laus
+lav
 lavache
 lave
-lav
-e
 laver
 lavers
 lavina
@@ -7222,8 +7150,6 @@ lecah
 lecher
 lecherous
 lechers
-le
-on
 leda
 leddest
 leeks
@@ -7297,6 +7223,7 @@ libni
 libnites
 libyans
 licence
+license
 lichas
 licio
 licketh
@@ -7377,7 +7304,6 @@ loadeth
 loam
 loammi
 loath
-d
 loather
 loathes
 loatheth
@@ -7452,7 +7378,6 @@ louses
 louted
 louts
 lov
-d
 lovedst
 lovel
 lovell
@@ -7631,7 +7556,6 @@ maintainest
 mais
 maison
 maiste
-r
 majestas
 majestee
 majestical
@@ -7853,8 +7777,6 @@ measureless
 meate
 mebunnai
 mechanicals
-m
-chante
 mecherathite
 medad
 medan
@@ -8109,6 +8031,7 @@ miretur
 mirma
 mirthful
 miry
+mis
 misadventure
 misanthropos
 misapplied
@@ -8140,8 +8063,6 @@ misdoubteth
 misdoubts
 misdread
 misenum
-mis
-ricorde
 misgab
 misgive
 misgives
@@ -8149,7 +8070,6 @@ misgoverned
 misgoverning
 misgovernment
 misgraff
-d
 misguide
 mishael
 mishal
@@ -8412,6 +8332,8 @@ myrmidons
 myrrh
 mysia
 mytilene
+myway
+n
 naam
 naamah
 naaman
@@ -8476,8 +8398,6 @@ nazarites
 ne
 neaf
 neah
-n
-anmoins
 neapolis
 neapolitans
 neare
@@ -8555,6 +8475,7 @@ neroes
 nervii
 nervy
 nessus
+net
 nethaneel
 nethaniah
 nethermost
@@ -8766,8 +8687,6 @@ one
 onely
 onesimus
 onesiphorus
-one
-the
 oneyers
 ongles
 ono
@@ -8815,6 +8734,7 @@ ordnance
 ordure
 oreb
 oren
+org
 orgulous
 origen
 orisons
@@ -8850,8 +8770,8 @@ othes
 othni
 othniel
 ottomites
-oublie
 oubli
+oublie
 ouches
 oughtest
 oui
@@ -8961,6 +8881,7 @@ ozem
 ozias
 ozni
 oznites
+p
 paarai
 pabble
 pacifieth
@@ -9034,6 +8955,7 @@ paphlagonia
 paphos
 papist
 paps
+par
 parable
 parables
 paracelsus
@@ -9051,8 +8973,6 @@ pardonne
 pardonner
 pared
 parfect
-par
-iament
 parishioners
 parisians
 paritors
@@ -9135,7 +9055,6 @@ pauser
 pausingly
 pauvres
 pav
-d
 pavin
 paweth
 pawning
@@ -9282,8 +9201,8 @@ persevers
 persis
 persistency
 persistive
-personae
 person
+personae
 personall
 personate
 personated
@@ -9329,6 +9248,7 @@ peu
 peulthai
 pg
 pglaf
+ph
 phaethon
 phaeton
 phalec
@@ -9389,8 +9309,6 @@ phlegmatic
 phlegon
 phoebe
 phoebus
-ph
-bus
 phoenicians
 photinus
 phrase
@@ -9675,6 +9593,7 @@ poysam
 poyson
 poyze
 pozd
+pr
 prabbles
 practic
 practisants
@@ -9755,24 +9674,19 @@ presbytery
 prescience
 prescribing
 prescript
-pr
-sent
 presenters
 presenteth
 presentment
 preservative
 preservest
 preserveth
-presse
 press
-d
+presse
 presseth
 pressfat
 prest
 prester
 presumptuously
-pr
-t
 pretence
 pretences
 prethee
@@ -10202,8 +10116,6 @@ rechab
 rechabites
 rechah
 recheat
-r
-citerai
 reck
 recketh
 recking
@@ -10326,7 +10238,6 @@ renewest
 renounced
 renouncement
 renown
-d
 renowns
 rentest
 repaire
@@ -10338,9 +10249,6 @@ repentant
 repentest
 repenteth
 repentings
-r
-p
-tition
 rephael
 rephah
 rephaiah
@@ -10480,6 +10388,7 @@ ribband
 riblah
 richmonds
 richnes
+ricorde
 ridest
 rideth
 rie
@@ -10506,7 +10415,9 @@ riping
 risest
 riseth
 rissah
+rit
 rithmah
+ritier
 rivage
 rivality
 rive
@@ -10718,6 +10629,7 @@ sapless
 sapphira
 sapphires
 sappy
+sar
 sarai
 saraph
 sarcenet
@@ -10730,9 +10642,11 @@ sarepta
 sargon
 sarid
 saron
+sars
 sarsechim
 saruch
 sarum
+sask
 satest
 satiate
 satiated
@@ -10953,6 +10867,7 @@ sennois
 senoys
 sensuality
 sensually
+sent
 sententious
 sentest
 senuah
@@ -11043,7 +10958,6 @@ shalmai
 shalman
 shalmaneser
 shalt
-shalt
 shama
 shamariah
 shamefacedness
@@ -11084,8 +10998,6 @@ shaulites
 shaveh
 shavsha
 shaw
-s
-he
 sheal
 shealed
 shealtiel
@@ -11390,7 +11302,6 @@ simples
 simpring
 simri
 simular
-sin
 sin
 sina
 sincke
@@ -11698,7 +11609,6 @@ spheeres
 sphered
 sphery
 spic
-d
 spicery
 spied
 spightfully
@@ -11942,8 +11852,8 @@ studieth
 stuffe
 stumblest
 stumbleth
-stumblingblock
 stumbling-block
+stumblingblock
 stumblingblocks
 stumblingstone
 stunk
@@ -12384,7 +12294,6 @@ theatre
 theban
 thebez
 thebs
-thebs
 thee
 theefe
 thee-ward
@@ -12470,9 +12379,8 @@ throates
 throe
 throes
 thromuldo
-throned
 thron
-d
+throned
 thronged
 thronging
 throstle
@@ -12558,6 +12466,7 @@ titania
 titchfield
 tithed
 titinius
+tition
 titleless
 tittle
 titular
@@ -12638,9 +12547,9 @@ townsman
 townsmen
 towton
 toyle
+tr
 trachonitis
 trademark
-copyright
 tradesmen
 traducement
 traffick
@@ -12661,7 +12570,6 @@ transcendence
 transfigured
 transfix
 transform
-d
 transgresses
 transgressest
 transgresseth
@@ -12711,8 +12619,6 @@ trenchering
 trenchers
 trenching
 trent
-tr
-s
 trespasse
 trespassing
 tressel
@@ -12827,13 +12733,12 @@ turk
 turks
 turlygod
 turmoiled
+turn
 turnbull
 turncoat
 turncoats
 turnd
 turne
-turn
-d
 turnes
 turnest
 turneth
@@ -12868,8 +12773,8 @@ twit
 twits
 twitting
 twixt
-twoedged
 two-edged
+twoedged
 twold
 twopence
 twopences
@@ -13063,7 +12968,6 @@ undutiful
 une
 uneared
 unearn
-d
 unearthly
 uneath
 uneducated
@@ -13388,7 +13292,6 @@ unweighed
 unweighing
 unwept
 unwish
-d
 unwitnessed
 unwitted
 unwonted
@@ -13437,13 +13340,11 @@ urinals
 urne
 ursala
 urswick
-u
-s
+us
 usance
 usances
+usask
 usd
-us
-d
 usest
 useth
 usque
@@ -13578,8 +13479,6 @@ verefore
 vergers
 verier
 veriest
-v
-rit
 veritie
 verities
 verity
@@ -13883,8 +13782,8 @@ wel
 welcomer
 welcomest
 welkin
-wellbeloved
 well-beloved
+wellbeloved
 wellfavoured
 wellpleasing
 wellspring
@@ -14166,11 +14065,6 @@ wroughtest
 wrying
 wul
 www
-gutenberg
-net
-www
-gutenberg
-net
 wye
 wynning
 xanthippe
