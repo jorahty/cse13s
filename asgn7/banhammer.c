@@ -55,6 +55,15 @@ int main(int argc, char **argv) {
         }
     }
 
+    if (!t) {
+        fprintf(stderr, "Invalid hash table size.\n");
+        return 1;
+    }
+    if (!f) {
+        fprintf(stderr, "Invalid Bloom filter size.\n");
+        return 1;
+    }
+
     // Phase 1:
     // Construct Bloom filter and hash table
     // from badspeak.txt and newspeak.txt
