@@ -5,15 +5,16 @@ Assignment 6
 
 # Desciption
 
-For assignment 6 I created two programs: one program called "encode" for
-compressing a file with Huffman encoding, and another program called
-"decode" for decoding and decompressing such a file.
+Create a program that serves as a censorship firewall. The program will
+read words with regex from standard input and print a message with a list
+of the user’s transgressions. The program will also print statistics if
+specified. The program will determine if each word is allowed by searching
+for it in a database using a Bloom filter and a Hash table.
 
 # Instructions
 
-1. To build the programs, enter "make" into the command line. The three
-excecutable files encode, decode, and entropy should
-appear.
+1. To build the programs, enter "make" into the command line. The executable
+file "banhammer" excecutable
 
 2. To run the program, enter "./[name of executable]" and add "-h" for
 the help message and options.
