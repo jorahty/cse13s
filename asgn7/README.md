@@ -22,11 +22,11 @@ the help message and options.
 # Options
 
 OPTIONS
-  -h           Program usage and help
-  -s           Print program statistics.
-  -m           Enable move-to-front rule.
-  -t size      Specify hash table size (default: 10000).
-  -f size      Specify Bloom filter size (default: 2^20).
+-h           Program usage and help
+-s           Print program statistics.
+-m           Enable move-to-front rule.
+-t size      Specify hash table size (default: 10000).
+-f size      Specify Bloom filter size (default: 2^20).
 
 # Note
 
