@@ -22,6 +22,7 @@ the help message and options.
 # Options
 
 OPTIONS
+
 -h           Program usage and help
 
 -s           Print program statistics.
