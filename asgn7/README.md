@@ -21,23 +21,14 @@ the help message and options.
 
 # Options
 
-ENCODE OPTIONS
-  -h               Program usage and help.
-  -v               Print statistics of encoding to stderr.
-  -i infile        Input data to encode.
-  -o outfile       Output of encoded data.
-
-DECODE OPTIONS
-  -h               Program usage and help.
-  -v               Print statistics of decoding to stderr.
-  -i infile        Input data to decode.
-  -o outfile       Output of decoded data.
-
-ENTROPY OPTIONS
-  -h               Program usage and help.
+OPTIONS
+  -h           Program usage and help
+  -s           Print program statistics.
+  -m           Enable move-to-front rule.
+  -t size      Specify hash table size (default: 10000).
+  -f size      Specify Bloom filter size (default: 2^20).
 
 # Note
 
-I helped my friends Bono (bwmirand) and Sam Garcia with some parts of this assignment,
-which should explain any unusual similarity in our code. I made sure to
-stick to the rules and do nothing that would be against class policy.
+I helped my friend Bono with this assignment,
+so hopefully that explains any unusual similarity in out code.
