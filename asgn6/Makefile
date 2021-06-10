@@ -37,7 +37,7 @@ stack.o: stack.c
 	$(CC) $(CFLAGS) -c stack.c
 
 clean:
-	rm -rf encode decode *.o infer-out
+	rm -rf encode decode entropy *.o infer-out
 
 format:
 	clang-format -i -style=file *.c *.h
